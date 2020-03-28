@@ -4,16 +4,23 @@ Vue.use(Vuex);
 
 import countries from './modules/countries';
 import types from './modules/types';
+import mapping from './modules/mapping';
 
-const state = {};
-const mutations = {};
+const state = {
+    dataLoaded: false
+};
+const mutations = {
+    updateProperty(state, payload) {
+        state[payload.key] = payload.value;
+    }
+};
 
 export default new Vuex.Store({
     state,
     mutations,
     actions: {},
     modules: {
-        countries, types
+        countries, types, mapping
     }
 
 })

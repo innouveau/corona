@@ -1,10 +1,12 @@
 <script>
     import countryPicker from "./country-picker";
     import typePicker from "./type-picker";
+    import mapTools from "./map-tools";
 
     export default {
         name: 'tools',
         components: {
+            mapTools,
             typePicker,
             countryPicker
         },
@@ -19,6 +21,7 @@
     <div class="tools">
         <country-picker/>
         <type-picker/>
+        <map-tools/>
     </div>
 </template>
 

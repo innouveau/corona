@@ -31,5 +31,6 @@
 
     .type-picker {
         border-bottom: 2px solid #aaa;
+        padding: 10px 0;
     }
 </style>

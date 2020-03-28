@@ -1,9 +1,11 @@
 window.data = {
     types: [
         {
+            id: 1,
             title: 'Cases',
             property: 'cases'
         }, {
+            id: 2,
             title: 'Fatalities',
             property: 'fatalities'
         }
