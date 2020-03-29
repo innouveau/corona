@@ -20,6 +20,10 @@
             this.$store.commit('countries/init', window.data.countries);
             this.$store.commit('types/init', window.data.types);
             this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
+
+            this.$store.commit('countries/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
+            this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
+            this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
         }
     }
 </script>

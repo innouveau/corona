@@ -7,10 +7,6 @@
             inlineSvg
         },
         props: {
-            toggle: {
-                type: Function,
-                required: true
-            },
             isActive: {
                 type: Boolean,
                 required: true
@@ -24,10 +20,9 @@
 
 <template>
     <div
-        @click="toggle()"
         :class="{'checkbox--active': isActive}"
         class="checkbox">
-        <inline-svg :src="'assets/img/tools/checkmark.svg'"/>
+        <img src="assets/img/tools/checkmark.svg"/>
     </div>
 </template>
 
@@ -39,18 +34,18 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         padding: 2px;
-        cursor: pointer;
         margin-right: 8px;
 
-        svg {
+        img {
             width: 12px;
             height: 12px;
+            display: block;
             visibility: hidden;
         }
 
         &.checkbox--active {
 
-            svg {
+            img {
                 visibility: visible;
             }
         }

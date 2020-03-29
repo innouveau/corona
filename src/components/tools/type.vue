@@ -26,9 +26,10 @@
 
 
 <template>
-    <div class="type">
+    <div
+        @click="toggle()"
+        class="type">
         <checkbox
-            :toggle="toggle"
             :is-active="isActive"/>
         <div class="type__title">
             {{type.title}}
@@ -45,5 +46,6 @@
         align-items: center;
         padding: 4px;
         border-bottom: 1px solid #ddd;
+        cursor: pointer;
     }
 </style>

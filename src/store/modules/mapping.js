@@ -1,7 +1,7 @@
 import _base from './_base-module';
 
 const state = {
-    fatalities: 0
+    fatalities: 100
 };
 
 const getters = {

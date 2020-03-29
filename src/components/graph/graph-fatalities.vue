@@ -1,7 +1,11 @@
 <script>
+    import lineChart from "./line-chart";
+
     export default {
         name: 'graph-fatalities',
-        components: {},
+        components: {
+            lineChart
+        },
         props: {},
         computed: {
             countries() {
@@ -33,8 +37,7 @@
 
 <template>
     <div class="graph-fatalities">
-        {{mapping}}
-        {{data}}
+        <line-chart :data="data"/>
     </div>
 </template>
 

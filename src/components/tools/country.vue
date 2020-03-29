@@ -28,9 +28,10 @@
 
 
 <template>
-    <div class="country">
+    <div
+        @click="toggle()"
+        class="country">
         <checkbox
-            :toggle="toggle"
             :is-active="isActive"/>
         <div
             :style="{'background-color': country.color}"
@@ -50,6 +51,7 @@
         align-items: center;
         padding: 4px;
         border-bottom: 1px solid #ddd;
+        cursor: pointer;
 
         .country__bullet {
             width: 10px;
