@@ -20,7 +20,7 @@
 
 <template>
     <div class="map-tools tool">
-        Start at <input v-model="fatalities"/> fatalities.
+        Start at <input v-model="fatalities"/> (absolute) fatalities.
     </div>
 </template>
 

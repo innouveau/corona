@@ -318,6 +318,10 @@ window.data = {
                     data: '2020/03/27',
                     cases: 10149,
                     fatalities: 9134
+                }, {
+                    data: '2020/03/27',
+                    cases: 10149,
+                    fatalities: 10023
                 }
             ]
         },
@@ -536,6 +540,131 @@ window.data = {
                     data: '2020/03/28',
                     cases: 0,
                     fatalities: 1019
+                }
+            ]
+        },
+        {
+            id: 5,
+            title: 'United States',
+            color: 'purple',
+            population: 328239523,
+            entries: [
+                {
+                    data: '2020/2/29',
+                    cases: 0,
+                    fatalities: 1
+                }, {
+                    data: '2020/3/1',
+                    cases: 0,
+                    fatalities: 1
+                }, {
+                    data: '2020/3/2',
+                    cases: 0,
+                    fatalities: 6
+                }, {
+                    data: '2020/3/3',
+                    cases: 0,
+                    fatalities: 9
+                }, {
+                    data: '2020/3/4',
+                    cases: 0,
+                    fatalities: 11
+                }, {
+                    data: '2020/3/5',
+                    cases: 0,
+                    fatalities: 12
+                }, {
+                    data: '2020/3/6',
+                    cases: 0,
+                    fatalities: 15
+                }, {
+                    data: '2020/3/7',
+                    cases: 0,
+                    fatalities: 19
+                }, {
+                    data: '2020/3/8',
+                    cases: 0,
+                    fatalities: 22
+                }, {
+                    data: '2020/3/9',
+                    cases: 0,
+                    fatalities: 26
+                }, {
+                    data: '2020/3/10',
+                    cases: 0,
+                    fatalities: 30
+                }, {
+                    data: '2020/3/11',
+                    cases: 0,
+                    fatalities: 38
+                }, {
+                    data: '2020/3/12',
+                    cases: 0,
+                    fatalities: 41
+                }, {
+                    data: '2020/3/13',
+                    cases: 0,
+                    fatalities: 48
+                }, {
+                    data: '2020/3/14',
+                    cases: 0,
+                    fatalities: 57
+                }, {
+                    data: '2020/3/15',
+                    cases: 0,
+                    fatalities: 69
+                }, {
+                    data: '2020/3/16',
+                    cases: 0,
+                    fatalities: 87
+                }, {
+                    data: '2020/3/17',
+                    cases: 0,
+                    fatalities: 110
+                }, {
+                    data: '2020/3/18',
+                    cases: 0,
+                    fatalities: 150
+                }, {
+                    data: '2020/3/19',
+                    cases: 0,
+                    fatalities: 206
+                }, {
+                    data: '2020/3/20',
+                    cases: 0,
+                    fatalities: 255
+                }, {
+                    data: '2020/3/21',
+                    cases: 0,
+                    fatalities: 301
+                }, {
+                    data: '2020/3/22',
+                    cases: 0,
+                    fatalities: 414
+                }, {
+                    data: '2020/3/23',
+                    cases: 0,
+                    fatalities: 555
+                }, {
+                    data: '2020/3/24',
+                    cases: 0,
+                    fatalities: 780
+                }, {
+                    data: '2020/3/25',
+                    cases: 0,
+                    fatalities: 1027
+                }, {
+                    data: '2020/3/26',
+                    cases: 0,
+                    fatalities: 1295
+                }, {
+                    data: '2020/3/27',
+                    cases: 0,
+                    fatalities: 1695
+                }, {
+                    data: '2020/3/28',
+                    cases: 0,
+                    fatalities: 2220
                 }
             ]
         }

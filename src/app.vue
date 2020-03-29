@@ -25,6 +25,7 @@
             this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
             this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
             this.$store.commit('countries/updatePropertyOfItem', {item: {id: 4}, property: 'active', value: true});
+            this.$store.commit('countries/updatePropertyOfItem', {item: {id: 5}, property: 'active', value: true});
             this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
         }
     }
