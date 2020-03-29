@@ -31,7 +31,7 @@
     .map-tools {
 
         input {
-            width: 30px;
+            width: 40px;
             padding: 4px;
             margin: 0 4px;
         }

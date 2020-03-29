@@ -2,7 +2,7 @@
     import lineChart from "./line-chart";
 
     export default {
-        name: 'graph-fatalities',
+        name: 'graph-growth',
         components: {
             lineChart
         },
@@ -28,30 +28,29 @@
                     delete country.entries;
                     return country;
                 });
-            },
-            perCapita() {
-                return this.$store.state.settings.perCapita;
             }
         },
         methods: {
             getValue(country, d) {
-                if (this.perCapita) {
-                    return (1000000 * d.fatalities) / country.population;
+                let index = country.dataPoints.indexOf(d);
+                if (index > 0) {
+                    let prev = country.dataPoints[index - 1];
+                    return d.fatalities / prev.fatalities;
                 } else {
-                    return d.fatalities;
+                    return 1;
                 }
-            },
+            }
         }
     }
 </script>
 
 
 <template>
-    <div class="graph-fatalities">
+    <div class="graph-growth">
         <line-chart
             :data="data"
             :get-value="getValue"
-            :apply-log-scale="true"/>
+            :apply-log-scale="false"/>
     </div>
 </template>
 
@@ -59,7 +58,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .graph-fatalities {
+    .graph-growth {
 
     }
 </style>

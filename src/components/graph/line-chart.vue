@@ -8,6 +8,14 @@
             data: {
                 type: Array,
                 required: true
+            },
+            getValue: {
+                type: Function,
+                required: true
+            },
+            applyLogScale: {
+                type: Boolean,
+                required: true
             }
         },
         data() {
@@ -15,10 +23,11 @@
             return {
                 settings: {
                     margin,
-                    width: 800 - margin.left - margin.right,
-                    height: 300 - margin.top - margin.bottom
+                    width: 600 - margin.left - margin.right,
+                    height: 400 - margin.top - margin.bottom
                 },
                 svg: null,
+                container: null,
                 xScale: null,
                 yScale: null
             }
@@ -32,9 +41,6 @@
             },
             logScale() {
                 return this.$store.state.settings.logScale;
-            },
-            perCapita() {
-                return this.$store.state.settings.perCapita;
             }
         },
         methods: {
@@ -45,14 +51,7 @@
             },
             clear() {
                 if (this.svg) {
-                    d3.selectAll('svg').remove();
-                }
-            },
-            getValue(country, value) {
-                if (this.perCapita) {
-                    return (1000000 * value) / country.population;
-                } else {
-                    return value;
+                    this.svg.selectAll('*').remove();
                 }
             },
             draw() {
@@ -61,7 +60,7 @@
                 max = 0;
 
                 for (let country of this.data) {
-                    let thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d.fatalities)));
+                    let thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
@@ -76,7 +75,7 @@
                     .range([0, this.settings.width]);
 
 
-                if (this.logScale) {
+                if (this.logScale && this.applyLogScale) {
                     this.yScale = d3.scaleLog()
                         .domain([1, max])
                         .range([this.settings.height, 0]);
@@ -100,46 +99,51 @@
                 dataset = country.dataPoints;
                 line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
-                    .y((d) => { return this.yScale(this.getValue(country, d.fatalities)); })
+                    .y((d) => { return this.yScale(this.getValue(country, d)); })
                     .curve(d3.curveMonotoneX);
 
 
-                this.svg.append("path")
+                this.container.append("path")
                     .datum(dataset)
                     .attr("class", "line")
                     .attr("stroke", country.color)
                     .attr("d", line);
 
-                this.svg.selectAll(".dot.dot--" + country.id)
+                this.container.selectAll(".dot.dot--" + country.id)
                     .data(dataset)
                     .enter().append("circle")
                     .attr("class", "dot dot" + country.id)
                     .attr("fill", country.color)
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d.fatalities)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
                     .on("mouseover", (a, b, c) => {
 
                     })
             },
             drawAxes() {
-                this.svg = d3.select(".line-chart").append("svg")
+                this.container = this.svg
                     .attr("width", this.settings.width + this.settings.margin.left + this.settings.margin.right)
                     .attr("height", this.settings.height + this.settings.margin.top + this.settings.margin.bottom)
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
 
-                this.svg.append("g")
+                this.container.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + this.settings.height + ")")
                     .call(d3.axisBottom(this.xScale));
 
-                this.svg.append("g")
+                this.container.append("g")
                     .attr("class", "y axis")
                     .call(d3.axisLeft(this.yScale));
+            },
+            init() {
+                let div = this.$refs.chart;
+                this.svg = d3.select(div).append("svg");
             }
         },
         mounted() {
+            this.init();
             this.update();
         },
         watch: {
@@ -161,7 +165,9 @@
 
 
 <template>
-    <div class="line-chart"></div>
+    <div
+        ref="chart"
+        class="line-chart"></div>
 </template>
 
 

@@ -45,7 +45,6 @@
         display: flex;
         align-items: center;
         padding: 4px;
-        border-bottom: 1px solid #ddd;
         cursor: pointer;
     }
 </style>

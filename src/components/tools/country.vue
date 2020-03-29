@@ -49,7 +49,7 @@
     .country {
         display: flex;
         align-items: center;
-        padding: 4px;
+        padding: 2px 4px;
         border-bottom: 1px solid #ddd;
         cursor: pointer;
 
@@ -58,6 +58,10 @@
             height: 10px;
             border-radius: 50%;
             margin-right: 4px;
+        }
+
+        &:last-child {
+            border-bottom: 0;
         }
     }
 </style>

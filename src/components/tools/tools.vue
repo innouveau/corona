@@ -23,11 +23,17 @@
 
 <template>
     <div class="tools">
-        <country-picker/>
-        <type-picker/>
-        <map-tools/>
-        <y-scale/>
-        <per-capita/>
+        <div class="tools__section">
+            <country-picker/>
+            <type-picker/>
+        </div>
+        <div class="tools__section">
+            <map-tools/>
+            <div class="tools__subsection">
+                <y-scale/>
+                <per-capita/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,6 +42,20 @@
     @import '@/styles/variables.scss';
 
     .tools {
+
+        .tools__section {
+            display: flex;
+            border-bottom: 2px solid #aaa;
+
+            > div {
+                width: 50%;
+                border-right: 1px solid #ddd;
+            }
+
+            .tools__subsection {
+                padding: 20px;
+            }
+        }
 
         .tools__row {
             display: flex;

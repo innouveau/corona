@@ -8,6 +8,10 @@ window.data = {
             id: 2,
             title: 'Fatalities',
             property: 'fatalities'
+        }, {
+            id: 3,
+            title: 'Growth',
+            property: 'growth'
         }
     ],
     countries: [

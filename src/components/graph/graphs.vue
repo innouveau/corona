@@ -1,9 +1,11 @@
 <script>
     import graphFatalities from "./graph-fatalities";
+    import graphGrowth from "./graph-growth";
 
     export default {
         name: 'graphs',
         components: {
+            graphGrowth,
             graphFatalities
         },
         props: {},
@@ -11,6 +13,10 @@
             showFatalities() {
                 let fatalities = this.$store.getters['types/getItemByProperty']('property', 'fatalities');
                 return fatalities.active;
+            },
+            showGrowth() {
+                let growth = this.$store.getters['types/getItemByProperty']('property', 'growth');
+                return growth.active;
             }
         },
         methods: {}
@@ -22,6 +28,9 @@
     <div class="graphs">
         <graph-fatalities
             v-if="showFatalities"/>
+
+        <graph-growth
+            v-if="showGrowth"/>
     </div>
 </template>
 
@@ -31,5 +40,6 @@
 
     .graphs {
         padding: 20px;
+        display: flex;
     }
 </style>
