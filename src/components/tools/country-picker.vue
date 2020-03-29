@@ -18,7 +18,7 @@
 
 
 <template>
-    <div class="country-picker">
+    <div class="country-picker tool">
         <country
             v-for="country in countries"
             :country="country"/>
@@ -30,7 +30,6 @@
     @import '@/styles/variables.scss';
 
     .country-picker {
-        border-bottom: 2px solid #aaa;
-        padding: 10px 0;
+
     }
 </style>

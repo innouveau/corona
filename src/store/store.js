@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 import countries from './modules/countries';
 import types from './modules/types';
-import mapping from './modules/mapping';
+import settings from './modules/settings';
 
 const state = {
     dataLoaded: false
@@ -20,7 +20,7 @@ export default new Vuex.Store({
     mutations,
     actions: {},
     modules: {
-        countries, types, mapping
+        countries, types, settings
     }
 
 })

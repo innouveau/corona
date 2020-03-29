@@ -12,7 +12,7 @@
                 return this.$store.state.countries.all.filter(c => c.active);
             },
             mapping() {
-                return this.$store.state.mapping.fatalities;
+                return this.$store.state.settings.fatalities;
             },
             data() {
                 return this.countries.map(c => {

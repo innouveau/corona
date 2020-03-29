@@ -25,10 +25,16 @@
         },
         computed: {
             mapping() {
-                return this.$store.state.mapping;
+                return this.$store.state.settings;
             },
             countries() {
                 return this.$store.state.countries.all;
+            },
+            logScale() {
+                return this.$store.state.settings.logScale;
+            },
+            perCapita() {
+                return this.$store.state.settings.perCapita;
             }
         },
         methods: {
@@ -42,13 +48,20 @@
                     d3.selectAll('svg').remove();
                 }
             },
+            getValue(country, value) {
+                if (this.perCapita) {
+                    return (1000000 * value) / country.population;
+                } else {
+                    return value;
+                }
+            },
             draw() {
                 let n, max;
                 n = 0;
                 max = 0;
 
                 for (let country of this.data) {
-                    let thisMax = d3.max(country.dataPoints.map(d => d.fatalities));
+                    let thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d.fatalities)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
@@ -62,9 +75,18 @@
                     .domain([0, n-1])
                     .range([0, this.settings.width]);
 
-                this.yScale = d3.scaleLinear()
-                    .domain([0, max])
-                    .range([this.settings.height, 0]);
+
+                if (this.logScale) {
+                    this.yScale = d3.scaleLog()
+                        .domain([1, max])
+                        .range([this.settings.height, 0]);
+                } else {
+                    this.yScale = d3.scaleLinear()
+                        .domain([0, max])
+                        .range([this.settings.height, 0]);
+                }
+
+
 
                 this.drawAxes();
 
@@ -78,7 +100,7 @@
                 dataset = country.dataPoints;
                 line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
-                    .y((d) => { return this.yScale(d.fatalities); })
+                    .y((d) => { return this.yScale(this.getValue(country, d.fatalities)); })
                     .curve(d3.curveMonotoneX);
 
 
@@ -88,13 +110,13 @@
                     .attr("stroke", country.color)
                     .attr("d", line);
 
-                this.svg.selectAll(".dot")
+                this.svg.selectAll(".dot.dot--" + country.id)
                     .data(dataset)
                     .enter().append("circle")
-                    .attr("class", "dot")
+                    .attr("class", "dot dot" + country.id)
                     .attr("fill", country.color)
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(d.fatalities) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d.fatalities)) })
                     .attr("r", 2)
                     .on("mouseover", (a, b, c) => {
 

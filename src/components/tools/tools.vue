@@ -2,10 +2,14 @@
     import countryPicker from "./country-picker";
     import typePicker from "./type-picker";
     import mapTools from "./map-tools";
+    import yScale from "./y-scale";
+    import PerCapita from "./per-capita";
 
     export default {
         name: 'tools',
         components: {
+            PerCapita,
+            yScale,
             mapTools,
             typePicker,
             countryPicker
@@ -22,6 +26,8 @@
         <country-picker/>
         <type-picker/>
         <map-tools/>
+        <y-scale/>
+        <per-capita/>
     </div>
 </template>
 

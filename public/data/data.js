@@ -15,6 +15,7 @@ window.data = {
             id: 1,
             title: 'the Netherlands',
             color: 'orange',
+            population: 17424978,
             entries: [
                 {
                     date: '2020/02/27',
@@ -146,7 +147,8 @@ window.data = {
         {
             id: 2,
             title: 'Italy',
-            color: 'red',
+            color: 'green',
+            population: 60317546,
             entries: [
                 {
                     data: '2020/02/15',
@@ -316,6 +318,224 @@ window.data = {
                     data: '2020/03/27',
                     cases: 10149,
                     fatalities: 9134
+                }
+            ]
+        },
+        {
+            id: 3,
+            title: 'Spain',
+            color: '#ffda33',
+            population: 46733038,
+            entries: [
+                {
+                    data: '2020/03/3',
+                    cases: 0,
+                    fatalities: 1
+                }, {
+                    data: '2020/03/4',
+                    cases: 0,
+                    fatalities: 2
+                }, {
+                    data: '2020/03/5',
+                    cases: 0,
+                    fatalities: 3
+                }, {
+                    data: '2020/03/6',
+                    cases: 0,
+                    fatalities: 8
+                }, {
+                    data: '2020/03/7',
+                    cases: 0,
+                    fatalities: 10
+                }, {
+                    data: '2020/03/8',
+                    cases: 0,
+                    fatalities: 17
+                }, {
+                    data: '2020/03/9',
+                    cases: 0,
+                    fatalities: 30
+                }, {
+                    data: '2020/03/10',
+                    cases: 0,
+                    fatalities: 36
+                }, {
+                    data: '2020/03/11',
+                    cases: 0,
+                    fatalities: 55
+                }, {
+                    data: '2020/03/12',
+                    cases: 0,
+                    fatalities: 86
+                }, {
+                    data: '2020/03/13',
+                    cases: 0,
+                    fatalities: 133
+                }, {
+                    data: '2020/03/14',
+                    cases: 0,
+                    fatalities: 196
+                }, {
+                    data: '2020/03/15',
+                    cases: 0,
+                    fatalities: 294
+                }, {
+                    data: '2020/03/16',
+                    cases: 0,
+                    fatalities: 342
+                }, {
+                    data: '2020/03/17',
+                    cases: 0,
+                    fatalities: 533
+                }, {
+                    data: '2020/03/18',
+                    cases: 0,
+                    fatalities: 638
+                }, {
+                    data: '2020/03/19',
+                    cases: 0,
+                    fatalities: 831
+                }, {
+                    data: '2020/03/20',
+                    cases: 0,
+                    fatalities: 1093
+                }, {
+                    data: '2020/03/21',
+                    cases: 0,
+                    fatalities: 1381
+                }, {
+                    data: '2020/03/22',
+                    cases: 0,
+                    fatalities: 1772
+                }, {
+                    data: '2020/03/23',
+                    cases: 0,
+                    fatalities: 2311
+                }, {
+                    data: '2020/03/24',
+                    cases: 0,
+                    fatalities: 2991
+                }, {
+                    data: '2020/03/25',
+                    cases: 0,
+                    fatalities: 3647
+                }, {
+                    data: '2020/03/26',
+                    cases: 0,
+                    fatalities: 4365
+                }, {
+                    data: '2020/03/27',
+                    cases: 0,
+                    fatalities: 5138
+                }, {
+                    data: '2020/03/28',
+                    cases: 0,
+                    fatalities: 5982
+                }
+            ]
+        },
+        {
+            id: 4,
+            title: 'United Kingdom',
+            color: 'red',
+            population: 63182000,
+            entries: [
+                {
+                    data: '2020/03/5',
+                    cases: 0,
+                    fatalities: 1
+                }, {
+                    data: '2020/03/6',
+                    cases: 0,
+                    fatalities: 2
+                }, {
+                    data: '2020/03/7',
+                    cases: 0,
+                    fatalities: 2
+                }, {
+                    data: '2020/03/8',
+                    cases: 0,
+                    fatalities: 3
+                }, {
+                    data: '2020/03/9',
+                    cases: 0,
+                    fatalities: 5
+                }, {
+                    data: '2020/03/10',
+                    cases: 0,
+                    fatalities: 6
+                }, {
+                    data: '2020/03/11',
+                    cases: 0,
+                    fatalities: 8
+                }, {
+                    data: '2020/03/12',
+                    cases: 0,
+                    fatalities: 10
+                }, {
+                    data: '2020/03/13',
+                    cases: 0,
+                    fatalities: 11
+                }, {
+                    data: '2020/03/14',
+                    cases: 0,
+                    fatalities: 21
+                }, {
+                    data: '2020/03/15',
+                    cases: 0,
+                    fatalities: 35
+                }, {
+                    data: '2020/03/16',
+                    cases: 0,
+                    fatalities: 55
+                }, {
+                    data: '2020/03/17',
+                    cases: 0,
+                    fatalities: 71
+                }, {
+                    data: '2020/03/18',
+                    cases: 0,
+                    fatalities: 104
+                }, {
+                    data: '2020/03/19',
+                    cases: 0,
+                    fatalities: 144
+                }, {
+                    data: '2020/03/20',
+                    cases: 0,
+                    fatalities: 177
+                }, {
+                    data: '2020/03/21',
+                    cases: 0,
+                    fatalities: 233
+                }, {
+                    data: '2020/03/22',
+                    cases: 0,
+                    fatalities: 281
+                }, {
+                    data: '2020/03/23',
+                    cases: 0,
+                    fatalities: 335
+                }, {
+                    data: '2020/03/24',
+                    cases: 0,
+                    fatalities: 422
+                }, {
+                    data: '2020/03/25',
+                    cases: 0,
+                    fatalities: 463
+                }, {
+                    data: '2020/03/26',
+                    cases: 0,
+                    fatalities: 578
+                }, {
+                    data: '2020/03/27',
+                    cases: 0,
+                    fatalities: 759
+                }, {
+                    data: '2020/03/28',
+                    cases: 0,
+                    fatalities: 1019
                 }
             ]
         }

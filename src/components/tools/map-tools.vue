@@ -6,10 +6,10 @@
         computed: {
             fatalities: {
                 set(value) {
-                    this.$store.commit('mapping/updateProperty', {key: 'fatalities', value})
+                    this.$store.commit('settings/updateProperty', {key: 'fatalities', value})
                 },
                 get() {
-                    return this.$store.state.mapping.fatalities;
+                    return this.$store.state.settings.fatalities;
                 }
             }
         },
@@ -19,7 +19,7 @@
 
 
 <template>
-    <div class="map-tools">
+    <div class="map-tools tool">
         Start at <input v-model="fatalities"/> fatalities.
     </div>
 </template>
@@ -29,8 +29,6 @@
     @import '@/styles/variables.scss';
 
     .map-tools {
-        border-bottom: 2px solid #aaa;
-        padding: 10px 0;
 
         input {
             width: 30px;
