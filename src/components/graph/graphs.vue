@@ -38,7 +38,7 @@
                     for (let entry of country.entries) {
                         let e = {...entry};
                         country.originalDataPoints.push(e);
-                        if (this.isAboveMapping(entry) && this.isBeforeStop(country.dataPoints.length)) {
+                        if (this.isAboveMapping(entry, country) && this.isBeforeStop(country.dataPoints.length)) {
                             country.dataPoints.push(e);
                         }
                     }
@@ -46,10 +46,18 @@
                     return country;
                 });
             },
+            isAbsolute() {
+                return this.$store.state.settings.startAtStyle === 'absolute';
+            }
         },
         methods: {
-            isAboveMapping(entry) {
-                return entry[this.$store.state.settings.mappingType] > this.$store.state.settings.startAt;
+            isAboveMapping(entry, country) {
+                if (this.isAbsolute) {
+                    return entry[this.$store.state.settings.mappingType] > this.$store.state.settings.startAt;
+                } else {
+                    let value = 1000000 * entry[this.$store.state.settings.mappingType] / country.population;
+                    return value > this.$store.state.settings.startAt;
+                }
             },
             isBeforeStop(l) {
                 return l < this.$store.state.settings.stopAt;

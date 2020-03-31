@@ -33,7 +33,8 @@
                 string += '&stopat=' + this.$store.state.settings.stopAt;
                 string += '&growthaverage=' + this.$store.state.settings.growthRatePer;
                 string += '&startattype=' + this.$store.state.settings.mappingType;
-                return window.location.origin + '/#/' + string;
+                string += '&startatstyle=' + this.$store.state.settings.startAtStyle;
+                return window.location.origin + window.location.pathname + '/#/' + string;
             }
         },
         methods: {

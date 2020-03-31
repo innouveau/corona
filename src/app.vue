@@ -129,13 +129,14 @@
                 this.getQueryParameters();
             },
             getQueryParameters(){
-                let countries, logscale, percapita, cutyaxis, startat, startattype, stopat, growthaverage;
+                let countries, logscale, percapita, cutyaxis, startat, startattype, startatstyle, stopat, growthaverage;
                 countries = this.$route.query.countries;
                 logscale = this.$route.query.logscale;
                 percapita = this.$route.query.percapita;
                 cutyaxis = this.$route.query.cutyaxis;
                 startat = this.$route.query.startat;
                 startattype = this.$route.query.startattype;
+                startatstyle = this.$route.query.startatstyle;
                 stopat = this.$route.query.stopat;
                 growthaverage = this.$route.query.growthaverage;
 
@@ -190,6 +191,9 @@
                 }
                 if (startattype && startattype.length > 0 && startattype === 'cases') {
                     this.$store.commit('settings/updateProperty', {key: 'mappingType', value: startattype});
+                }
+                if (startatstyle && startatstyle.length > 0 && startatstyle === 'relative') {
+                    this.$store.commit('settings/updateProperty', {key: 'startAtStyle', value: startatstyle});
                 }
                 if (stopat && stopat.length > 0) {
                     this.$store.commit('settings/updateProperty', {key: 'stopAt', value: Number(stopat)});

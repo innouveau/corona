@@ -4,6 +4,7 @@ const state = {
     startAt: 100,
     stopAt: 30,
     mappingType: 'fatalities',
+    startAtStyle: 'absolute',
     logScale: false,
     perCapita: false,
     growthRatePer: 7,

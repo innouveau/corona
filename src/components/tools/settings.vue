@@ -36,8 +36,19 @@
                     return this.$store.state.settings.mappingType;
                 }
             },
+            startAtStyle: {
+                set(value) {
+                    this.$store.commit('settings/updateProperty', {key: 'startAtStyle', value})
+                },
+                get() {
+                    return this.$store.state.settings.startAtStyle;
+                }
+            },
             mappingTypeOptions() {
                 return ['fatalities', 'cases'];
+            },
+            startAtStyles() {
+                return ['absolute', 'relative'];
             }
         },
         methods: {}
@@ -48,7 +59,15 @@
 <template>
     <div class="settings tool">
         <div class="settings__row">
-            Start at <input v-model="startAt" type="number"/> (absolute)
+            Start at <input v-model="startAt" type="number"/>
+
+            <select
+                v-model="startAtStyle">
+                <option
+                        v-for="option in startAtStyles">
+                    {{option}}
+                </option></select>
+
             <select
                 v-model="mappingType">
                 <option

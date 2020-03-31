@@ -26,7 +26,7 @@
         </div>
 
         <div>
-            <span class="comment">(Colors are generated randomly. You can click on the color swatch to change it)</span>
+            <span class="comment">Colors are generated randomly (or set via the url). You can click on the color swatch to change it.</span>
         </div>
     </div>
 </template>
