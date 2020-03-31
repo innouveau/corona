@@ -34,10 +34,13 @@
                 return this.countries.map(c => {
                     let country = {...c};
                     country.dataPoints = [];
+                    country.originalDataPoints = [];
                     for (let entry of country.entries) {
+                        let e = {...entry};
+                        e.index = country.dataPoints.length + 1;
+
+                        country.originalDataPoints.push(e);
                         if (this.isAboveMapping(entry) && this.isBeforeStop(country.dataPoints.length)) {
-                            let e = {...entry};
-                            e.index = country.dataPoints.length + 1;
                             country.dataPoints.push(e);
                         }
                     }

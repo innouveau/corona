@@ -55,7 +55,7 @@
                             country.id = countries.length + 1;
                             country.searchTags = '';
                             country.color = this.getRandomColor();
-                            country.population = 0;
+                            country.population = this.getPopulation(d.Country);
                             for (let key in d) {
                                 if (key !== 'Country') {
                                     let value, entry;
@@ -74,6 +74,14 @@
                     .catch((error) => {
                         // handle error
                     })
+            },
+            getPopulation(countryName) {
+                for (let country of window.population) {
+                    if (country.country === countryName) {
+                        return Number(country.population);
+                    }
+                }
+                return 0
             },
             loadData(countries) {
                 console.log(countries);

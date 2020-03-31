@@ -6,7 +6,7 @@ const state = {
     mappingType: 'fatalities',
     logScale: true,
     perCapita: false,
-    growthRatePer: 4,
+    growthRatePer: 7,
     cutY: true
 };
 

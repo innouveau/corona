@@ -20,11 +20,21 @@
         methods: {
             getValue(country, d) {
                 let index, days, value;
-                index = country.dataPoints.indexOf(d);
+
+                const findIndex = function(d) {
+                    for (let entry of country.originalDataPoints) {
+                        if (entry.date === d.date) {
+                            return country.originalDataPoints.indexOf(entry);
+                        }
+                    }
+                    return -1;
+                };
+
+                index = findIndex(d);
                 days = this.growthRatePer;
                 if (index > (days - 1)) {
                     let prev, ratio;
-                    prev = country.dataPoints[index - days];
+                    prev = country.originalDataPoints[index - days];
                     ratio = d.fatalities / prev.fatalities;
                     value = Math.pow(ratio, (1/days));
                     return Math.round(value * 100) / 100;
