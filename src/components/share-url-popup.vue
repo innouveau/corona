@@ -20,10 +20,18 @@
                 if (this.$store.state.settings.cutY) {
                     string += '&cutyaxis=true';
                 }
-                return string;
+                string += '&startat=' + this.$store.state.settings.startAt;
+                string += '&stopat=' + this.$store.state.settings.stopAt;
+                string += '&growthaverage=' + this.$store.state.settings.growthRatePer;
+                string += '&startattype=' + this.$store.state.settings.mappingType;
+                return window.location.origin + '/#/' + string;
             }
         },
-        methods: {}
+        methods: {
+            close() {
+                this.$store.commit('ui/updateProperty', {key: 'shareUrlPopup', value: false});
+            }
+        }
     }
 </script>
 
@@ -32,6 +40,12 @@
     <div class="share-url-popup">
         <div class="share-url-popup__url">
             <a :href="url" target="_blank">{{url}}</a>
+        </div>
+
+        <div
+            @click="close()"
+            class="share-url-popup__close">
+            ×
         </div>
     </div>
 </template>
@@ -57,6 +71,26 @@
             a {
                 color: #fff;
                 font-size: 14px;
+            }
+        }
+
+        .share-url-popup__close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 32px;
+            color: #fff;
+            padding: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                border: 1px solid #fff;
             }
         }
     }

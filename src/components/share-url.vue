@@ -7,17 +7,31 @@
             shareUrlPopup
         },
         props: {},
-        computed: {},
-        methods: {}
+        computed: {
+            isOpen() {
+                return this.$store.state.ui.shareUrlPopup;
+            }
+        },
+        methods: {
+            open() {
+                this.$store.commit('ui/updateProperty', {key: 'shareUrlPopup', value: true});
+            }
+        }
     }
 </script>
 
 
 <template>
     <div class="share-url">
-        Share these settings
+        <div
+            @click="open()"
+            class="share-url__button">
+            Share these settings
+        </div>
 
-<!--        <share-url-popup/>-->
+
+        <share-url-popup
+            v-if="isOpen"/>
     </div>
 </template>
 
@@ -29,13 +43,16 @@
         position: absolute;
         right: 20px;
         top: 20px;
-        border: 1px solid #ddd;
-        padding: 4px;
-        cursor: pointer;
-        border-radius: 3px;
 
-        &:hover {
-            background: #ddd;
+        .share-url__button {
+            border: 1px solid #ddd;
+            padding: 4px;
+            cursor: pointer;
+            border-radius: 3px;
+
+            &:hover {
+                background: #ddd;
+            }
         }
     }
 </style>
