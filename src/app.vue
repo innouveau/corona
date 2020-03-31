@@ -155,6 +155,8 @@
                             colorString = string.split(separator)[1];
                             if (colorString.indexOf('hex') > -1) {
                                 color = '#' + colorString.substr(3);
+                            } else {
+                                color = colorString;
                             }
                         } else {
                             countryName = string;
