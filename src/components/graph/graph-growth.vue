@@ -6,26 +6,13 @@
         components: {
             lineChart
         },
-        props: {},
+        props: {
+            data: {
+                type: Array,
+                required: true
+            }
+        },
         computed: {
-            countries() {
-                return this.$store.state.countries.all.filter(c => c.active);
-            },
-            data() {
-                return this.countries.map(c => {
-                    let country = {...c};
-                    country.dataPoints = [];
-                    for (let entry of country.entries) {
-                        if (this.$parent.isAboveMapping(entry) && this.$parent.isBeforeStop(country.dataPoints.length)) {
-                            let e = {...entry};
-                            e.index = country.dataPoints.length + 1;
-                            country.dataPoints.push(e);
-                        }
-                    }
-                    delete country.entries;
-                    return country;
-                });
-            },
             growthRatePer() {
                 return this.$store.state.settings.growthRatePer;
             }

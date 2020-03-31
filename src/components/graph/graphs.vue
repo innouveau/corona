@@ -26,7 +26,25 @@
             },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
-            }
+            },
+            countries() {
+                return this.$store.state.countries.all.filter(c => c.active);
+            },
+            data() {
+                return this.countries.map(c => {
+                    let country = {...c};
+                    country.dataPoints = [];
+                    for (let entry of country.entries) {
+                        if (this.isAboveMapping(entry) && this.isBeforeStop(country.dataPoints.length)) {
+                            let e = {...entry};
+                            e.index = country.dataPoints.length + 1;
+                            country.dataPoints.push(e);
+                        }
+                    }
+                    delete country.entries;
+                    return country;
+                });
+            },
         },
         methods: {
             isAboveMapping(entry) {
@@ -43,13 +61,16 @@
 <template>
     <div class="graphs">
         <graph-cases
-                v-if="showCases"/>
+                v-if="showCases"
+                :data="data"/>
 
         <graph-fatalities
-            v-if="showFatalities"/>
+            v-if="showFatalities"
+            :data="data"/>
 
         <graph-growth
-            v-if="showGrowth"/>
+            v-if="showGrowth"
+            :data="data"/>
     </div>
 </template>
 
