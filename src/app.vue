@@ -140,7 +140,7 @@
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
 
-                if (countries.length > 0) {
+                if (countries && countries.length > 0) {
                     let cs = countries.split(',');
                     for (let c of cs) {
                         let country = this.$store.getters['countries/getItemByProperty']('title', c, true);
