@@ -1,9 +1,13 @@
 <script>
     import country from "./country";
+    import selectedCountries from "./selected-countries";
+    import searchCountries from "./search-countries";
 
     export default {
         name: 'country-picker',
         components: {
+            searchCountries,
+            selectedCountries,
             country
         },
         props: {},
@@ -19,9 +23,8 @@
 
 <template>
     <div class="country-picker tool">
-        <country
-            v-for="country in countries"
-            :country="country"/>
+        <search-countries/>
+        <selected-countries/>
     </div>
 </template>
 

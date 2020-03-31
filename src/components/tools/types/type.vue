@@ -1,10 +1,12 @@
 <script>
     import Type from '@/classes/Type';
-    import Checkbox from "../elements/checkbox";
+    import checkbox from "@/components/elements/checkbox";
 
     export default {
         name: 'type',
-        components: {Checkbox},
+        components: {
+            checkbox
+        },
         props: {
             type: {
                 type: Type,
@@ -46,5 +48,6 @@
         align-items: center;
         padding: 4px;
         cursor: pointer;
+        margin-right: 10px;
     }
 </style>

@@ -11,15 +11,12 @@
             countries() {
                 return this.$store.state.countries.all.filter(c => c.active);
             },
-            mapping() {
-                return this.$store.state.settings.fatalities;
-            },
             data() {
                 return this.countries.map(c => {
                     let country = {...c};
                     country.dataPoints = [];
                     for (let entry of country.entries) {
-                        if (entry.fatalities > this.mapping) {
+                        if (this.$parent.isAboveMapping(entry) && this.$parent.isBeforeStop(country.dataPoints.length)) {
                             let e = {...entry};
                             e.index = country.dataPoints.length + 1;
                             country.dataPoints.push(e);
@@ -28,16 +25,24 @@
                     delete country.entries;
                     return country;
                 });
+            },
+            growthRatePer() {
+                return this.$store.state.settings.growthRatePer;
             }
         },
         methods: {
             getValue(country, d) {
-                let index = country.dataPoints.indexOf(d);
-                if (index > 0) {
-                    let prev = country.dataPoints[index - 1];
-                    return d.fatalities / prev.fatalities;
+                let index, days, value;
+                index = country.dataPoints.indexOf(d);
+                days = this.growthRatePer;
+                if (index > (days - 1)) {
+                    let prev, ratio;
+                    prev = country.dataPoints[index - days];
+                    ratio = d.fatalities / prev.fatalities;
+                    value = Math.pow(ratio, (1/days));
+                    return Math.round(value * 100) / 100;
                 } else {
-                    return 1;
+                    return null;
                 }
             }
         }
@@ -46,7 +51,12 @@
 
 
 <template>
-    <div class="graph-growth">
+    <div
+        class="graph-growth"
+        :style="{'width': (100 / $parent.l) + '%'}">
+        <h2>
+            Growth
+        </h2>
         <line-chart
             :data="data"
             :get-value="getValue"

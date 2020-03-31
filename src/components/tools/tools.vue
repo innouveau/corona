@@ -1,16 +1,14 @@
 <script>
-    import countryPicker from "./country-picker";
-    import typePicker from "./type-picker";
-    import mapTools from "./map-tools";
-    import yScale from "./y-scale";
-    import PerCapita from "./per-capita";
+    import countryPicker from "./countries/country-picker";
+    import typePicker from "./types/type-picker";
+    import settings from "./settings";
+    import dashboard from "./dashboard/dashboard";
 
     export default {
         name: 'tools',
         components: {
-            PerCapita,
-            yScale,
-            mapTools,
+            dashboard,
+            settings,
             typePicker,
             countryPicker
         },
@@ -28,11 +26,8 @@
             <type-picker/>
         </div>
         <div class="tools__section">
-            <map-tools/>
-            <div class="tools__subsection">
-                <y-scale/>
-                <per-capita/>
-            </div>
+            <settings/>
+            <dashboard/>
         </div>
     </div>
 </template>
@@ -50,6 +45,10 @@
             > div {
                 width: 50%;
                 border-right: 1px solid #ddd;
+
+                &:last-child {
+                    border-right: 0;
+                }
             }
 
             .tools__subsection {

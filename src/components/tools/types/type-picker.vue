@@ -18,7 +18,7 @@
 
 
 <template>
-    <div class="type-picker tools__subsection">
+    <div class="type-picker tool">
         <type
             v-for="type in types"
             :type="type"/>
@@ -30,6 +30,6 @@
     @import '@/styles/variables.scss';
 
     .type-picker {
-        padding: 20px;
+        display: flex;
     }
 </style>

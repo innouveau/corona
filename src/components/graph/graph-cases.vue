@@ -2,7 +2,7 @@
     import lineChart from "./line-chart";
 
     export default {
-        name: 'graph-fatalities',
+        name: 'graph-cases',
         components: {
             lineChart
         },
@@ -33,9 +33,9 @@
         methods: {
             getValue(country, d) {
                 if (this.perCapita) {
-                    return (1000000 * d.fatalities) / country.population;
+                    return (1000000 * d.cases) / country.population;
                 } else {
-                    return d.fatalities;
+                    return d.cases;
                 }
             },
         }
@@ -45,10 +45,10 @@
 
 <template>
     <div
-        class="graph-fatalities"
+        class="graph-cases"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
-            Fatalities
+            Cases
         </h2>
         <line-chart
             :data="data"
@@ -61,7 +61,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .graph-fatalities {
+    .graph-cases {
 
     }
 </style>

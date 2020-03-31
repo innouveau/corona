@@ -1,9 +1,13 @@
 import _base from './_base-module';
 
 const state = {
-    fatalities: 100,
-    logScale: false,
-    perCapita: false
+    startAt: 100,
+    stopAt: 30,
+    mappingType: 'fatalities',
+    logScale: true,
+    perCapita: false,
+    growthRatePer: 4,
+    cutY: true
 };
 
 const getters = {

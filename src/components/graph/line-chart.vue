@@ -19,17 +19,18 @@
             }
         },
         data() {
-            let margin = {top: 50, right: 50, bottom: 50, left: 50};
+            let margin = {top: 20, right: 50, bottom: 50, left: 50};
             return {
                 settings: {
                     margin,
-                    width: 600 - margin.left - margin.right,
+                    width: 0,
                     height: 400 - margin.top - margin.bottom
                 },
                 svg: null,
                 container: null,
                 xScale: null,
-                yScale: null
+                yScale: null,
+                tooltip: null
             }
         },
         computed: {
@@ -41,28 +42,55 @@
             },
             logScale() {
                 return this.$store.state.settings.logScale;
+            },
+            cutY() {
+                return this.$store.state.settings.cutY;
+            },
+            l() {
+                return this.$store.state.types.all.filter(t => t.active).length;
             }
         },
         methods: {
             update() {
-                this.clear();
-                this.draw()
-
+                setTimeout(() => {
+                    this.clear();
+                    this.setWidth();
+                    this.draw();
+                }, );
             },
             clear() {
                 if (this.svg) {
                     this.svg.selectAll('*').remove();
                 }
             },
+            setWidth() {
+                this.settings.width = this.$refs.chart.offsetWidth - this.settings.margin.left - this.settings.margin.right;
+            },
             draw() {
-                let n, max;
+                let n, min, max;
                 n = 0;
+                min = null;
                 max = 0;
 
                 for (let country of this.data) {
-                    let thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d)));
+                    let thisMin, thisMax;
+                    if (!this.cutY) {
+                        // 0 gives trouble for logscale
+                        if (this.logScale && this.applyLogScale) {
+                            thisMin = 1;
+                        } else {
+                            thisMin = 0;
+                        }
+                    } else {
+                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d)));
+                    }
+
+                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
+                    }
+                    if ((!min || thisMin < min) && thisMin !== null) {
+                        min = thisMin;
                     }
                     if (thisMax > max) {
                         max = thisMax;
@@ -77,16 +105,16 @@
 
                 if (this.logScale && this.applyLogScale) {
                     this.yScale = d3.scaleLog()
-                        .domain([1, max])
+                        .domain([min, max])
                         .range([this.settings.height, 0]);
                 } else {
                     this.yScale = d3.scaleLinear()
-                        .domain([0, max])
+                        .domain([min, max])
                         .range([this.settings.height, 0]);
                 }
 
 
-
+                this.drawTooltip();
                 this.drawAxes();
 
                 for (let country of this.data) {
@@ -117,9 +145,33 @@
                     .attr("cx", (d, i) => { return this.xScale(i) })
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
-                    .on("mouseover", (a, b, c) => {
-
+                    .on("mouseover", (d) => {
+                        this.showTooltip(d, country)
                     })
+                    .on("mouseout", (d) => {
+                        this.hideTooltip()
+                    })
+            },
+            showTooltip(d, country) {
+                let html, value;
+                value = this.getValue(country, d);
+                html = country.title + ' ' + d.date + '&nbsp;<span class="tooltip__value">' + value + '</span>';
+
+                this.tooltip
+                    .style("opacity", 1);
+
+                this.tooltip.html(html)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            },
+            hideTooltip() {
+                this.tooltip
+                    .style("opacity", 0);
+            },
+            drawTooltip() {
+                this.tooltip = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
             },
             drawAxes() {
                 this.container = this.svg
@@ -158,6 +210,11 @@
                     this.update();
                 },
                 deep: true
+            },
+            l: {
+                handler: function(newValue) {
+                    this.update();
+                },
             }
         }
     }
@@ -193,6 +250,23 @@
         .focus circle {
             fill: none;
             stroke: steelblue;
+        }
+    }
+
+    .tooltip {
+        position: absolute;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        padding: 4px;
+        background: #000;
+        color: #fff;
+        border-radius: 2px;
+        pointer-events: none;
+        opacity: 0;
+
+        .tooltip__value {
+            color: yellow;
         }
     }
 </style>
