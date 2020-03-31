@@ -2,10 +2,12 @@
     import tools from "./components/tools/tools";
     import graphs from "./components/graph/graphs";
     import * as d3 from 'd3';
+    import shareUrl from "./components/share-url";
 
     export default {
         name: 'app',
         components: {
+            shareUrl,
             graphs,
             tools
         },
@@ -199,6 +201,7 @@
         <tools/>
         <graphs
             v-if="dataLoaded"/>
+        <share-url/>
     </div>
 </template>
 
@@ -207,6 +210,6 @@
     @import '@/styles/variables.scss';
 
     .app {
-
+        position: relative;
     }
 </style>
