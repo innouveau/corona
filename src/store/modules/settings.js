@@ -4,10 +4,10 @@ const state = {
     startAt: 100,
     stopAt: 30,
     mappingType: 'fatalities',
-    logScale: true,
+    logScale: false,
     perCapita: false,
     growthRatePer: 7,
-    cutY: true
+    cutY: false
 };
 
 const getters = {

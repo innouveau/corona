@@ -52,7 +52,7 @@
         class="graph-growth"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
-            Growth
+            Growth Rate Fatalities
         </h2>
         <line-chart
             :data="data"

@@ -48,7 +48,7 @@
 <template>
     <div class="settings tool">
         <div class="settings__row">
-            Start at <input v-model="startAt"/> (absolute)
+            Start at <input v-model="startAt" type="number"/> (absolute)
             <select
                 v-model="mappingType">
                 <option
@@ -59,10 +59,10 @@
 
         </div>
         <div class="settings__row">
-            Stop at <input v-model="stopAt"/> days (or before if no data).
+            Stop at <input v-model="stopAt" type="number"/> days (or before if no data).
         </div>
         <div class="settings__row">
-            Growth average per  <input v-model="growthRatePer"/> days.
+            Growth average per  <input v-model="growthRatePer" type="number"/> days.
         </div>
     </div>
 </template>

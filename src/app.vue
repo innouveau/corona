@@ -45,35 +45,71 @@
                 return color;
             },
             loadCsv() {
-                d3.csv('data/data.csv')
-                    .then((data) => {
-                        let countries = [];
-                        for (let d of data) {
-                            let country = {};
-                            country.entries = [];
-                            country.title = d.Country;
-                            country.id = countries.length + 1;
-                            country.searchTags = '';
-                            country.color = this.getRandomColor();
-                            country.population = this.getPopulation(d.Country);
-                            for (let key in d) {
-                                if (key !== 'Country') {
-                                    let value, entry;
-                                    value = d[key] !== '' ? Number(d[key]) : 0;
-                                    entry = {
-                                        date: key,
-                                        fatalities: value
-                                    };
-                                    country.entries.push(entry)
-                                }
-                            }
-                            countries.push(country);
+                let cases, fatalities;
+
+                d3.csv('data/cases.csv')
+                    .then((response) => {
+                        cases = response;
+                        d3.csv('data/fatalities.csv')
+                            .then((response) => {
+                                fatalities = response;
+                                this.convertData(cases, fatalities);
+                            })
+                            .catch((error) => {});
+                    })
+                    .catch((error) => {});
+            },
+            convertData(countriesWithCases, countriesWithFatalities) {
+                let countries, counter;
+                countries = [];
+                counter = 0;
+
+                const getCountry = function(countryName) {
+                    for (let country of countriesWithFatalities) {
+                        if (country.Country === countryName) {
+                            return country;
                         }
-                        this.loadData(countries);
-                    })
-                    .catch((error) => {
-                        // handle error
-                    })
+                    }
+                    return null;
+                };
+
+                for (let countryWithCases of countriesWithCases) {
+                    let country, countryWithFatalities;
+
+                    countryWithFatalities = getCountry(countryWithCases.Country);
+
+                    country = {};
+                    country.entries = [];
+                    country.title = countryWithCases.Country;
+                    country.id = countries.length + 1;
+                    country.searchTags = '';
+                    country.color = this.getRandomColor();
+                    country.population = this.getPopulation(countryWithCases.Country);
+                    for (let date in countryWithCases) {
+                        if (date !== 'Country' && date !== '') {
+                            let entry, casesForDate, fatalitiesForDate;
+                            casesForDate = countryWithCases[date] !== '' ? Number(countryWithCases[date]) : 0;
+
+                            if (countryWithFatalities && countryWithFatalities.hasOwnProperty(date)) {
+                                fatalitiesForDate = countryWithFatalities[date] !== '' ? Number(countryWithFatalities[date]) : 0;
+                            } else {
+                                fatalitiesForDate = 0;
+                            }
+
+                            entry = {
+                                date: date,
+                                cases: casesForDate,
+                                fatalities: fatalitiesForDate
+                            };
+                            country.entries.push(entry)
+                        }
+                    }
+
+
+                    countries.push(country);
+                    counter++;
+                }
+                this.loadData(countries);
             },
             getPopulation(countryName) {
                 for (let country of window.population) {
@@ -84,20 +120,62 @@
                 return 0
             },
             loadData(countries) {
-                console.log(countries);
                 this.$store.commit('countries/init', countries);
                 this.$store.commit('types/init', this.types);
                 this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
+                this.getQueryParameters();
+            },
+            getQueryParameters(){
+                let countries, logscale, percapita, cutyaxis, startat, startattype, stopat, growthaverage;
+                countries = this.$route.query.countries;
+                logscale = this.$route.query.logscale;
+                percapita = this.$route.query.percapita;
+                cutyaxis = this.$route.query.cutyaxis;
+                startat = this.$route.query.startat;
+                startattype = this.$route.query.startattype;
+                stopat = this.$route.query.stopat;
+                growthaverage = this.$route.query.growthaverage;
 
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
-                this.$store.commit('countries/updatePropertyOfItem', {item: {id: 4}, property: 'active', value: true});
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 8}, property: 'active', value: true});
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 12}, property: 'active', value: true});
-                this.$store.commit('countries/updatePropertyOfItem', {item: {id: 15}, property: 'active', value: true});
-                //this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
+                this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+
+                if (countries.length > 0) {
+                    let cs = countries.split(',');
+                    for (let c of cs) {
+                        let country = this.$store.getters['countries/getItemByProperty']('title', c, true);
+                        if (country) {
+                            this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'active', value: true});
+                        }
+                    }
+                } else {
+                    // a predefined set
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
+                }
+
+                if (logscale && logscale.length > 0 && logscale === 'true') {
+                    this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
+                }
+                if (percapita && percapita.length > 0 && percapita === 'true') {
+                    this.$store.commit('settings/updateProperty', {key: 'perCapita', value: true});
+                }
+                if (cutyaxis && cutyaxis.length > 0 && cutyaxis === 'true') {
+                    this.$store.commit('settings/updateProperty', {key: 'cutY', value: true});
+                }
+                if (startat && startat.length > 0) {
+                    this.$store.commit('settings/updateProperty', {key: 'startAt', value: Number(startat)});
+                }
+                if (startattype && startattype.length > 0 && startattype === 'cases') {
+                    this.$store.commit('settings/updateProperty', {key: 'mappingType', value: startattype});
+                }
+                if (stopat && stopat.length > 0) {
+                    this.$store.commit('settings/updateProperty', {key: 'stopAt', value: Number(stopat)});
+                }
+                if (growthaverage && growthaverage.length > 0) {
+                    this.$store.commit('settings/updateProperty', {key: 'growthRatePer', value: Number(growthaverage)});
+                }
             }
         },
         mounted() {
