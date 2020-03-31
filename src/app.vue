@@ -38,9 +38,13 @@
         },
         methods: {
             getRandomColor() {
-                return "hsl(" + 360 * Math.random() + ',' +
-                    (25 + 70 * Math.random()) + '%,' +
-                    (85 + 10 * Math.random()) + '%)';
+                let letters, color;
+                letters = '0123456789ABCDEF';
+                color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
             },
             loadCsv() {
                 let cases, fatalities;
@@ -148,7 +152,10 @@
                         let country, colorString, countryName, color;
                         if (string.indexOf(separator) > -1) {
                             countryName = string.split(separator)[0];
-                            color = string.split(separator)[1];
+                            colorString = string.split(separator)[1];
+                            if (colorString.indexOf('hex') > -1) {
+                                color = '#' + colorString.substr(3);
+                            }
                         } else {
                             countryName = string;
                         }

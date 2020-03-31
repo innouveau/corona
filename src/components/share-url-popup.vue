@@ -9,7 +9,16 @@
             },
             url() {
                 let countries, string;
-                countries = this.countries.map(c => c.title.toLowerCase() + ':' + c.color);
+                countries = this.countries.map(c => {
+                    let string = c.title.toLowerCase() + ':';
+                    // cannot pass the # via the url
+                    if (c.color[0] === '#') {
+                        string += 'hex' + c.color.substring(1);
+                    } else {
+                        string += c.color;
+                    }
+                    return string;
+                });
                 string = '?countries=' + countries;
                 if (this.$store.state.settings.logScale) {
                     string += '&logscale=true';
