@@ -132,16 +132,29 @@
                 stopat = this.$route.query.stopat;
                 growthaverage = this.$route.query.growthaverage;
 
+
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
 
                 if (countries && countries.length > 0) {
-                    let cs = countries.split(',');
-                    for (let c of cs) {
-                        let country = this.$store.getters['countries/getItemByProperty']('title', c, true);
+                    let cs, separator;
+                    cs = countries.split(',');
+                    separator = ':';
+                    for (let string of cs) {
+                        let country, colorString, countryName, color;
+                        if (string.indexOf(separator) > -1) {
+                            countryName = string.split(separator)[0];
+                            color = string.split(separator)[1];
+                        } else {
+                            countryName = string;
+                        }
+                        country = this.$store.getters['countries/getItemByProperty']('title', countryName, true);
                         if (country) {
                             this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'active', value: true});
+                            if (color) {
+                                this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'color', value: color});
+                            }
                         }
                     }
                 } else {
