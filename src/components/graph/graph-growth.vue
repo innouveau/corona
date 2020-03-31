@@ -20,17 +20,7 @@
         methods: {
             getValue(country, d) {
                 let index, days, value;
-
-                const findIndex = function(d) {
-                    for (let entry of country.originalDataPoints) {
-                        if (entry.date === d.date) {
-                            return country.originalDataPoints.indexOf(entry);
-                        }
-                    }
-                    return -1;
-                };
-
-                index = findIndex(d);
+                index = d.index;
                 days = this.growthRatePer;
                 if (index > (days - 1)) {
                     let prev, ratio;

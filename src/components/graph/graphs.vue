@@ -37,8 +37,6 @@
                     country.originalDataPoints = [];
                     for (let entry of country.entries) {
                         let e = {...entry};
-                        e.index = country.dataPoints.length + 1;
-
                         country.originalDataPoints.push(e);
                         if (this.isAboveMapping(entry) && this.isBeforeStop(country.dataPoints.length)) {
                             country.dataPoints.push(e);

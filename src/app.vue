@@ -95,6 +95,7 @@
                             }
 
                             entry = {
+                                index: country.entries.length,
                                 date: date,
                                 cases: casesForDate,
                                 fatalities: fatalitiesForDate
