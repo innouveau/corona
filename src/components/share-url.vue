@@ -45,13 +45,15 @@
         top: 20px;
 
         .share-url__button {
-            border: 1px solid #ddd;
-            padding: 4px;
+            padding: 4px 8px;
             cursor: pointer;
             border-radius: 3px;
+            background: orange;
+            color: #fff;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 
             &:hover {
-                background: #ddd;
+                background: #000;
             }
         }
     }
