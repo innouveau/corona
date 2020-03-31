@@ -36,13 +36,9 @@
         },
         methods: {
             getRandomColor() {
-                let letters, color;
-                letters = '0123456789ABCDEF';
-                color = '#';
-                for (let i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
+                return "hsl(" + 360 * Math.random() + ',' +
+                    (25 + 70 * Math.random()) + '%,' +
+                    (85 + 10 * Math.random()) + '%)';
             },
             loadCsv() {
                 let cases, fatalities;
