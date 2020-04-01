@@ -122,7 +122,7 @@
                 }
             },
             drawCountry(country) {
-                let line, dataset;
+                let line, dataset, dots;
 
                 dataset = country.dataPoints;
                 line = d3.line()
@@ -143,10 +143,26 @@
                     })
                     .attr("d", line);
 
-                this.container.selectAll(".dot.dot--" + country.id)
+                dots = this.container.selectAll(".dot.dot--" + country.id)
                     .data(dataset)
-                    .enter().append("circle")
-                    .attr("class", "dot dot" + country.id)
+                    .enter().append("g")
+                    .attr("class", "dot dot--" + country.id);
+
+
+                dots.append("circle")
+                    .attr("fill", "transparent")
+                    .attr("cx", (d, i) => { return this.xScale(i) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
+                    .attr("r", 5)
+                    .attr("class", "dot__active-area")
+                    .on("mouseover", (d) => {
+                        this.showTooltip(d, country)
+                    })
+                    .on("mouseout", (d) => {
+                        this.hideTooltip()
+                    });
+
+                dots.append("circle")
                     .attr("fill", () => {
                         if (country.visible) {
                             return country.color;
@@ -157,12 +173,7 @@
                     .attr("cx", (d, i) => { return this.xScale(i) })
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
-                    .on("mouseover", (d) => {
-                        this.showTooltip(d, country)
-                    })
-                    .on("mouseout", (d) => {
-                        this.hideTooltip()
-                    })
+                    .attr("class", "dot__visbile-area");
             },
             showTooltip(d, country) {
                 let html, value;
@@ -256,7 +267,12 @@
         }
 
         .dot {
-            stroke: #fff;
+
+
+            .dot__visbile-area {
+                pointer-events: none;
+                stroke: #fff;
+            }
         }
 
         .focus circle {
