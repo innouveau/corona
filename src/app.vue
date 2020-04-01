@@ -4,10 +4,12 @@
     import * as d3 from 'd3';
     import shareUrl from "./components/share-url";
     import description from "./components/tools/description";
+    import Credits from "./components/tools/credits";
 
     export default {
         name: 'app',
         components: {
+            Credits,
             description,
             shareUrl,
             graphs,
@@ -147,6 +149,7 @@
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+
                 if (countries && countries.length > 0) {
                     let cs, separator;
                     cs = countries.split(',');
@@ -174,9 +177,10 @@
                     }
                 } else {
                     // a predefined set
-                    this.$store.commit('countries/updatePropertyOfItem', {item: countries[0], property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: countries[1], property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: countries[42], property: 'active', value: true});
+                    let countries = this.$store.state.countries.all;
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
                 }
 
                 if (logscale && logscale.length > 0 && logscale === 'true') {
@@ -206,6 +210,7 @@
                 if (description && description.length > 0) {
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
+                console.log("!");
             }
         },
         mounted() {
@@ -222,6 +227,7 @@
         <graphs
             v-if="dataLoaded"/>
         <share-url/>
+        <credits/>
     </div>
 </template>
 
