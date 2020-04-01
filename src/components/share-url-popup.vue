@@ -101,6 +101,10 @@
 
             .share-url-popup__title {
                 margin-bottom: 40px;
+
+                input {
+                    width: 300px;
+                }
             }
 
             .share-url-popup__url {

@@ -31,14 +31,13 @@
     @import '@/styles/variables.scss';
 
     .checkbox {
-        border: 1px solid #ddd;
+        border: 1px solid #888;
         border-radius: 4px;
-        padding: 2px;
-        margin-right: 8px;
+        margin-right: 6px;
 
         img {
-            width: 12px;
-            height: 12px;
+            width: 16px;
+            height: 16px;
             display: block;
             visibility: hidden;
         }

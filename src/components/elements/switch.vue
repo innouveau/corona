@@ -51,7 +51,7 @@
         transition: background 0.2s ease;
         cursor: pointer;
         font-size: 16px;
-        border: 1px solid #aaa;
+        border: 1px solid #888;
         margin-right: 12px;
 
         .switch__button {
@@ -61,8 +61,8 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #aaa;
-            border: 1px solid #ccc;
+            background: #fff;
+            border: 1px solid #555;
             transition: left 0.15s ease;
         }
 

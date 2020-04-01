@@ -24,9 +24,11 @@
     @import '@/styles/variables.scss';
 
     .description {
-        font-weight: 700;
-        font-size: 32px;
+        font-family: Merriweather;
+        font-weight: 400;
+        font-size: 24px;
         line-height: 1;
         padding: 20px 0;
+        margin-left: 70px;
     }
 </style>
