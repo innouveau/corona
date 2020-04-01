@@ -210,7 +210,6 @@
                 if (description && description.length > 0) {
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
-                console.log("!");
             }
         },
         mounted() {
