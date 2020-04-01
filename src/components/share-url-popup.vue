@@ -3,6 +3,11 @@
         name: 'share-url-popup',
         components: {},
         props: {},
+        data() {
+            return {
+                description: this.$store.state.ui.description
+            }
+        },
         computed: {
             countries() {
                 return this.$store.state.countries.all.filter(c => c.active);
@@ -34,7 +39,10 @@
                 string += '&growthaverage=' + this.$store.state.settings.growthRatePer;
                 string += '&startattype=' + this.$store.state.settings.mappingType;
                 string += '&startatstyle=' + this.$store.state.settings.startAtStyle;
-                return window.location.origin + window.location.pathname + '/#/' + string;
+                if (this.description && this.description.length > 0) {
+                    string += '&description=' + encodeURIComponent(this.description);
+                }
+                return window.location.origin + window.location.pathname + '#/' + string;
             }
         },
         methods: {
@@ -48,9 +56,20 @@
 
 <template>
     <div class="share-url-popup">
-        <div class="share-url-popup__url">
-            <a :href="url" target="_blank">{{url}}</a>
+        <div class="share-url-popup__content">
+            <div class="share-url-popup__title">
+                <h3>
+                    You can add a title to the page if you want.
+                </h3>
+                <input v-model="description"/>
+            </div>
+
+            <div class="share-url-popup__url">
+                <input v-model="url"/><br><br>
+                <a :href="url" target="_blank">Link</a>
+            </div>
         </div>
+
 
         <div
             @click="close()"
@@ -76,13 +95,33 @@
         align-items: center;
         justify-content: center;
 
-        .share-url-popup__url {
+        .share-url-popup__content {
+            color: #fff;
+            text-align: center;
 
-            a {
-                color: #fff;
-                font-size: 14px;
+            .share-url-popup__title {
+                margin-bottom: 40px;
+            }
+
+            .share-url-popup__url {
+                text-align: center;
+                background: orange;
+                padding: 20px;
+
+                input {
+                    background: #fff;
+                    padding: 8px;
+                    width: 400px;
+                }
+
+                a {
+                    color: #000;
+                    font-size: 14px;
+                }
             }
         }
+
+
 
         .share-url-popup__close {
             position: absolute;

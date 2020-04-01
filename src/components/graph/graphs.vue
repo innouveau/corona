@@ -93,6 +93,7 @@
 
         h2 {
             margin: 0 0 0 50px;
+            font-size: 14px;
         }
     }
 </style>

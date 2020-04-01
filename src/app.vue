@@ -3,10 +3,12 @@
     import graphs from "./components/graph/graphs";
     import * as d3 from 'd3';
     import shareUrl from "./components/share-url";
+    import description from "./components/tools/description";
 
     export default {
         name: 'app',
         components: {
+            description,
             shareUrl,
             graphs,
             tools
@@ -129,7 +131,7 @@
                 this.getQueryParameters();
             },
             getQueryParameters(){
-                let countries, logscale, percapita, cutyaxis, startat, startattype, startatstyle, stopat, growthaverage;
+                let countries, logscale, percapita, cutyaxis, startat, startattype, startatstyle, stopat, growthaverage, description;
                 countries = this.$route.query.countries;
                 logscale = this.$route.query.logscale;
                 percapita = this.$route.query.percapita;
@@ -139,6 +141,7 @@
                 startatstyle = this.$route.query.startatstyle;
                 stopat = this.$route.query.stopat;
                 growthaverage = this.$route.query.growthaverage;
+                description = this.$route.query.description;
 
 
                 this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
@@ -201,6 +204,9 @@
                 if (growthaverage && growthaverage.length > 0) {
                     this.$store.commit('settings/updateProperty', {key: 'growthRatePer', value: Number(growthaverage)});
                 }
+                if (description && description.length > 0) {
+                    this.$store.commit('ui/updateProperty', {key: 'description', value: description});
+                }
             }
         },
         mounted() {
@@ -213,6 +219,7 @@
 <template>
     <div class="app">
         <tools/>
+        <description/>
         <graphs
             v-if="dataLoaded"/>
         <share-url/>
