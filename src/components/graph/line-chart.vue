@@ -114,7 +114,6 @@
                 }
 
 
-                this.drawTooltip();
                 this.drawAxes();
 
                 for (let country of this.data) {
@@ -178,14 +177,17 @@
             showTooltip(d, country) {
                 let html, value;
                 value = this.getValue(country, d);
-                html = country.title + ' ' + d.date + '&nbsp;<span class="tooltip__value">' + value + '</span>';
+                html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
                 this.tooltip
                     .style("opacity", 1);
 
+                this.tooltip
+                    .style("border-left", "4px solid " + country.color);
+
                 this.tooltip.html(html)
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
+                    .style("left", (d3.event.pageX - 50) + "px")
+                    .style("top", (d3.event.pageY - 38) + "px");
             },
             hideTooltip() {
                 this.tooltip
@@ -218,6 +220,7 @@
             }
         },
         mounted() {
+            this.drawTooltip();
             this.init();
             this.update();
         },
@@ -286,15 +289,34 @@
         text-align: center;
         display: flex;
         align-items: center;
-        padding: 4px;
-        background: #000;
-        color: #fff;
+        background: #fff;
         border-radius: 2px;
         pointer-events: none;
         opacity: 0;
+        box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+
+        .tooltip__country {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+            margin-left: 4px;
+            border-right: 1px solid #ddd;
+        }
+
+        .tooltip__date {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
 
         .tooltip__value {
-            color: yellow;
+            background: #ddd;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 5px;
         }
     }
 </style>

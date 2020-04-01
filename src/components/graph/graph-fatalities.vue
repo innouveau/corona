@@ -20,7 +20,8 @@
         methods: {
             getValue(country, d) {
                 if (this.perCapita) {
-                    return (1000000 * d.fatalities) / country.population;
+                    let value = (1000000 * d.fatalities) / country.population;
+                    return Math.round(value * 10) / 10;
                 } else {
                     return d.fatalities;
                 }
