@@ -66,7 +66,7 @@
 
             <div class="share-url-popup__url">
                 <input v-model="url"/><br><br>
-                <a :href="url" target="_blank">Link</a>
+                <a :href="url" target="_blank">Try the link</a>
             </div>
         </div>
 
