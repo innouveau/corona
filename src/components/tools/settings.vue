@@ -97,7 +97,7 @@
         }
 
         input {
-            width: 40px;
+            width: 50px;
             padding: 4px;
             margin: 0 4px;
         }

@@ -19,7 +19,7 @@
             }
         },
         data() {
-            let margin = {top: 20, right: 50, bottom: 50, left: 50};
+            let margin = {top: 20, right: 70, bottom: 50, left: 30};
             return {
                 settings: {
                     margin,
@@ -30,7 +30,9 @@
                 container: null,
                 xScale: null,
                 yScale: null,
-                tooltip: null
+                tooltip: null,
+                visorX: null,
+                visorY: null
             }
         },
         computed: {
@@ -115,10 +117,30 @@
 
 
                 this.drawAxes();
+                this.drawVisor();
 
                 for (let country of this.data) {
                     this.drawCountry(country);
                 }
+            },
+            drawVisor() {
+                this.visorX = this.container.append('line')
+                    .attr('class', 'visor visor-x')
+                    .attr('stroke-dasharray', '2,2')
+                    .attr('x1', 10)
+                    .attr('y1', 0)
+                    .attr('x2', 10)
+                    .attr('y2', this.settings.height)
+                    .attr('visibility', 'hidden');
+
+                this.visorY = this.container.append('line')
+                    .attr('class', 'visor visor-y')
+                    .attr('stroke-dasharray', '2,2')
+                    .attr('x1', 0)
+                    .attr('y1', 10)
+                    .attr('x2', this.settings.width)
+                    .attr('y2', 10)
+                    .attr('visibility', 'hidden');
             },
             drawCountry(country) {
                 let line, dataset, dots;
@@ -152,13 +174,15 @@
                     .attr("fill", "transparent")
                     .attr("cx", (d, i) => { return this.xScale(i) })
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .attr("class", "dot__active-area")
-                    .on("mouseover", (d) => {
-                        this.showTooltip(d, country)
+                    .on("mouseover", (d, i) => {
+                        this.showTooltip(d, country);
+                        this.showVisor(country, d, i);
                     })
                     .on("mouseout", (d) => {
-                        this.hideTooltip()
+                        this.hideTooltip();
+                        this.hideVisor();
                     });
 
                 dots.append("circle")
@@ -173,6 +197,44 @@
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area");
+
+                this.drawCountryLabel(dataset, country);
+            },
+            showVisor(country, d, i) {
+                let x, y;
+                x = this.xScale(i);
+                y = this.yScale(this.getValue(country, d));
+                this.visorX.attr('x1', x)
+                    .attr('x2', x)
+                    .attr('visibility', 'visible');
+
+                this.visorY.attr('y1', y)
+                    .attr('y2', y)
+                    .attr('visibility', 'visible')
+            },
+            hideVisor(d){
+                this.visorX.attr('visibility', 'hidden');
+
+                this.visorY.attr('visibility', 'hidden')
+            },
+            drawCountryLabel(dataset, country) {
+                let lastPoint, x, y;
+                lastPoint = dataset[dataset.length - 1];
+                x = this.xScale(dataset.length - 1) + 6;
+                y = this.yScale(this.getValue(country, lastPoint)) + 2;
+                this.container.append("g")
+                    .attr("class", "country-label")
+                    .attr('transform', 'translate(' + x + ',' + y + ')')
+                    .attr('fill', () => {
+                        if (country.visible) {
+                            return country.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
+                    .append('text')
+                    .text(country.title)
+
             },
             showTooltip(d, country) {
                 let html, value;
@@ -186,8 +248,8 @@
                     .style("border-left", "4px solid " + country.color);
 
                 this.tooltip.html(html)
-                    .style("left", (d3.event.pageX - 50) + "px")
-                    .style("top", (d3.event.pageY - 38) + "px");
+                    .style("left", (d3.event.pageX + 10) + "px")
+                    .style("top", (d3.event.pageY - 30) + "px");
             },
             hideTooltip() {
                 this.tooltip
@@ -271,17 +333,25 @@
 
         .dot {
 
-
             .dot__visbile-area {
                 pointer-events: none;
                 stroke: #fff;
             }
         }
 
+        .visor {
+            stroke-width: 1;
+            stroke: #aaa;
+        }
+
         .focus circle {
             fill: none;
             stroke: steelblue;
         }
+    }
+
+    .country-label {
+        font-size: 8px;
     }
 
     .tooltip {
