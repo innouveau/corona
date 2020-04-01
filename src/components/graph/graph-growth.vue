@@ -25,7 +25,19 @@
                 if (index > (days - 1)) {
                     let prev, ratio;
                     prev = country.originalDataPoints[index - days];
-                    ratio = d.fatalities / prev.fatalities;
+                    if (prev.fatalities === 0) {
+                        if (d.fatalities === 0) {
+                            // this is 0 / 0
+                            ratio = 1;
+                        } else {
+                            // this is 1 / 0
+                            // what should the ration be like? lets keep it 1 for now
+                            ratio = 1;
+                        }
+                    } else {
+                        ratio = d.fatalities / prev.fatalities;
+                    }
+
                     value = Math.pow(ratio, (1/days));
                     return Math.round(value * 100) / 100;
                 } else {

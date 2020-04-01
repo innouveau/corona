@@ -15,13 +15,21 @@
         computed: {
             perCapita() {
                 return this.$store.state.settings.perCapita;
+            },
+            logScale() {
+                return this.$store.state.settings.logScale;
             }
         },
         methods: {
             getValue(country, d) {
                 if (this.perCapita) {
                     let value = (1000000 * d.fatalities) / country.population;
-                    return Math.round(value * 10) / 10;
+                    // apparently value 0 is a problem for log
+                    if (this.logScale && (value === 0 || Math.round(value * 10) / 10 === 0)) {
+                        return 0.00000001;
+                    } else {
+                        return Math.round(value * 10) / 10;
+                    }
                 } else {
                     return d.fatalities;
                 }
