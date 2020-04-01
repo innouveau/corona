@@ -14,6 +14,11 @@ class Country {
         this.population = population;
         this.entries = entries;
         this.active = false;
+        this.visible = true;
+    }
+
+    showInGraph() {
+        return this.active && this.visible;
     }
 }
 

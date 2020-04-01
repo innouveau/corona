@@ -1,10 +1,12 @@
 <script>
     import Country from '@/classes/Country';
     import countryColor from "./country-color";
+    import CountryVisible from "./country-visible";
 
     export default {
         name: 'country',
         components: {
+            CountryVisible,
             countryColor
         },
         props: {
@@ -13,7 +15,11 @@
                 required: true
             }
         },
-        computed: {},
+        computed: {
+            isVisible() {
+                return this.country.visible;
+            }
+        },
         methods: {
             deleteCountry() {
                 this.$store.commit('countries/updatePropertyOfItem', {item: this.country, property: 'active', value: false})
@@ -24,11 +30,16 @@
 
 
 <template>
-    <div class="country">
+    <div
+        :class="{'country--visible': isVisible}"
+        :style="{'border-bottom': '3px solid ' + country.color}"
+        class="country">
+        <country-visible
+            :country="country"/>
         <country-color
             :country="country"/>
         <div class="country__title">
-            {{country.title}} ({{country.id}})
+            {{country.title}}
         </div>
         <div
             @click="deleteCountry()"
@@ -43,17 +54,21 @@
     .country {
         display: flex;
         align-items: center;
-        padding: 6px;
         box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-        margin-right: 4px;
+        margin: 0 12px 12px 0;
+        opacity: 0.3;
+        transition: opacity 0.2s ease;
+        background: #eee;
 
         .country__title {
-            margin-right: 4px;
+            padding: 6px;
+            border-right: 1px solid #ddd;
+            height: 100%;
         }
 
         .country__remove {
             cursor: pointer;
-            background: #000;
+            background: #555;
             color: #fff;
             width: 12px;
             height: 12px;
@@ -61,10 +76,15 @@
             align-items: center;
             justify-content: center;
             border-radius: 50%;
+            margin: 4px;
 
             &:hover {
                 background: red;
             }
+        }
+
+        &.country--visible {
+            opacity: 1;
         }
     }
 </style>

@@ -134,14 +134,26 @@
                 this.container.append("path")
                     .datum(dataset)
                     .attr("class", "line")
-                    .attr("stroke", country.color)
+                    .attr("stroke", () => {
+                        if (country.visible) {
+                            return country.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
                     .attr("d", line);
 
                 this.container.selectAll(".dot.dot--" + country.id)
                     .data(dataset)
                     .enter().append("circle")
                     .attr("class", "dot dot" + country.id)
-                    .attr("fill", country.color)
+                    .attr("fill", () => {
+                        if (country.visible) {
+                            return country.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
                     .attr("cx", (d, i) => { return this.xScale(i) })
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)

@@ -36,6 +36,9 @@
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
             Cases
+            <span v-if="perCapita">
+                per 1M capita
+            </span>
         </h2>
         <line-chart
             :data="data"
