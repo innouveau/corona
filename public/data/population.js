@@ -176,6 +176,10 @@ window.population = [
         "population": "1409517397"
     },
     {
+        "country": "Taiwan",
+        "population": "23508428 "
+    },
+    {
         "country": "Christmas Island",
         "population": "2500"
     },
