@@ -66,6 +66,7 @@
             box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
             max-height: 300px;
             overflow: auto;
+            z-index: 10;
         }
     }
 </style>

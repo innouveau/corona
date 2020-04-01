@@ -103,7 +103,7 @@
         }
 
         select {
-            margin-right: 10px;
+            margin-right: 4px;
         }
     }
 </style>
