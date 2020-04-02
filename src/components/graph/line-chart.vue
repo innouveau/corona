@@ -241,7 +241,7 @@
                 x = this.xScale(i);
                 y = this.yScale(this.getValue(country, d));
                 chart = this.$refs.chart;
-                
+
                 value = this.getValue(country, d);
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
