@@ -45,7 +45,7 @@
         }
 
         .description__disclaimer {
-            max-width: 600px;
+            max-width: 700px;
             font-style: italic;
         }
     }

@@ -5,10 +5,12 @@
     import shareUrl from "./components/share-url";
     import description from "./components/tools/description";
     import Credits from "./components/tools/credits";
+    import updatedAt from "./components/updated-at";
 
     export default {
         name: 'app',
         components: {
+            updatedAt,
             Credits,
             description,
             shareUrl,
@@ -226,6 +228,7 @@
         <graphs
             v-if="dataLoaded"/>
         <share-url/>
+        <updated-at/>
         <credits/>
     </div>
 </template>

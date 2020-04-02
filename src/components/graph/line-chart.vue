@@ -177,7 +177,7 @@
                     .attr("r", 7)
                     .attr("class", "dot__active-area")
                     .on("mouseover", (d, i) => {
-                        this.showTooltip(d, country);
+                        this.showTooltip(country, d, i);
                         this.showVisor(country, d, i);
                     })
                     .on("mouseout", (d) => {
@@ -236,8 +236,12 @@
                     .text(country.title)
 
             },
-            showTooltip(d, country) {
-                let html, value;
+            showTooltip(country, d, i) {
+                let chart, x, y, html, value;
+                x = this.xScale(i);
+                y = this.yScale(this.getValue(country, d));
+                chart = this.$refs.chart;
+                
                 value = this.getValue(country, d);
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
@@ -248,8 +252,8 @@
                     .style("border-left", "4px solid " + country.color);
 
                 this.tooltip.html(html)
-                    .style("left", (d3.event.pageX + 10) + "px")
-                    .style("top", (d3.event.pageY - 30) + "px");
+                    .style("top", (chart.offsetTop + y - 10) + "px")
+                    .style("left", (chart.offsetLeft + x) + 50 + "px");
             },
             hideTooltip() {
                 this.tooltip
