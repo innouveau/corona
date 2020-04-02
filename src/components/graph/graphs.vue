@@ -53,14 +53,14 @@
         methods: {
             isAboveMapping(entry, country) {
                 if (this.isAbsolute) {
-                    return entry[this.$store.state.settings.mappingType] > this.$store.state.settings.startAt;
+                    return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.startAt;
                 } else {
                     let value = 1000000 * entry[this.$store.state.settings.mappingType] / country.population;
                     return value > this.$store.state.settings.startAt;
                 }
             },
             isBeforeStop(l) {
-                return l < this.$store.state.settings.stopAt;
+                return l <= this.$store.state.settings.stopAt;
             }
         }
     }

@@ -37,19 +37,30 @@
                     point = country.originalDataPoints[thisIndex];
                     prevPoint = country.originalDataPoints[thisIndex - 1];
 
-                    if (prevPoint.fatalities === 0) {
-                        if (point.fatalities === 0) {
+                    if (prevPoint.fatalities === 0 && point.fatalities > 0) {
+                        // skip this
+                    } else {
+                        if (prevPoint.fatalities === 0 && point.fatalities === 0) {
                             // this is 0 / 0
                             thisGrowthNumber = 1;
+
+
+                            if (point.fatalities === 0) {
+                                // this is 0 / 0
+                                thisGrowthNumber = 1;
+                            } else {
+                                // this is 1 / 0
+                                // what should the ratio be like? lets keep it 1 for now
+                                thisGrowthNumber = 2;
+                            }
                         } else {
-                            // this is 1 / 0
-                            // what should the ratio be like? lets keep it 1 for now
-                            thisGrowthNumber = 2;
+                            thisGrowthNumber = point.fatalities / prevPoint.fatalities;
                         }
-                    } else {
-                        thisGrowthNumber = point.fatalities / prevPoint.fatalities;
+                        growthNumbers.push(thisGrowthNumber * multiply);
                     }
-                    growthNumbers.push(thisGrowthNumber * multiply);
+
+
+
 
                     totalMultiply += multiply;
                     if (i > days) {
@@ -60,32 +71,6 @@
                 }
                 value = growthNumbers.reduce((a, b) => a + b, 0) / totalMultiply;
                 return Math.round(value * 100) / 100;
-            },
-            getValue2(country, d) {
-                let index, days, value;
-                index = d.index;
-                days = this.growthRatePer;
-                if (index > (days - 1)) {
-                    let prev, ratio;
-                    prev = country.originalDataPoints[index - days];
-                    if (prev.fatalities === 0) {
-                        if (d.fatalities === 0) {
-                            // this is 0 / 0
-                            ratio = 1;
-                        } else {
-                            // this is 1 / 0
-                            // what should the ration be like? lets keep it 1 for now
-                            ratio = 1;
-                        }
-                    } else {
-                        ratio = d.fatalities / prev.fatalities;
-                    }
-
-                    value = Math.pow(ratio, (1/days));
-                    return Math.round(value * 100) / 100;
-                } else {
-                    return null;
-                }
             }
         }
     }
