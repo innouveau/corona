@@ -19,13 +19,44 @@
         },
         methods: {
             getValue(country, d) {
-                let index, days, value, growthNumbers, totalMultiply, multiply;
+                let index, days, value, totalMultiply, multiply, multiplyDict;
+                multiplyDict = {};
                 totalMultiply = 0;
                 multiply = 1;
                 index = d.index;
-                growthNumbers = [];
                 days = Number(this.growthRatePer);
-                for (let i = 0 ; i < (2 * days + 1); i++ ){
+
+
+                const addToDict = function(growthNumber, multiply) {
+                    if (!multiplyDict[multiply]) {
+                        multiplyDict[multiply] = [];
+                    }
+                    multiplyDict[multiply].push(growthNumber);
+                };
+
+                const calculateDict = function() {
+                    let value, n;
+                    value = 0;
+                    n = 0;
+                    for (let key in multiplyDict) {
+                        let k = Number(key);
+                        // if for some rease a point is skipped, we have respect
+                        // the dict mirror. So if one side is missing, the
+                        // other side wont count;
+                        if (multiplyDict[k].length === 2) {
+                            value += multiplyDict[k][0] * k;
+                            value += multiplyDict[k][1] * k;
+                            n += 2 * k;
+                        } else if (k === (days + 1)) {
+                            // this is the center point
+                            value += multiplyDict[k][0] * k;
+                            n += k;
+                        }
+                    }
+                    return value / n;
+                };
+
+                for (let i = 0 ; i < (2 * days + 1); i++ ) {
                     let thisGrowthNumber, point, prevPoint, thisIndex;
                     thisIndex = index - days + i;
                     if (thisIndex < 1) {
@@ -56,20 +87,19 @@
                         } else {
                             thisGrowthNumber = point.fatalities / prevPoint.fatalities;
                         }
-                        growthNumbers.push(thisGrowthNumber * multiply);
+                        addToDict(thisGrowthNumber, multiply);
                     }
 
 
 
-
                     totalMultiply += multiply;
-                    if (i > days) {
+                    if (i >= days) {
                         multiply--;
                     } else {
                         multiply++;
                     }
                 }
-                value = growthNumbers.reduce((a, b) => a + b, 0) / totalMultiply;
+                value = calculateDict();
                 return Math.round(value * 100) / 100;
             }
         }
@@ -88,6 +118,9 @@
             :data="data"
             :get-value="getValue"
             :apply-log-scale="false"/>
+        <div class="graph__x-axis">
+            {{$parent.xAxis}}
+        </div>
     </div>
 </template>
 

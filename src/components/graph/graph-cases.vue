@@ -53,6 +53,9 @@
             :data="data"
             :get-value="getValue"
             :apply-log-scale="true"/>
+        <div class="graph__x-axis">
+            {{$parent.xAxis}}
+        </div>
     </div>
 </template>
 

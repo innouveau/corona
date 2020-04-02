@@ -48,6 +48,9 @@
             },
             isAbsolute() {
                 return this.$store.state.settings.startAtStyle === 'absolute';
+            },
+            xAxis() {
+                return '→ Days since ' + this.$store.state.settings.startAt + ' ' + this.$store.state.settings.startAtStyle + ' ' +  this.$store.state.settings.mappingType;
             }
         },
         methods: {
@@ -94,6 +97,11 @@
         h2 {
             margin: 0 0 0 50px;
             font-size: 14px;
+        }
+
+        .graph__x-axis {
+            margin-left: 30px;
+            font-size: 9px;
         }
     }
 </style>
