@@ -27,7 +27,7 @@
         <v-switch
                 :toggle="toggle"
                 :is-active="isActive"/>
-        Cut Y axis
+        Cut Y Axis
     </div>
 </template>
 

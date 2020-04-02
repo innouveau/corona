@@ -81,7 +81,7 @@
             Stop at <input v-model="stopAt" type="number"/> days (or before if no data).
         </div>
         <div class="settings__row">
-            Growth average per  <input v-model="growthRatePer" type="number"/> days.
+            Smoothen Growth Rate over <input class="input--small" v-model="growthRatePer" type="number"/> days.
         </div>
     </div>
 </template>
@@ -100,6 +100,10 @@
             width: 50px;
             padding: 4px;
             margin: 0 4px;
+
+            &.input--small {
+                width: 30px;
+            }
         }
 
         select {

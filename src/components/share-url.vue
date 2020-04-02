@@ -26,6 +26,7 @@
         <div
             @click="open()"
             class="share-url__button">
+            <img src="assets/img/tools/share.svg"/>
             Share these settings
         </div>
 
@@ -51,6 +52,14 @@
             background: orange;
             color: #fff;
             box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 16px;
+                margin-right: 6px;
+                display: block;
+            }
 
             &:hover {
                 background: #000;

@@ -54,14 +54,14 @@
     .country {
         display: flex;
         align-items: center;
-        box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-        margin: 0 12px 12px 0;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        margin: 0 12px 8px 0;
         opacity: 0.3;
         transition: opacity 0.2s ease;
         background: #eee;
 
         .country__title {
-            padding: 6px;
+            padding: 2px 6px;
             border-right: 1px solid #ddd;
             height: 100%;
         }

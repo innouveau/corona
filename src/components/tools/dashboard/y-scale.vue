@@ -26,7 +26,7 @@
         <v-switch
             :toggle="toggle"
             :is-active="isActive"/>
-            Log scale
+        Logarithmic Scale
     </div>
 </template>
 

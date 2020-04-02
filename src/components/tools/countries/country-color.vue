@@ -37,8 +37,14 @@
 <template>
     <div
         @click="toggle()"
-        :style="{'background-color': country.color}"
+
         class="country-color">
+
+        <div
+            :style="{'background-color': country.color}"
+            class="country-color__swatch">
+
+        </div>
         <swatches-picker
             v-if="isOpen"
             v-model="color" />
@@ -50,15 +56,23 @@
     @import '@/styles/variables.scss';
 
     .country-color {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 4px;
+        padding: 4px;
+        display: flex;
+        align-items: center;
         cursor: pointer;
+        border-right: 1px solid #ddd;
+        position: relative;
+
+        .country-color__swatch {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
 
         .vc-swatches {
             z-index: 100;
-            position: relative;
+            position: absolute;
+            top: 0;
         }
     }
 </style>

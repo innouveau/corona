@@ -141,6 +141,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
 
             &:hover {
                 border: 1px solid #fff;

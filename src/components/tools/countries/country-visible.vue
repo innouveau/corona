@@ -37,7 +37,6 @@
     @import '@/styles/variables.scss';
 
     .country-visible {
-        margin-right: 8px;
         cursor: pointer;
         border-right: 1px solid #ddd;
         height: 100%;

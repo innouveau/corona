@@ -29,7 +29,7 @@
         <v-switch
                 :toggle="toggle"
                 :is-active="isActive"/>
-        Per (1M) capita
+        Per (1 million) Capita
     </div>
 </template>
 
