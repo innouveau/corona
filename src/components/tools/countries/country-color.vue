@@ -55,5 +55,10 @@
         border-radius: 50%;
         margin-right: 4px;
         cursor: pointer;
+
+        .vc-swatches {
+            z-index: 100;
+            position: relative;
+        }
     }
 </style>
