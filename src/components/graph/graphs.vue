@@ -100,8 +100,17 @@
         }
 
         .graph__x-axis {
-            margin-left: 30px;
+            margin-left: 50px;
             font-size: 9px;
+        }
+
+        @include mobile() {
+            display: block;
+
+            .graph {
+                width: 100%!important;
+                margin-bottom: 20px;
+            }
         }
     }
 </style>

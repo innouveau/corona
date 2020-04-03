@@ -109,7 +109,7 @@
 
 <template>
     <div
-        class="graph-growth"
+        class="graph-growth graph"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
             Growth Rate Fatalities

@@ -27,7 +27,9 @@
             @click="open()"
             class="share-url__button">
             <img src="assets/img/tools/share.svg"/>
-            Share these settings
+            <div class="share-url__text">
+                Share these settings
+            </div>
         </div>
 
 
@@ -63,6 +65,19 @@
 
             &:hover {
                 background: #000;
+            }
+        }
+
+        @include mobile() {
+            right: 8px;
+            top: 8px;
+
+            .share-url__button {
+                height: 32px;
+
+                .share-url__text {
+                    display: none;
+                }
             }
         }
     }

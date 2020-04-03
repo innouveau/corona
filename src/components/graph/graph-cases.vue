@@ -41,7 +41,7 @@
 
 <template>
     <div
-        class="graph-cases"
+        class="graph-cases graph"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
             Cases

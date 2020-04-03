@@ -71,5 +71,20 @@
                 border: 0;
             }
         }
+
+
+
+        @include mobile() {
+
+            .tools__section {
+                display: block;
+
+                > div {
+                    width: 100%;
+                    border-right: 0;
+                    border-bottom: 1px solid #ddd;
+                }
+            }
+        }
     }
 </style>

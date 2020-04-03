@@ -98,6 +98,7 @@
         .share-url-popup__content {
             color: #fff;
             text-align: center;
+            width: 100%;
 
             .share-url-popup__title {
                 margin-bottom: 40px;
@@ -111,11 +112,14 @@
                 text-align: center;
                 background: orange;
                 padding: 20px;
+                width: 340px;
+                margin: 0 auto;
 
                 input {
                     background: #fff;
                     padding: 8px;
-                    width: 400px;
+                    width: 300px;
+                    max-width: 100%;
                 }
 
                 a {

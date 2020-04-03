@@ -19,7 +19,7 @@
             }
         },
         data() {
-            let margin = {top: 20, right: 70, bottom: 30, left: 30};
+            let margin = {top: 20, right: 70, bottom: 30, left: 50};
             return {
                 settings: {
                     margin,
@@ -120,7 +120,9 @@
                 this.drawVisor();
 
                 for (let country of this.data) {
-                    this.drawCountry(country);
+                    if (country.dataPoints.length > 0) {
+                        this.drawCountry(country);
+                    }
                 }
             },
             drawVisor() {

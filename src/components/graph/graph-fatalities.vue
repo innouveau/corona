@@ -41,7 +41,7 @@
 
 <template>
     <div
-        class="graph-fatalities"
+        class="graph-fatalities graph"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
             Fatalities

@@ -32,7 +32,6 @@
     @import '@/styles/variables.scss';
 
     .description {
-
         padding: 20px 0;
         margin-left: 70px;
 
@@ -47,6 +46,10 @@
         .description__disclaimer {
             max-width: 700px;
             font-style: italic;
+        }
+
+        @include mobile() {
+            margin-left: 0;
         }
     }
 </style>

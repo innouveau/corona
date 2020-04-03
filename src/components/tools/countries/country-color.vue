@@ -74,5 +74,15 @@
             position: absolute;
             top: 0;
         }
+
+        @include mobile() {
+
+            .vc-swatches {
+                position: fixed;
+                left: 10px;
+                top: 10px;
+                width: calc(100% - 20px);
+;            }
+        }
     }
 </style>
