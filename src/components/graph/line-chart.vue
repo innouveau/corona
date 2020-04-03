@@ -32,7 +32,8 @@
                 yScale: null,
                 tooltip: null,
                 visorX: null,
-                visorY: null
+                visorY: null,
+                max: 0
             }
         },
         computed: {
@@ -98,6 +99,7 @@
                         max = thisMax;
                     }
                 }
+                this.max = 1.2 * max;
 
 
                 this.xScale = d3.scaleLinear()
@@ -107,11 +109,13 @@
 
                 if (this.logScale && this.applyLogScale) {
                     this.yScale = d3.scaleLog()
-                        .domain([min, max])
+                        .domain([min, this.max])
                         .range([this.settings.height, 0]);
+
+                        this.yScale.tickFormat(4,d3.format(",d"))
                 } else {
                     this.yScale = d3.scaleLinear()
-                        .domain([min, max])
+                        .domain([min, this.max])
                         .range([this.settings.height, 0]);
                 }
 
@@ -278,9 +282,20 @@
                     .attr("transform", "translate(0," + this.settings.height + ")")
                     .call(d3.axisBottom(this.xScale));
 
-                this.container.append("g")
-                    .attr("class", "y axis")
-                    .call(d3.axisLeft(this.yScale));
+                if (this.logScale && this.applyLogScale) {
+                    let ticks = Math.round(Math.log(this.max)/Math.log(10));
+                    this.container.append("g")
+                        .attr("class", "y axis")
+                        .call(d3.axisLeft(this.yScale)
+                            .ticks(ticks)
+                            .tickFormat(d3.format(".0s"))
+                        );
+                } else {
+                    this.container.append("g")
+                        .attr("class", "y axis")
+                        .call(d3.axisLeft(this.yScale));
+                }
+
             },
             init() {
                 let div = this.$refs.chart;
