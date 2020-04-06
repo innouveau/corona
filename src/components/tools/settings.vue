@@ -48,7 +48,13 @@
                 return ['fatalities', 'cases'];
             },
             startAtStyles() {
-                return ['absolute', 'relative'];
+                return [{
+                        tag: 'absolute',
+                        title: 'absolute'
+                    }, {
+                        tag: 'relative',
+                        title: 'Per 1M capita'
+                    }];
             }
         },
         methods: {}
@@ -64,8 +70,9 @@
             <select
                 v-model="startAtStyle">
                 <option
-                        v-for="option in startAtStyles">
-                    {{option}}
+                        v-for="option in startAtStyles"
+                        :value="option.tag">
+                    {{option.title}}
                 </option></select>
 
             <select
