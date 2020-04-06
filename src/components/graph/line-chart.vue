@@ -259,7 +259,7 @@
 
                 this.tooltip.html(html)
                     .style("top", (chart.offsetTop + y - 10) + "px")
-                    .style("left", (chart.offsetLeft + x) + 50 + "px");
+                    .style("left", (chart.offsetLeft + x) + 70 + "px");
             },
             hideTooltip() {
                 this.tooltip
