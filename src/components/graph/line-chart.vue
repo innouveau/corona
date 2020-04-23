@@ -28,9 +28,12 @@
                 },
                 svg: null,
                 container: null,
+                linesLayer: null,
+                eventsLayer: null,
                 xScale: null,
                 yScale: null,
                 tooltip: null,
+                eventInfo: null,
                 visorX: null,
                 visorY: null,
                 max: 0
@@ -149,16 +152,67 @@
                     .attr('visibility', 'hidden');
             },
             drawCountry(country) {
-                let line, dataset, dots;
+                this.drawCountryLine(country);
+                this.drawCountryLabel(country);
+                this.drawEvents(country);
+            },
+            getIndexByDate(date, dataPoints) {
+                let index = 0;
+                for (let dataPoint of dataPoints) {
+                    if (dataPoint.date === date) {
+                        return index;
+                    }
+                    index ++;
+                }
+                return -1;
+            },
+            drawEvents(country) {
+                for (let event of country.events) {
+                    if (event.measures.length > 0) {
+                        let index = this.getIndexByDate(event.date, country.dataPoints);
+                        if (index > -1) {
+                            this.drawEvent(country, index, event);
+                        }
+                    }
+                }
+            },
+            drawEvent(country, index, event) {
+                let x, y, eventGroup, circle;
+                x = this.xScale(index);
+                y = this.yScale(this.getValue(country, country.dataPoints[index]));
 
+                eventGroup = this.eventsLayer.append('g')
+                    .attr('class', 'event-group')
+                    .attr('transform', 'translate(' + x + ',' + y + ')');
+
+                circle = eventGroup.append('circle')
+                    .attr('class', 'event')
+                    .attr('r', 7)
+                    .attr('fill', function(d){
+                        if (country.visible) {
+                            return 'rgba(0,0,0,0.2)';
+                        } else {
+                            return 'transparent';
+                        }
+                    });
+
+                circle.on("mouseover", () => {
+                    this.showEventInfo(country, event, country.dataPoints[index], index);
+                })
+                    .on("mouseout", (d) => {
+                        this.hideEventInfo();
+                    });
+            },
+            drawCountryLine(country) {
+                let dots, dataset, line;
                 dataset = country.dataPoints;
+
                 line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
                     .y((d) => { return this.yScale(this.getValue(country, d)); })
                     .curve(d3.curveMonotoneX);
 
-
-                this.container.append("path")
+                this.linesLayer.append("path")
                     .datum(dataset)
                     .attr("class", "line")
                     .attr("stroke", () => {
@@ -170,7 +224,7 @@
                     })
                     .attr("d", line);
 
-                dots = this.container.selectAll(".dot.dot--" + country.id)
+                dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
                     .data(dataset)
                     .enter().append("g")
                     .attr("class", "dot dot--" + country.id);
@@ -203,9 +257,30 @@
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area");
-
-                this.drawCountryLabel(dataset, country);
             },
+            drawCountryLabel(country) {
+                let dataset, lastPoint, x, y;
+                dataset = country.dataPoints;
+                lastPoint = dataset[dataset.length - 1];
+                x = this.xScale(dataset.length - 1) + 6;
+                y = this.yScale(this.getValue(country, lastPoint)) + 2;
+                this.linesLayer.append("g")
+                    .attr("class", "country-label")
+                    .attr('transform', 'translate(' + x + ',' + y + ')')
+                    .attr('fill', () => {
+                        if (country.visible) {
+                            return country.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
+                    .append('text')
+                    .text(country.title)
+
+            },
+
+            // events
+
             showVisor(country, d, i) {
                 let x, y;
                 x = this.xScale(i);
@@ -222,25 +297,6 @@
                 this.visorX.attr('visibility', 'hidden');
 
                 this.visorY.attr('visibility', 'hidden')
-            },
-            drawCountryLabel(dataset, country) {
-                let lastPoint, x, y;
-                lastPoint = dataset[dataset.length - 1];
-                x = this.xScale(dataset.length - 1) + 6;
-                y = this.yScale(this.getValue(country, lastPoint)) + 2;
-                this.container.append("g")
-                    .attr("class", "country-label")
-                    .attr('transform', 'translate(' + x + ',' + y + ')')
-                    .attr('fill', () => {
-                        if (country.visible) {
-                            return country.color;
-                        } else {
-                            return 'transparent';
-                        }
-                    })
-                    .append('text')
-                    .text(country.title)
-
             },
             showTooltip(country, d, i) {
                 let chart, x, y, html, value;
@@ -265,9 +321,36 @@
                 this.tooltip
                     .style("opacity", 0);
             },
+            showEventInfo(country, event, d, i) {
+                let chart, x, y, html, value;
+                x = this.xScale(i);
+                y = this.yScale(this.getValue(country, d));
+                chart = this.$refs.chart;
+
+                html = event.getContent();
+
+                this.eventInfo
+                    .style("opacity", 1);
+
+                this.eventInfo
+                    .style("border-left", "4px solid " + country.color);
+
+                this.eventInfo.html(html)
+                    .style("top", (chart.offsetTop + y - 10) + "px")
+                    .style("left", (chart.offsetLeft + x) + 70 + "px");
+            },
+            hideEventInfo() {
+                this.eventInfo
+                    .style("opacity", 0);
+            },
             drawTooltip() {
                 this.tooltip = d3.select("body").append("div")
                     .attr("class", "tooltip")
+                    .style("opacity", 0);
+            },
+            drawEventInfo() {
+                this.eventInfo = d3.select("body").append("div")
+                    .attr("class", "event-info")
                     .style("opacity", 0);
             },
             drawAxes() {
@@ -296,6 +379,12 @@
                         .call(d3.axisLeft(this.yScale));
                 }
 
+                this.linesLayer = this.container.append('g')
+                    .attr('class', 'lines');
+
+                this.eventsLayer = this.container.append('g')
+                    .attr('class', 'events');
+
             },
             init() {
                 let div = this.$refs.chart;
@@ -304,6 +393,7 @@
         },
         mounted() {
             this.drawTooltip();
+            this.drawEventInfo();
             this.init();
             this.update();
         },
@@ -369,10 +459,33 @@
             fill: none;
             stroke: steelblue;
         }
+
+        .lines {
+
+        }
+
+        .events {
+
+            .event-group {
+
+                .event {
+                    //fill: rgba(0,0,0,0.2);
+                }
+            }
+        }
     }
 
     .country-label {
         font-size: 8px;
+    }
+
+    .event-info {
+        position: absolute;
+        background: #ddd;
+        pointer-events: none;
+        opacity: 0;
+        padding: 4px;
+        border: 1px solid #aaa;
     }
 
     .tooltip {

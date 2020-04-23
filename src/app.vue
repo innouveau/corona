@@ -61,7 +61,13 @@
                         d3.csv('data/fatalities.csv')
                             .then((response) => {
                                 fatalities = response;
-                                this.convertData(cases, fatalities);
+
+                                d3.csv('data/events.csv')
+                                    .then((events) => {
+                                        this.convertData(cases, fatalities);
+                                        this.addEvents(events);
+                                    })
+                                    .catch((error) => {});
                             })
                             .catch((error) => {});
                     })
@@ -179,7 +185,7 @@
                     }
                 } else {
                     // a predefined set
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
+                    //this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
                 }
@@ -210,6 +216,11 @@
                 }
                 if (description && description.length > 0) {
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
+                }
+            },
+            addEvents(events) {
+                for (let ev of events) {
+                    this.$store.commit('countries/addEvent', {country: ev.COUNTRY, event: ev});
                 }
             }
         },

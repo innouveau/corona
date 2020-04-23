@@ -22,6 +22,14 @@ const mutations = {
     updatePropertyOfItem(state, payload) {
         _base.mutations.updatePropertyOfItem(state, payload.item, payload.property, payload.value);
     },
+    addEvent(state, payload) {
+        state.all = state.all.map((country) => {
+            if (country.title === payload.country) {
+                country.addEvent(payload.event);
+            }
+            return country;
+        });
+    }
 };
 
 export default {

@@ -43,7 +43,6 @@
                         }
                     }
                     delete country.entries;
-                    console.log(country);
                     return country;
                 });
             },

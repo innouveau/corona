@@ -1,14 +1,14 @@
 import _base from './_base-module';
 
 const state = {
-    startAt: 100,
-    stopAt: 30,
+    startAt: 10,
+    stopAt: 50,
     mappingType: 'fatalities',
     startAtStyle: 'absolute',
-    logScale: false,
-    perCapita: false,
+    logScale: true,
+    perCapita: true,
     growthRatePer: 7,
-    cutY: false
+    cutY: true
 };
 
 const getters = {
