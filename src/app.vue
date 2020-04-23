@@ -179,7 +179,6 @@
                     }
                 } else {
                     // a predefined set
-                    let countries = this.$store.state.countries.all;
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
