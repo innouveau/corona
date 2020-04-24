@@ -54,7 +54,10 @@
             },
             mappingType() {
                 return this.$store.state.settings.mappingType;
-            }
+            },
+            mappingDate() {
+                return this.$store.state.settings.mappingDate;
+            },
         },
         methods: {
             getTime(value) {
@@ -71,6 +74,8 @@
                     } else {
                         return false;
                     }
+                } else if (this.mappingType === 'date') {
+                    return this.mappingDate && this.getTime(entry.date) >= this.mappingDate.getTime();
                 } else {
                     if (this.isAbsolute) {
                         return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.startAt;

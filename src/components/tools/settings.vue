@@ -1,7 +1,11 @@
 <script>
+    import Datepicker from 'vuejs-datepicker';
+
     export default {
         name: 'settings',
-        components: {},
+        components: {
+            Datepicker
+        },
         props: {},
         computed: {
             startAt: {
@@ -52,9 +56,17 @@
                     return this.$store.state.settings.eventType;
                 }
             },
+            mappingDate: {
+                set(value) {
+                    this.$store.commit('settings/updateProperty', {key: 'mappingDate', value})
+                },
+                get() {
+                    return this.$store.state.settings.mappingDate;
+                }
+            },
             //
             mappingTypeOptions() {
-                return ['fatalities', 'cases', 'event'];
+                return ['fatalities', 'cases', 'event', 'date'];
             },
             startAtStyles() {
                 return [{
@@ -76,14 +88,14 @@
 
 <template>
     <div class="settings tool">
-        <div class="settings__row">
+        <div class="settings__row settings__row--string">
             Start at
             <input
-                v-if="mappingType !== 'event'"
+                v-if="mappingType === 'fatalities' || mappingType === 'cases'"
                 v-model="startAt" type="number"/>
 
             <select
-                v-if="mappingType !== 'event'"
+                v-if="mappingType === 'fatalities' || mappingType === 'cases'"
                 v-model="startAtStyle">
                 <option
                         v-for="option in startAtStyles"
@@ -104,6 +116,10 @@
                         v-for="option in eventTypeOptions">
                     {{option}}
                 </option></select>
+
+            <datepicker
+                v-if="mappingType === 'date'"
+                v-model="mappingDate"/>
         </div>
         <div class="settings__row">
             Stop at <input v-model="stopAt" type="number"/> days (or before if no data).
@@ -122,6 +138,18 @@
 
         .settings__row {
             margin-bottom: 2px;
+
+            &.settings__row--string {
+                display: flex;
+                align-items: center;
+
+                .vdp-datepicker {
+
+                    input {
+                        width: 80px;
+                    }
+                }
+            }
         }
 
         input {

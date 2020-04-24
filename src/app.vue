@@ -219,7 +219,6 @@
                 for (let event of window.events) {
                     this.$store.commit('countries/addEvent', {country: event.country, event: event});
                 }
-                console.log(this.$store);
             }
         },
         mounted() {

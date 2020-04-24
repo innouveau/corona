@@ -106,10 +106,13 @@
                         max = thisMax;
                     }
                 }
-                this.max = 1.2 * max;
+
 
                 if (this.type === 'growth') {
                     min = 1;
+                    this.max = max;
+                } else {
+                    this.max = 1.2 * max;
                 }
 
                 this.xScale = d3.scaleLinear()

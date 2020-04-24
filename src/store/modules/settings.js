@@ -6,6 +6,7 @@ const state = {
     mappingType: 'event',
     startAtStyle: 'absolute',
     eventType: 'lockdown',
+    mappingDate: null,
     logScale: true,
     perCapita: true,
     growthRatePer: 7,
