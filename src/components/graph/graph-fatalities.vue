@@ -52,7 +52,8 @@
         <line-chart
             :data="data"
             :get-value="getValue"
-            :apply-log-scale="true"/>
+            :apply-log-scale="true"
+            :type="'fatalities'"/>
         <div class="graph__x-axis">
             {{$parent.xAxis}}
         </div>

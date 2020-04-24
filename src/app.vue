@@ -61,13 +61,8 @@
                         d3.csv('data/fatalities.csv')
                             .then((response) => {
                                 fatalities = response;
-
-                                d3.csv('data/events.csv')
-                                    .then((events) => {
-                                        this.convertData(cases, fatalities);
-                                        this.addEvents(events);
-                                    })
-                                    .catch((error) => {});
+                                this.convertData(cases, fatalities);
+                                this.addEvents();
                             })
                             .catch((error) => {});
                     })
@@ -187,6 +182,8 @@
                     // a predefined set
                     //this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 47}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 13}, property: 'active', value: true});
                     this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
                 }
 
@@ -218,10 +215,11 @@
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
             },
-            addEvents(events) {
-                for (let ev of events) {
-                    this.$store.commit('countries/addEvent', {country: ev.COUNTRY, event: ev});
+            addEvents() {
+                for (let event of window.events) {
+                    this.$store.commit('countries/addEvent', {country: event.country, event: event});
                 }
+                console.log(this.$store);
             }
         },
         mounted() {

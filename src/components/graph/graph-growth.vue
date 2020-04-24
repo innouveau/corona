@@ -117,7 +117,8 @@
         <line-chart
             :data="data"
             :get-value="getValue"
-            :apply-log-scale="false"/>
+            :apply-log-scale="false"
+            :type="'growth'"/>
         <div class="graph__x-axis">
             {{$parent.xAxis}}
         </div>

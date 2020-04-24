@@ -44,8 +44,17 @@
                     return this.$store.state.settings.startAtStyle;
                 }
             },
+            eventType: {
+                set(value) {
+                    this.$store.commit('settings/updateProperty', {key: 'eventType', value})
+                },
+                get() {
+                    return this.$store.state.settings.eventType;
+                }
+            },
+            //
             mappingTypeOptions() {
-                return ['fatalities', 'cases'];
+                return ['fatalities', 'cases', 'event'];
             },
             startAtStyles() {
                 return [{
@@ -55,6 +64,9 @@
                         tag: 'relative',
                         title: 'Per 1M capita'
                     }];
+            },
+            eventTypeOptions() {
+                return ['schoolclosing', 'lockdown']
             }
         },
         methods: {}
@@ -65,9 +77,13 @@
 <template>
     <div class="settings tool">
         <div class="settings__row">
-            Start at <input v-model="startAt" type="number"/>
+            Start at
+            <input
+                v-if="mappingType !== 'event'"
+                v-model="startAt" type="number"/>
 
             <select
+                v-if="mappingType !== 'event'"
                 v-model="startAtStyle">
                 <option
                         v-for="option in startAtStyles"
@@ -75,14 +91,19 @@
                     {{option.title}}
                 </option></select>
 
-            <select
-                v-model="mappingType">
+            <select v-model="mappingType">
                 <option
                         v-for="option in mappingTypeOptions">
                     {{option}}
                 </option></select>
 
-
+            <select
+                v-if="mappingType === 'event'"
+                v-model="eventType">
+                <option
+                        v-for="option in eventTypeOptions">
+                    {{option}}
+                </option></select>
         </div>
         <div class="settings__row">
             Stop at <input v-model="stopAt" type="number"/> days (or before if no data).

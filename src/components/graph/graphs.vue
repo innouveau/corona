@@ -51,16 +51,42 @@
             },
             xAxis() {
                 return '→ Days since ' + this.$store.state.settings.startAt + ' ' + this.$store.state.settings.startAtStyle + ' ' +  this.$store.state.settings.mappingType;
+            },
+            mappingType() {
+                return this.$store.state.settings.mappingType;
             }
         },
         methods: {
+            getTime(value) {
+                let c, date;
+                c = value.split('-');
+                date = c[2] + '/' + c[1] + '/' + c[0];
+                return new Date(date).getTime();
+            },
             isAboveMapping(entry, country) {
-                if (this.isAbsolute) {
-                    return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.startAt;
+                if (this.mappingType === 'event') {
+                    let event = this.getEvent(country, this.$store.state.settings.eventType);
+                    if (event) {
+                        return this.getTime(entry.date) >= this.getTime(event.date);
+                    } else {
+                        return false;
+                    }
                 } else {
-                    let value = 1000000 * entry[this.$store.state.settings.mappingType] / country.population;
-                    return value > this.$store.state.settings.startAt;
+                    if (this.isAbsolute) {
+                        return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.startAt;
+                    } else {
+                        let value = 1000000 * entry[this.$store.state.settings.mappingType] / country.population;
+                        return value > this.$store.state.settings.startAt;
+                    }
                 }
+            },
+            getEvent(country, type) {
+                for (let event of country.events) {
+                    if (event.type === type) {
+                        return event;
+                    }
+                }
+                return null;
             },
             isBeforeStop(l) {
                 return l <= this.$store.state.settings.stopAt;

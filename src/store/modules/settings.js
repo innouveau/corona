@@ -2,9 +2,10 @@ import _base from './_base-module';
 
 const state = {
     startAt: 10,
-    stopAt: 50,
-    mappingType: 'fatalities',
+    stopAt: 21,
+    mappingType: 'event',
     startAtStyle: 'absolute',
+    eventType: 'lockdown',
     logScale: true,
     perCapita: true,
     growthRatePer: 7,

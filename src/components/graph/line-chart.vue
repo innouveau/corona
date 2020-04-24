@@ -16,6 +16,10 @@
             applyLogScale: {
                 type: Boolean,
                 required: true
+            },
+            type: {
+                type: String,
+                required: true
             }
         },
         data() {
@@ -104,6 +108,9 @@
                 }
                 this.max = 1.2 * max;
 
+                if (this.type === 'growth') {
+                    min = 1;
+                }
 
                 this.xScale = d3.scaleLinear()
                     .domain([0, n-1])
@@ -168,11 +175,9 @@
             },
             drawEvents(country) {
                 for (let event of country.events) {
-                    if (event.measures.length > 0) {
-                        let index = this.getIndexByDate(event.date, country.dataPoints);
-                        if (index > -1) {
-                            this.drawEvent(country, index, event);
-                        }
+                    let index = this.getIndexByDate(event.date, country.dataPoints);
+                    if (index > -1) {
+                        this.drawEvent(country, index, event);
                     }
                 }
             },
@@ -190,7 +195,7 @@
                     .attr('r', 7)
                     .attr('fill', function(d){
                         if (country.visible) {
-                            return 'rgba(0,0,0,0.2)';
+                            return country.color;
                         } else {
                             return 'transparent';
                         }
@@ -327,7 +332,7 @@
                 y = this.yScale(this.getValue(country, d));
                 chart = this.$refs.chart;
 
-                html = event.getContent();
+                html = event.title;
 
                 this.eventInfo
                     .style("opacity", 1);
@@ -469,7 +474,7 @@
             .event-group {
 
                 .event {
-                    //fill: rgba(0,0,0,0.2);
+                    opacity: 0.2;
                 }
             }
         }
