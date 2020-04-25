@@ -8,28 +8,28 @@
         },
         props: {},
         computed: {
-            startAt: {
+            mappingStartNumber: {
                 set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'startAt', value})
+                    this.$store.commit('settings/updateProperty', {key: 'mappingStartNumber', value})
                 },
                 get() {
-                    return this.$store.state.settings.startAt;
+                    return this.$store.state.settings.mappingStartNumber;
                 }
             },
-            stopAt: {
+            mappingMaxDays: {
                 set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'stopAt', value})
+                    this.$store.commit('settings/updateProperty', {key: 'mappingMaxDays', value})
                 },
                 get() {
-                    return this.$store.state.settings.stopAt;
+                    return this.$store.state.settings.mappingMaxDays;
                 }
             },
-            growthRatePer: {
+            smoothening: {
                 set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'growthRatePer', value})
+                    this.$store.commit('settings/updateProperty', {key: 'smoothening', value})
                 },
                 get() {
-                    return this.$store.state.settings.growthRatePer;
+                    return this.$store.state.settings.smoothening;
                 }
             },
             mappingType: {
@@ -40,20 +40,20 @@
                     return this.$store.state.settings.mappingType;
                 }
             },
-            startAtStyle: {
+            mappingNumberStyle: {
                 set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'startAtStyle', value})
+                    this.$store.commit('settings/updateProperty', {key: 'mappingNumberStyle', value})
                 },
                 get() {
-                    return this.$store.state.settings.startAtStyle;
+                    return this.$store.state.settings.mappingNumberStyle;
                 }
             },
-            eventType: {
+            mappingEventType: {
                 set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'eventType', value})
+                    this.$store.commit('settings/updateProperty', {key: 'mappingEventType', value})
                 },
                 get() {
-                    return this.$store.state.settings.eventType;
+                    return this.$store.state.settings.mappingEventType;
                 }
             },
             mappingDate: {
@@ -68,7 +68,7 @@
             mappingTypeOptions() {
                 return ['fatalities', 'cases', 'event', 'date'];
             },
-            startAtStyles() {
+            mappingNumberStyles() {
                 return [{
                         tag: 'absolute',
                         title: 'absolute'
@@ -77,7 +77,7 @@
                         title: 'Per 1M capita'
                     }];
             },
-            eventTypeOptions() {
+            mappingEventTypeOptions() {
                 return ['schoolclosing', 'lockdown']
             }
         },
@@ -92,13 +92,13 @@
             Start at
             <input
                 v-if="mappingType === 'fatalities' || mappingType === 'cases'"
-                v-model="startAt" type="number"/>
+                v-model="mappingStartNumber" type="number"/>
 
             <select
                 v-if="mappingType === 'fatalities' || mappingType === 'cases'"
-                v-model="startAtStyle">
+                v-model="mappingNumberStyle">
                 <option
-                        v-for="option in startAtStyles"
+                        v-for="option in mappingNumberStyles"
                         :value="option.tag">
                     {{option.title}}
                 </option></select>
@@ -111,9 +111,9 @@
 
             <select
                 v-if="mappingType === 'event'"
-                v-model="eventType">
+                v-model="mappingEventType">
                 <option
-                        v-for="option in eventTypeOptions">
+                        v-for="option in mappingEventTypeOptions">
                     {{option}}
                 </option></select>
 
@@ -122,10 +122,14 @@
                 v-model="mappingDate"/>
         </div>
         <div class="settings__row">
-            Stop at <input v-model="stopAt" type="number"/> days (or before if no data).
+            Stop at
+            <input
+                v-model="mappingMaxDays"
+                type="number"/>
+            days (or before if no data).
         </div>
         <div class="settings__row">
-            Smoothen Growth Rate over <input class="input--small" v-model="growthRatePer" type="number"/> days.
+            Smoothen Growth Rate over <input class="input--small" v-model="smoothening" type="number"/> days.
         </div>
     </div>
 </template>

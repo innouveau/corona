@@ -53,8 +53,8 @@
             logScale() {
                 return this.$store.state.settings.logScale;
             },
-            cutY() {
-                return this.$store.state.settings.cutY;
+            cutYaxis() {
+                return this.$store.state.settings.cutYaxis;
             },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
@@ -84,7 +84,7 @@
 
                 for (let country of this.data) {
                     let thisMin, thisMax;
-                    if (!this.cutY) {
+                    if (!this.cutYaxis) {
                         // 0 gives trouble for logscale
                         if (this.logScale && this.applyLogScale) {
                             thisMin = 1;

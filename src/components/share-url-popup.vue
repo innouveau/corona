@@ -12,6 +12,14 @@
             countries() {
                 return this.$store.state.countries.all.filter(c => c.active);
             },
+            date() {
+                let d, month, day, year;
+                d = new Date(this.$store.state.settings.mappingDate);
+                month = '' + (d.getMonth() + 1);
+                day = '' + d.getDate();
+                year = d.getFullYear();
+                return year + '-' + month + '-' + day;
+            },
             url() {
                 let countries, string;
                 countries = this.countries.map(c => {
@@ -26,19 +34,26 @@
                 });
                 string = '?countries=' + countries;
                 if (this.$store.state.settings.logScale) {
-                    string += '&logscale=true';
+                    string += '&logScale=true';
                 }
                 if (this.$store.state.settings.perCapita) {
-                    string += '&percapita=true';
+                    string += '&perCapita=true';
                 }
-                if (this.$store.state.settings.cutY) {
-                    string += '&cutyaxis=true';
+                if (this.$store.state.settings.cutYaxis) {
+                    string += '&cutYaxis=true';
                 }
-                string += '&startat=' + this.$store.state.settings.startAt;
-                string += '&stopat=' + this.$store.state.settings.stopAt;
-                string += '&growthaverage=' + this.$store.state.settings.growthRatePer;
-                string += '&startattype=' + this.$store.state.settings.mappingType;
-                string += '&startatstyle=' + this.$store.state.settings.startAtStyle;
+
+
+                string += '&mappingType=' + this.$store.state.settings.mappingType;
+                string += '&mappingMaxDays=' + this.$store.state.settings.mappingMaxDays;
+                string += '&mappingStartNumber=' + this.$store.state.settings.mappingStartNumber;
+                string += '&mappingNumberStyle=' + this.$store.state.settings.mappingNumberStyle;
+                string += '&mappingEventType=' + this.$store.state.settings.mappingEventType;
+                string += '&mappingDate=' + this.date;
+                string += '&smoothening=' + this.$store.state.settings.smoothening;
+
+                console.log(this.$store.state.settings.mappingDate);
+
                 if (this.description && this.description.length > 0) {
                     string += '&description=' + encodeURIComponent(this.description);
                 }

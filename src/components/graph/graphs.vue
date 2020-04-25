@@ -47,10 +47,10 @@
                 });
             },
             isAbsolute() {
-                return this.$store.state.settings.startAtStyle === 'absolute';
+                return this.$store.state.settings.mappingNumberStyle === 'absolute';
             },
             xAxis() {
-                return '→ Days since ' + this.$store.state.settings.startAt + ' ' + this.$store.state.settings.startAtStyle + ' ' +  this.$store.state.settings.mappingType;
+                return '→ Days since ' + this.$store.state.settings.mappingStartNumber + ' ' + this.$store.state.settings.mappingNumberStyle + ' ' +  this.$store.state.settings.mappingType;
             },
             mappingType() {
                 return this.$store.state.settings.mappingType;
@@ -68,7 +68,7 @@
             },
             isAboveMapping(entry, country) {
                 if (this.mappingType === 'event') {
-                    let event = this.getEvent(country, this.$store.state.settings.eventType);
+                    let event = this.getEvent(country, this.$store.state.settings.mappingEventType);
                     if (event) {
                         return this.getTime(entry.date) >= this.getTime(event.date);
                     } else {
@@ -78,10 +78,10 @@
                     return this.mappingDate && this.getTime(entry.date) >= this.mappingDate.getTime();
                 } else {
                     if (this.isAbsolute) {
-                        return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.startAt;
+                        return entry[this.$store.state.settings.mappingType] >= this.$store.state.settings.mappingStartNumber;
                     } else {
                         let value = 1000000 * entry[this.$store.state.settings.mappingType] / country.population;
-                        return value > this.$store.state.settings.startAt;
+                        return value > this.$store.state.settings.mappingStartNumber;
                     }
                 }
             },
@@ -94,7 +94,7 @@
                 return null;
             },
             isBeforeStop(l) {
-                return l <= this.$store.state.settings.stopAt;
+                return l <= this.$store.state.settings.mappingMaxDays;
             }
         }
     }

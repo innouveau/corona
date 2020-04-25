@@ -13,8 +13,8 @@
             }
         },
         computed: {
-            growthRatePer() {
-                return this.$store.state.settings.growthRatePer;
+            smoothening() {
+                return this.$store.state.settings.smoothening;
             }
         },
         methods: {
@@ -24,7 +24,7 @@
                 totalMultiply = 0;
                 multiply = 1;
                 index = d.index;
-                days = Number(this.growthRatePer);
+                days = Number(this.smoothening);
 
 
                 const addToDict = function(growthNumber, multiply) {

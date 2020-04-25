@@ -1,16 +1,16 @@
 import _base from './_base-module';
 
 const state = {
-    startAt: 10,
-    stopAt: 21,
     mappingType: 'event',
-    startAtStyle: 'absolute',
-    eventType: 'lockdown',
+    mappingMaxDays: 21,
+    mappingStartNumber: 10,
+    mappingNumberStyle: 'absolute',
+    mappingEventType: 'lockdown',
     mappingDate: null,
     logScale: true,
     perCapita: true,
-    growthRatePer: 7,
-    cutY: true
+    cutYaxis: true,
+    smoothening: 7
 };
 
 const getters = {

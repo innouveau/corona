@@ -7,13 +7,13 @@
         props: {},
         computed: {
             isActive() {
-                return this.$store.state.settings.cutY;
+                return this.$store.state.settings.cutYaxis;
             }
         },
         methods: {
             toggle() {
                 this.$store.commit('settings/updateProperty', {
-                    key: 'cutY',
+                    key: 'cutYaxis',
                     value: !this.isActive
                 })
             }
