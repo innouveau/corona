@@ -136,20 +136,6 @@
         .settings__row {
             margin-bottom: 2px;
 
-            > input {
-                width: 50px;
-                padding: 4px;
-                margin: 0 4px;
-                height: 28px;
-                background: $tool-color;
-                color: #fff;
-                border: 1px solid #555;
-
-                &.input--small {
-                    width: 30px;
-                }
-            }
-
             &.settings__row--string {
                 display: flex;
                 align-items: center;
@@ -163,6 +149,20 @@
             }
         }
 
+        input {
+            width: 50px;
+            padding: 4px;
+            margin: 0 4px;
+            height: 28px;
+            background: $tool-color;
+            color: #fff;
+            border: 1px solid #555;
+
+            &.input--small {
+                width: 30px;
+            }
+        }
+
         select {
             margin-right: 4px;
         }
@@ -170,6 +170,10 @@
         .v-select {
             margin: 0 4px;
             border: 1px solid #555;
+
+            input {
+                display: none;
+            }
 
             .vs__selected-options {
                 display: flex;
@@ -181,6 +185,9 @@
                     color: #fff;
                     margin: 0;
                     padding: 2px 4px;
+                    display: block;
+                    opacity: 1!important;
+                    position: relative!important;
                 }
 
             }
@@ -201,6 +208,12 @@
                         }
                     }
                 }
+            }
+
+            .vs__dropdown-menu {
+                background: $tool-color;
+                border-radius: 0;
+
             }
 
             &.v-select--special {
