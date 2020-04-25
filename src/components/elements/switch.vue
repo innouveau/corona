@@ -67,7 +67,7 @@
         }
 
         &.switch--active {
-            background: #555;
+            background: $tool-color;
 
             .switch__button {
                 left: 17px;

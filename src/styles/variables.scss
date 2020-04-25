@@ -19,6 +19,8 @@ input {
     outline: none;
 }
 
+$tool-color: #5eb9ff;
+
 @mixin mobile {
     @media only screen
     and (max-width: 767px) {

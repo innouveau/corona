@@ -1,10 +1,14 @@
 <script>
     import Datepicker from 'vuejs-datepicker';
+    import vSelect from 'vue-select';
+    import 'vue-select/dist/vue-select.css';
+
 
     export default {
         name: 'settings',
         components: {
-            Datepicker
+            Datepicker,
+            vSelect
         },
         props: {},
         computed: {
@@ -69,16 +73,10 @@
                 return ['fatalities', 'cases', 'event', 'date'];
             },
             mappingNumberStyles() {
-                return [{
-                        tag: 'absolute',
-                        title: 'absolute'
-                    }, {
-                        tag: 'relative',
-                        title: 'Per 1M capita'
-                    }];
+                return ['absolute', 'relative'];
             },
             mappingEventTypeOptions() {
-                return ['schoolclosing', 'lockdown']
+                return ['schoolclosing', 'lockdown'];
             }
         },
         methods: {}
@@ -94,28 +92,23 @@
                 v-if="mappingType === 'fatalities' || mappingType === 'cases'"
                 v-model="mappingStartNumber" type="number"/>
 
-            <select
+            <v-select
                 v-if="mappingType === 'fatalities' || mappingType === 'cases'"
-                v-model="mappingNumberStyle">
-                <option
-                        v-for="option in mappingNumberStyles"
-                        :value="option.tag">
-                    {{option.title}}
-                </option></select>
+                v-model="mappingNumberStyle"
+                :options="mappingNumberStyles"
+                :clearable="false"/>
 
-            <select v-model="mappingType">
-                <option
-                        v-for="option in mappingTypeOptions">
-                    {{option}}
-                </option></select>
-
-            <select
+            <v-select
                 v-if="mappingType === 'event'"
-                v-model="mappingEventType">
-                <option
-                        v-for="option in mappingEventTypeOptions">
-                    {{option}}
-                </option></select>
+                v-model="mappingEventType"
+                :options="mappingEventTypeOptions"
+                :clearable="false"/>
+
+            <v-select
+                v-model="mappingType"
+                :options="mappingTypeOptions"
+                :clearable="false"
+                class="v-select--special"/>
 
             <datepicker
                 v-if="mappingType === 'date'"
@@ -143,6 +136,20 @@
         .settings__row {
             margin-bottom: 2px;
 
+            > input {
+                width: 50px;
+                padding: 4px;
+                margin: 0 4px;
+                height: 28px;
+                background: $tool-color;
+                color: #fff;
+                border: 1px solid #555;
+
+                &.input--small {
+                    width: 30px;
+                }
+            }
+
             &.settings__row--string {
                 display: flex;
                 align-items: center;
@@ -156,18 +163,52 @@
             }
         }
 
-        input {
-            width: 50px;
-            padding: 4px;
-            margin: 0 4px;
-
-            &.input--small {
-                width: 30px;
-            }
-        }
-
         select {
             margin-right: 4px;
+        }
+
+        .v-select {
+            margin: 0 4px;
+            border: 1px solid #555;
+
+            .vs__selected-options {
+                display: flex;
+                align-items: center;
+                height: 28px;
+                cursor: pointer;
+
+                .vs__selected {
+                    color: #fff;
+                    margin: 0;
+                    padding: 2px 4px;
+                }
+
+            }
+
+            .vs__dropdown-toggle {
+                border-radius: 0;
+                background: $tool-color;
+                border: 0;
+                padding: 0;
+
+                .vs__actions {
+                    transform: scale(0.5);
+
+                    svg {
+
+                        path {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+
+            &.v-select--special {
+
+                .vs__dropdown-toggle {
+                    background: #000;
+                }
+            }
         }
     }
 </style>
