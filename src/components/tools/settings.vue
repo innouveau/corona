@@ -76,7 +76,7 @@
                 return ['absolute', 'relative'];
             },
             mappingEventTypeOptions() {
-                return ['schoolclosing', 'lockdown'];
+                return this.$store.state.eventTypes.all.map(e => e.tag);
             }
         },
         methods: {}
@@ -218,8 +218,27 @@
 
             &.v-select--special {
 
+                .vs__selected-options {
+
+                    .vs__selected {
+                        color: #000;
+                    }
+                }
+
                 .vs__dropdown-toggle {
-                    background: #000;
+                    background: orange;
+                    color: #000;
+                    font-weight: 700;
+
+                    .vs__actions {
+
+                        svg {
+
+                            path {
+                                fill: #000;
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -3,10 +3,12 @@
     import typePicker from "./types/type-picker";
     import settings from "./settings";
     import dashboard from "./dashboard/dashboard";
+    import events from "./events/events";
 
     export default {
         name: 'tools',
         components: {
+            events,
             dashboard,
             settings,
             typePicker,
@@ -28,6 +30,7 @@
         <div class="tools__section">
             <settings/>
             <dashboard/>
+            <events/>
         </div>
     </div>
 </template>

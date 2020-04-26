@@ -58,6 +58,9 @@
             },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
+            },
+            showEvents() {
+                return this.$store.state.settings.showEvents;
             }
         },
         methods: {
@@ -164,7 +167,9 @@
             drawCountry(country) {
                 this.drawCountryLine(country);
                 this.drawCountryLabel(country);
-                this.drawEvents(country);
+                if (this.showEvents){
+                    this.drawEvents(country);
+                }
             },
             getIndexByDate(date, dataPoints) {
                 let index = 0;
@@ -180,7 +185,9 @@
                 for (let event of country.events) {
                     let index = this.getIndexByDate(event.date, country.dataPoints);
                     if (index > -1) {
-                        this.drawEvent(country, index, event);
+                        if (this.$store.state.settings.eventTypes.indexOf(event.type) > -1) {
+                            this.drawEvent(country, index, event);
+                        }
                     }
                 }
             },

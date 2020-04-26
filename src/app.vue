@@ -63,6 +63,7 @@
                                 fatalities = response;
                                 this.convertData(cases, fatalities);
                                 this.addEvents();
+                                this.addEventTypes();
                             })
                             .catch((error) => {});
                     })
@@ -185,12 +186,7 @@
                         }
                     }
                 } else {
-                    // a predefined set
-                    //this.$store.commit('countries/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 47}, property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 13}, property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
+                    this.activatePredefinedCountries();
                 }
 
                 // register the settings
@@ -233,6 +229,53 @@
             addEvents() {
                 for (let event of window.events) {
                     this.$store.commit('countries/addEvent', {country: event.country, event: event});
+                }
+            },
+            activatePredefinedCountries() {
+                let countries = [
+                    {
+                        id: 3,
+                        color: 'green'
+                    }, {
+                        id: 47,
+                        color: 'black'
+                    }, {
+                        id: 13,
+                        color: 'red'
+                    }, {
+                        id: 42,
+                        color: 'orange'
+                    }];
+
+                for (let country of countries) {
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'active', value: true});
+                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'color', value: country.color});
+                }
+
+
+                // netherlands
+                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 47}, property: 'active', value: true});
+                // // spain
+                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 13}, property: 'active', value: true});
+                // // belgium
+                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
+            },
+            addEventTypes() {
+                let eventTypes = [
+                    {
+                        title: 'Schoolclosing',
+                        tag: 'schoolclosing'
+                    }, {
+                        title: 'Lockdown',
+                        tag: 'lockdown'
+                    }, {
+                        title: 'School Reopening',
+                        tag: 'schoolreopening'
+                    }
+                ];
+                this.$store.commit('eventTypes/init', eventTypes);
+                for (let evenType of eventTypes) {
+                    this.$store.commit('settings/toggleEventType', evenType.tag);
                 }
             }
         },
