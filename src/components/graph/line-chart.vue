@@ -205,10 +205,14 @@
                     });
 
                 circle.on("mouseover", () => {
-                    this.showEventInfo(country, event, country.dataPoints[index], index);
+                    if (country.visible) {
+                        this.showEventInfo(country, event, country.dataPoints[index], index);
+                    }
                 })
                     .on("mouseout", (d) => {
-                        this.hideEventInfo();
+                        if (country.visible) {
+                            this.hideEventInfo();
+                        }
                     });
             },
             drawCountryLine(country) {
@@ -245,12 +249,16 @@
                     .attr("r", 7)
                     .attr("class", "dot__active-area")
                     .on("mouseover", (d, i) => {
-                        this.showTooltip(country, d, i);
-                        this.showVisor(country, d, i);
+                        if (country.visible) {
+                            this.showTooltip(country, d, i);
+                            this.showVisor(country, d, i);
+                        }
                     })
                     .on("mouseout", (d) => {
-                        this.hideTooltip();
-                        this.hideVisor();
+                        if (country.visible) {
+                            this.hideTooltip();
+                            this.hideVisor();
+                        }
                     });
 
                 dots.append("circle")
