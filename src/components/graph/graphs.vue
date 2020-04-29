@@ -60,10 +60,7 @@
             },
         },
         methods: {
-            getTime(value) {
-                let c, date;
-                c = value.split('-');
-                date = c[2] + '/' + c[1] + '/' + c[0];
+            getTime(date) {
                 return new Date(date).getTime();
             },
             isAboveMapping(entry, country) {

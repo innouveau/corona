@@ -53,7 +53,7 @@
                 return color;
             },
             loadCsv() {
-                let cases, fatalities;
+                let cases, fatalities, population;
 
                 d3.csv('data/cases.csv')
                     .then((response) => {
@@ -61,22 +61,29 @@
                         d3.csv('data/fatalities.csv')
                             .then((response) => {
                                 fatalities = response;
-                                this.convertData(cases, fatalities);
-                                this.addEvents();
-                                this.addEventTypes();
+
+                                d3.csv('data/population.csv')
+                                    .then((response) => {
+                                        population = response;
+                                        this.convertData(cases, fatalities, population);
+                                        this.addEvents();
+                                        this.addEventTypes();
+                                    })
+                                    .catch((error) => {});
                             })
                             .catch((error) => {});
                     })
                     .catch((error) => {});
             },
-            convertData(countriesWithCases, countriesWithFatalities) {
-                let countries, counter;
+            convertData(countriesWithCases, countriesWithFatalities, population) {
+                let countries, counter, countryNameIndex;
                 countries = [];
                 counter = 0;
+                countryNameIndex = 'Land/regio';
 
                 const getCountry = function(countryName) {
                     for (let country of countriesWithFatalities) {
-                        if (country.Country === countryName) {
+                        if (country[countryNameIndex] === countryName) {
                             return country;
                         }
                     }
@@ -84,19 +91,19 @@
                 };
 
                 for (let countryWithCases of countriesWithCases) {
-                    let country, countryWithFatalities;
+                    let country, countryWithFatalities, countryName;
 
-                    countryWithFatalities = getCountry(countryWithCases.Country);
-
+                    countryName = countryWithCases[countryNameIndex];
+                    countryWithFatalities = getCountry(countryName);
                     country = {};
                     country.entries = [];
-                    country.title = countryWithCases.Country;
+                    country.title = countryName;
                     country.id = countries.length + 1;
                     country.searchTags = '';
                     country.color = this.getRandomColor();
-                    country.population = this.getPopulation(countryWithCases.Country);
+                    country.population = this.getPopulation(countryName, population);
                     for (let date in countryWithCases) {
-                        if (date !== 'Country' && date !== '') {
+                        if (date !== countryNameIndex && date !== '') {
                             let entry, casesForDate, fatalitiesForDate;
                             casesForDate = countryWithCases[date] !== '' ? Number(countryWithCases[date]) : 0;
 
@@ -116,16 +123,15 @@
                         }
                     }
 
-
                     countries.push(country);
                     counter++;
                 }
                 this.loadData(countries);
             },
-            getPopulation(countryName) {
-                for (let country of window.population) {
-                    if (country.country === countryName) {
-                        return Number(country.population);
+            getPopulation(countryName, population) {
+                for (let country of population) {
+                    if (country.Country === countryName) {
+                        return Number(country.Population);
                     }
                 }
                 return 0
@@ -234,31 +240,38 @@
             activatePredefinedCountries() {
                 let countries = [
                     {
-                        id: 3,
-                        color: 'green'
+                        title: 'Netherlands',
+                        color: 'orange'
                     }, {
-                        id: 47,
-                        color: 'black'
-                    }, {
-                        id: 13,
+                        title: 'Spain',
                         color: 'red'
                     }, {
-                        id: 42,
-                        color: 'orange'
+                        title: 'Italy',
+                        color: 'blue'
+                    }, {
+                        title: 'Belgium',
+                        color: 'black'
+                    }, {
+                        title: 'Hubei',
+                        color: 'purple'
+                    }, {
+                        title: 'Austria',
+                        color: 'green'
                     }];
 
                 for (let country of countries) {
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'active', value: true});
-                    this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'color', value: country.color});
+                    let item = this.$store.getters['countries/getItemByProperty']('title', country.title);
+                    this.$store.commit('countries/updatePropertyOfItem', {
+                        item,
+                        property: 'active',
+                        value: true
+                    });
+                    this.$store.commit('countries/updatePropertyOfItem', {
+                        item,
+                        property: 'color',
+                        value: country.color
+                    });
                 }
-
-
-                // netherlands
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 47}, property: 'active', value: true});
-                // // spain
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 13}, property: 'active', value: true});
-                // // belgium
-                // this.$store.commit('countries/updatePropertyOfItem', {item: {id: 42}, property: 'active', value: true});
             },
             addEventTypes() {
                 let eventTypes = [

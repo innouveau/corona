@@ -2,10 +2,12 @@
     import yScale from "./y-scale";
     import perCapita from "./per-capita";
     import startAtZero from "./start-at-zero";
+    import cumulative from "./cumulative";
 
     export default {
         name: 'dashboard',
         components: {
+            cumulative,
             startAtZero,
             perCapita,
             yScale
@@ -22,6 +24,7 @@
         <y-scale/>
         <per-capita/>
         <start-at-zero/>
+        <cumulative/>
     </div>
 </template>
 

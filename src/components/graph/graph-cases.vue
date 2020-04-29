@@ -18,12 +18,28 @@
             },
             logScale() {
                 return this.$store.state.settings.logScale;
+            },
+            cumulative() {
+                return this.$store.state.settings.cumulative;
             }
         },
         methods: {
             getValue(country, d) {
+                let v, thisPointCases, prevPoint;
+                thisPointCases = d.cases;
+                if (this.cumulative) {
+                    v = thisPointCases;
+                } else {
+                    if (d.index > 0) {
+                        prevPoint = country.originalDataPoints[d.index - 1];
+                        v = thisPointCases - prevPoint.cases;
+                    } else {
+                        v = thisPointCases;
+                    }
+                }
+
                 if (this.perCapita) {
-                    let value = (1000000 * d.cases) / country.population;
+                    let value = (1000000 * v) / country.population;
                     // apparently value 0 is a problem for log
                     if (this.logScale && Math.round(value) === 0) {
                         return 1;
@@ -31,7 +47,11 @@
                         return Math.round(value);
                     }
                 } else {
-                    return d.cases;
+                    if (this.logScale && v === 0) {
+                        return 0.00000001;
+                    } else {
+                        return v;
+                    }
                 }
             },
         }
@@ -44,6 +64,9 @@
         class="graph-cases graph"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
+             <span v-if="cumulative">
+                Cumulative
+            </span>
             Cases
             <span v-if="perCapita">
                 per 1M capita

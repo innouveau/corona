@@ -712,7 +712,7 @@ window.population = [
         "population": "19679306"
     },
     {
-        "country": "Russian Federation",
+        "country": "Russia",
         "population": "143989754"
     },
     {
@@ -762,6 +762,10 @@ window.population = [
     {
         "country": "Senegal",
         "population": "15850567"
+    },
+    {
+        "country": "Serbia",
+        "population": "6982084"
     },
     {
         "country": "Seychelles",

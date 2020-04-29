@@ -1,33 +1,38 @@
 window.events = [
     {
-        id: 1,
         country: "Netherlands",
         type: "schoolclosing",
-        date: "16-03-2020",
+        date: "2020-03-16",
         title: "Closing primary schools"
     }, {
-        id: 2,
         country: "Netherlands",
         type: "lockdown",
-        date: "23-03-2020",
+        date: "2020-03-23",
         title: "Semi-lockdown"
     }, {
-        id: 3,
         country: "Belgium",
         type: "lockdown",
-        date: "18-03-2020",
+        date: "2020-03-18",
         title: "Lockdown"
     }, {
-        id: 4,
         country: "Spain",
         type: "lockdown",
-        date: "14-03-2020",
+        date: "2020-03-14",
         title: "Lockdown"
     }, {
-        id: 5,
         country: "Italy",
         type: "lockdown",
-        date: "13-03-2020",
+        date: "2020-03-13",
+        title: "Lockdown"
+    }, {
+        country: "Hubei",
+        type: "lockdown",
+        date: "2020-01-23",
+        title: "Lockdown"
+    }, {
+        country: "Austria",
+        type: "lockdown",
+        date: "2020-03-16",
         title: "Lockdown"
     }
 ];

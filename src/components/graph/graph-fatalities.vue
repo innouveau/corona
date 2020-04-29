@@ -18,12 +18,28 @@
             },
             logScale() {
                 return this.$store.state.settings.logScale;
+            },
+            cumulative() {
+                return this.$store.state.settings.cumulative;
             }
         },
         methods: {
             getValue(country, d) {
+                let v, thisPointFatalities, prevPoint;
+                thisPointFatalities = d.fatalities;
+                if (this.cumulative) {
+                    v = thisPointFatalities;
+                } else {
+                    if (d.index > 0) {
+                        prevPoint = country.originalDataPoints[d.index - 1];
+                        v = thisPointFatalities - prevPoint.fatalities;
+                    } else {
+                        v = thisPointFatalities;
+                    }
+                }
+
                 if (this.perCapita) {
-                    let value = (1000000 * d.fatalities) / country.population;
+                    let value = (1000000 * v) / country.population;
                     // apparently value 0 is a problem for log
                     if (this.logScale && (value === 0 || Math.round(value * 10) / 10 === 0)) {
                         return 0.00000001;
@@ -31,7 +47,11 @@
                         return Math.round(value * 10) / 10;
                     }
                 } else {
-                    return d.fatalities;
+                    if (this.logScale && v === 0) {
+                        return 0.00000001;
+                    } else {
+                        return v;
+                    }
                 }
             },
         }
@@ -44,6 +64,9 @@
         class="graph-fatalities graph"
         :style="{'width': (100 / $parent.l) + '%'}">
         <h2>
+            <span v-if="cumulative">
+                Cumulative
+            </span>
             Fatalities
             <span v-if="perCapita">
                 per 1M capita
