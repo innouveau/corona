@@ -50,13 +50,25 @@
                 return this.$store.state.settings.mappingNumberStyle === 'absolute';
             },
             xAxis() {
-                return '→ Days since ' + this.$store.state.settings.mappingStartNumber + ' ' + this.$store.state.settings.mappingNumberStyle + ' ' +  this.$store.state.settings.mappingType;
+                let string = '→ Days since ';
+                if (this.mappingType === 'event') {
+                    string += this.$store.state.settings.mappingEventType;
+                } else if (this.mappingType === 'date') {
+                    string += this.mappingDateString;
+                } else {
+                    string += this.$store.state.settings.mappingStartNumber + ' ' + this.$store.state.settings.mappingNumberStyle + ' ' +  this.$store.state.settings.mappingType;
+                }
+                return string;
             },
             mappingType() {
                 return this.$store.state.settings.mappingType;
             },
             mappingDate() {
                 return this.$store.state.settings.mappingDate;
+            },
+            mappingDateString() {
+                let d = new Date(this.$store.state.settings.mappingDate);
+                return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
             },
         },
         methods: {
