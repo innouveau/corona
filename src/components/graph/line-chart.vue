@@ -144,6 +144,40 @@
                         this.drawCountry(country);
                     }
                 }
+                this.repositionLabels();
+            },
+            repositionLabels() {
+                let countries, lastY, margin, x;
+                margin = 6;
+                lastY = null;
+                countries = this.data.map(country => {
+                    let lastPoint = country.dataPoints[country.dataPoints.length - 1];
+                    return {
+                        country,
+                        lastPointValue: this.yScale(this.getValue(country, lastPoint)) + 2
+                    }
+                });
+
+                countries = countries.sort((a, b) => {
+                    if ( a.lastPointValue < b.lastPointValue ){
+                        return 1;
+                    }
+                    if ( a.lastPointValue > b.lastPointValue ){
+                        return -1;
+                    }
+                    return 0;
+                });
+                for (let item of countries) {
+                    let label = this.svg.select('.country-label--' + item.country.id);
+                    if (lastY !== null && item.lastPointValue > (lastY - margin)) {
+                        lastY -= margin;
+                    } else {
+                        lastY = item.lastPointValue;
+                    }
+                    x = this.xScale(item.country.dataPoints.length - 1) + 6;
+                    label.attr('transform', 'translate(' + x + ',' + lastY + ')');
+                }
+
             },
             drawVisor() {
                 this.visorX = this.container.append('line')
@@ -283,12 +317,13 @@
             },
             drawCountryLabel(country) {
                 let dataset, lastPoint, x, y;
+
                 dataset = country.dataPoints;
                 lastPoint = dataset[dataset.length - 1];
                 x = this.xScale(dataset.length - 1) + 6;
                 y = this.yScale(this.getValue(country, lastPoint)) + 2;
                 this.linesLayer.append("g")
-                    .attr("class", "country-label")
+                    .attr("class", "country-label country-label--" + country.id)
                     .attr('transform', 'translate(' + x + ',' + y + ')')
                     .attr('fill', () => {
                         if (country.visible) {
