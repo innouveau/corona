@@ -145,7 +145,7 @@
             getQueryParameters(){
                 let countries, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
-                    mappingEventType, mappingDate, logScale, perCapita, cutYaxis, smoothening
+                    mappingEventType, mappingDate, logScale, perCapita, cutYaxis, smoothening;
                 countries = this.$route.query.countries;
                 description = this.$route.query.description;
 
