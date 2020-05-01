@@ -23,7 +23,7 @@
 
 
 <template>
-    <div class="start-at-zero tool">
+    <div class="start-at-zero">
         <v-switch
                 :toggle="toggle"
                 :is-active="isActive"/>

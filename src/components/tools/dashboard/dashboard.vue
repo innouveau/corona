@@ -20,7 +20,7 @@
 
 
 <template>
-    <div class="dashboard">
+    <div class="dashboard tool">
         <y-scale/>
         <per-capita/>
         <start-at-zero/>
@@ -34,5 +34,8 @@
 
     .dashboard {
 
+        > div {
+            margin-bottom: 8px;
+        }
     }
 </style>

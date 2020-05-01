@@ -22,7 +22,7 @@
 
 
 <template>
-    <div class="y-scale tool">
+    <div class="y-scale">
         <v-switch
             :toggle="toggle"
             :is-active="isActive"/>

@@ -86,43 +86,71 @@
 
 <template>
     <div class="settings tool">
+        <div class="settings__row">
+            <div class="settings__info-cell">
+                Type of mapping
+            </div>
+            <div class="settings__row-content">
+                <v-select
+                        v-model="mappingType"
+                        :options="mappingTypeOptions"
+                        :clearable="false"
+                        class="v-select--special"/>
+            </div>
+
+        </div>
         <div class="settings__row settings__row--string">
-            Start at
-            <input
-                v-if="mappingType === 'fatalities' || mappingType === 'cases'"
-                v-model="mappingStartNumber" type="number"/>
+            <div class="settings__info-cell">
+                Start at
+            </div>
+            <div class="settings__row-content">
+                <input
+                        v-if="mappingType === 'fatalities' || mappingType === 'cases'"
+                        v-model="mappingStartNumber" type="number"/>
 
-            <v-select
-                v-if="mappingType === 'fatalities' || mappingType === 'cases'"
-                v-model="mappingNumberStyle"
-                :options="mappingNumberStyles"
-                :clearable="false"/>
+                <v-select
+                        v-if="mappingType === 'fatalities' || mappingType === 'cases'"
+                        v-model="mappingNumberStyle"
+                        :options="mappingNumberStyles"
+                        :clearable="false"/>
 
-            <v-select
-                v-if="mappingType === 'event'"
-                v-model="mappingEventType"
-                :options="mappingEventTypeOptions"
-                :clearable="false"/>
+                <v-select
+                        v-if="mappingType === 'event'"
+                        v-model="mappingEventType"
+                        :options="mappingEventTypeOptions"
+                        :clearable="false"/>
 
-            <v-select
-                v-model="mappingType"
-                :options="mappingTypeOptions"
-                :clearable="false"
-                class="v-select--special"/>
+                <span v-if="mappingType !== 'date'">
+                {{mappingType}}
+            </span>
 
-            <datepicker
-                v-if="mappingType === 'date'"
-                v-model="mappingDate"/>
+
+                <datepicker
+                        v-if="mappingType === 'date'"
+                        v-model="mappingDate"/>
+            </div>
+
+
         </div>
         <div class="settings__row">
-            Stop at
-            <input
-                v-model="mappingMaxDays"
-                type="number"/>
-            days (or before if no data).
+            <div class="settings__info-cell">
+                Stop at
+            </div>
+            <div class="settings__row-content">
+                <input
+                        v-model="mappingMaxDays"
+                        type="number"/>
+                days (or before if no data).
+            </div>
         </div>
         <div class="settings__row">
-            Smoothen Growth Rate over <input class="input--small" v-model="smoothening" type="number"/> days.
+            <div class="settings__info-cell">
+                Smoothen Growth Rate over
+            </div>
+            <div class="settings__row-content">
+                <input class="input--small" v-model="smoothening" type="number"/> days.
+            </div>
+
         </div>
     </div>
 </template>
@@ -135,8 +163,15 @@
 
         .settings__row {
             margin-bottom: 2px;
+            display: flex;
+            align-items: center;
 
-            &.settings__row--string {
+            .settings__info-cell {
+                width: 100px;
+                line-height: 1;
+            }
+
+            .settings__row-content {
                 display: flex;
                 align-items: center;
 
@@ -153,7 +188,7 @@
             width: 50px;
             padding: 4px;
             margin: 0 4px;
-            height: 28px;
+            height: 20px;
             background: $tool-color;
             color: #fff;
             border: 1px solid #555;
@@ -182,7 +217,7 @@
             .vs__selected-options {
                 display: flex;
                 align-items: center;
-                height: 28px;
+                height: 20px;
                 cursor: pointer;
 
                 .vs__selected {
@@ -201,11 +236,13 @@
                 background: $tool-color;
                 border: 0;
                 padding: 0;
+                cursor: pointer;
 
                 .vs__actions {
                     transform: scale(0.5);
 
                     svg {
+                        transition: none;
 
                         path {
                             fill: #fff;
@@ -217,6 +254,10 @@
             .vs__dropdown-menu {
                 background: $tool-color;
                 border-radius: 0;
+
+                li {
+                    text-transform: capitalize;
+                }
 
             }
 
@@ -243,6 +284,10 @@
                             }
                         }
                     }
+                }
+
+                .vs__dropdown-menu {
+                    background: orange;
                 }
             }
         }

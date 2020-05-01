@@ -25,7 +25,7 @@
 
 
 <template>
-    <div class="per-capita tool">
+    <div class="per-capita">
         <v-switch
                 :toggle="toggle"
                 :is-active="isActive"/>
