@@ -161,6 +161,10 @@
             &.input--small {
                 width: 30px;
             }
+
+            &::selection {
+                background: pink;
+            }
         }
 
         select {
