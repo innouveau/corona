@@ -43,8 +43,8 @@
     @import '@/styles/variables.scss';
 
     .share-url {
-        position: absolute;
-        right: 20px;
+        position: fixed;
+        right: 8px;
         top: 20px;
 
         .share-url__button {

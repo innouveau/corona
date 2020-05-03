@@ -40,6 +40,7 @@
     @import '@/styles/variables.scss';
 
     .tools {
+        border-top: 2px solid #aaa;
 
         .tools__section {
             display: flex;

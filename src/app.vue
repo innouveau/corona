@@ -236,6 +236,7 @@
 
 
                 if (description && description.length > 0) {
+                    this.$store.commit('settings/updateProperty', {key: 'hasDescriptionViaQuery', value: true});
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
             },
@@ -298,8 +299,8 @@
 
 <template>
     <div class="app">
-        <tools/>
         <description/>
+        <tools/>
         <graphs
             v-if="dataLoaded"/>
         <share-url/>

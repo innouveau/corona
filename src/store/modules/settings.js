@@ -13,7 +13,8 @@ const state = {
     cumulative: true,
     smoothening: 7,
     showEvents: true,
-    eventTypes: []
+    eventTypes: [],
+    hasDescriptionViaQuery: false
 };
 
 const getters = {
