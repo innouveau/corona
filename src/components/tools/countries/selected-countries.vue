@@ -12,7 +12,13 @@
                 return this.$store.state.countries.all.filter(c => c.active);
             }
         },
-        methods: {}
+        methods: {
+            removeAll() {
+                for (let country of this.countries) {
+                    this.$store.commit('countries/updatePropertyOfItem', {item: country, property: 'active', value: false})
+                }
+            }
+        }
     }
 </script>
 
@@ -23,6 +29,13 @@
             <country
                     v-for="country in countries"
                     :country="country"/>
+
+            <div
+                v-if="countries.length > 1"
+                @click="removeAll()"
+                class="text-button">
+                Remove all countries
+            </div>
         </div>
 
         <div>
@@ -47,5 +60,15 @@
             color: #aaa;
             font-style: italic;
         }
+    }
+
+    .text-button {
+        border: 1px solid #ddd;
+        padding: 2px 4px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-left: 4px;
     }
 </style>
