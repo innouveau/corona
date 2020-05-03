@@ -7,11 +7,12 @@ const state = {
     mappingNumberStyle: 'absolute',
     mappingEventType: 'lockdown',
     mappingDate: new Date('2020-03-15'),
-    logScale: true,
+    logScale: false,
     perCapita: false,
-    cutYaxis: true,
-    cumulative: true,
+    cutYaxis: false,
+    cumulative: false,
     smoothening: 7,
+
     showEvents: true,
     eventTypes: [],
     hasDescriptionViaQuery: false

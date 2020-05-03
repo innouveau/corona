@@ -21,7 +21,7 @@
                 return year + '-' + month + '-' + day;
             },
             url() {
-                let countries, string;
+                let countries, types, string;
                 countries = this.countries.map(c => {
                     let string = c.title.toLowerCase() + ':';
                     // cannot pass the # via the url
@@ -35,13 +35,27 @@
                 string = '?countries=' + countries;
                 if (this.$store.state.settings.logScale) {
                     string += '&logScale=true';
+                } else {
+                    string += '&logScale=false';
                 }
                 if (this.$store.state.settings.perCapita) {
                     string += '&perCapita=true';
+                } else {
+                    string += '&perCapita=false';
                 }
                 if (this.$store.state.settings.cutYaxis) {
                     string += '&cutYaxis=true';
+                } else {
+                    string += '&cutYaxis=false';
                 }
+                if (this.$store.state.settings.cumulative) {
+                    string += '&cumulative=true';
+                } else {
+                    string += '&cumulative=false';
+                }
+
+                types = this.$store.state.types.all.filter(t => t.active).map(t => t.id).join(',');
+                string += '&types=' + types;
 
 
                 string += '&mappingType=' + this.$store.state.settings.mappingType;

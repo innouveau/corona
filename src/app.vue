@@ -152,7 +152,8 @@
             getQueryParameters(){
                 let countries, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
-                    mappingEventType, mappingDate, logScale, perCapita, cutYaxis, smoothening;
+                    mappingEventType, mappingDate, logScale, perCapita, cutYaxis,
+                    cumulative, smoothening, types, typeIds;
                 countries = this.$route.query.countries;
                 description = this.$route.query.description;
 
@@ -165,12 +166,19 @@
                 logScale = this.$route.query.logScale;
                 perCapita = this.$route.query.perCapita;
                 cutYaxis = this.$route.query.cutYaxis;
+                cumulative = this.$route.query.cumulative;
                 smoothening = this.$route.query.smoothening;
-
+                types = this.$route.query.types;
                 // activate types
-                this.$store.commit('types/updatePropertyOfItem', {item: {id: 1}, property: 'active', value: true});
-                this.$store.commit('types/updatePropertyOfItem', {item: {id: 2}, property: 'active', value: true});
-                this.$store.commit('types/updatePropertyOfItem', {item: {id: 3}, property: 'active', value: true});
+                if (types) {
+                    typeIds = types.split(',').map(t => Number(t));
+                } else {
+                    typeIds = [1,2,3];
+                }
+
+                for (let typeId of typeIds) {
+                    this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});
+                }
 
                 // countries
                 if (countries && countries.length > 0) {
@@ -221,15 +229,38 @@
                 if (mappingDate && mappingDate.length > 0) {
                     this.$store.commit('settings/updateProperty', {key: 'mappingDate', value: new Date(mappingDate)});
                 }
-                if (logScale && logScale.length > 0 && logScale === 'true') {
+
+
+                if (logScale && logScale.length > 0) {
+                    if (logScale === 'true') {
+                        this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
+                    }
+                } else {
                     this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
                 }
-                if (perCapita && perCapita.length > 0 && perCapita === 'true') {
-                    this.$store.commit('settings/updateProperty', {key: 'perCapita', value: true});
+
+                if (perCapita && perCapita.length > 0) {
+                    if (perCapita === 'true') {
+                        this.$store.commit('settings/updateProperty', {key: 'perCapita', value: true});
+                    }
                 }
-                if (cutYaxis && cutYaxis.length > 0 && cutYaxis === 'true') {
-                    this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
+
+                if (cutYaxis && cutYaxis.length > 0) {
+                    if (cutYaxis === 'true') {
+                        this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
+                    }
                 }
+
+                if (cumulative && cumulative.length > 0) {
+                    if (cumulative === 'true') {
+                        this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
+                    }
+                } else {
+                    this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
+                }
+
+
+
                 if (smoothening && smoothening.length > 0) {
                     this.$store.commit('settings/updateProperty', {key: 'smoothening', value: Number(smoothening)});
                 }
