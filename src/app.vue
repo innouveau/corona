@@ -53,11 +53,12 @@
                 return color;
             },
             loadCsv() {
-                let cases, fatalities, population;
+                let cases, fatalities, population, events;
 
                 d3.csv('data/cases.csv')
                     .then((response) => {
                         cases = response;
+
                         d3.csv('data/fatalities.csv')
                             .then((response) => {
                                 fatalities = response;
@@ -65,9 +66,15 @@
                                 d3.csv('data/population.csv')
                                     .then((response) => {
                                         population = response;
-                                        this.convertData(cases, fatalities, population);
-                                        this.addEvents();
-                                        this.addEventTypes();
+
+                                        d3.csv('data/events.csv')
+                                            .then((response) => {
+                                                events = response;
+
+                                                this.convertData(cases, fatalities, population);
+                                                this.addEvents(events);
+                                            })
+                                            .catch((error) => {});
                                     })
                                     .catch((error) => {});
                             })
@@ -232,11 +239,6 @@
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
             },
-            addEvents() {
-                for (let event of window.events) {
-                    this.$store.commit('countries/addEvent', {country: event.country, event: event});
-                }
-            },
             activatePredefinedCountries() {
                 let countries = [
                     {
@@ -273,22 +275,17 @@
                     });
                 }
             },
-            addEventTypes() {
-                let eventTypes = [
-                    {
-                        title: 'Schoolclosing',
-                        tag: 'schoolclosing'
-                    }, {
-                        title: 'Lockdown',
-                        tag: 'lockdown'
-                    }, {
-                        title: 'School Reopening',
-                        tag: 'schoolreopening'
-                    }
-                ];
-                this.$store.commit('eventTypes/init', eventTypes);
-                for (let evenType of eventTypes) {
-                    this.$store.commit('settings/toggleEventType', evenType.tag);
+            addEvents(events) {
+                for (let event of events) {
+                    this.addEventType(event.type);
+                    this.$store.commit('countries/addEvent', {country: event.country, event: event});
+                }
+            },
+            addEventType(type) {
+                let evenType = this.$store.getters['eventTypes/getItemByProperty']('tag', type, false);
+                if (!evenType) {
+                    this.$store.commit('eventTypes/create', {title: type, tag: type});
+                    this.$store.commit('settings/toggleEventType', type);
                 }
             }
         },

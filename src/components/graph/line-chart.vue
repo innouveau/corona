@@ -150,7 +150,9 @@
                 let countries, lastY, margin, x;
                 margin = 6;
                 lastY = null;
-                countries = this.data.map(country => {
+                countries = this.data.filter(country => {
+                    return country.dataPoints.length > 0;
+                }).map(country => {
                     let lastPoint = country.dataPoints[country.dataPoints.length - 1];
                     return {
                         country,

@@ -51,5 +51,9 @@
         align-items: center;
         margin-bottom: 4px;
         cursor: pointer;
+
+        .event-type__title {
+            text-transform: capitalize;
+        }
     }
 </style>

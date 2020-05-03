@@ -4,9 +4,7 @@ import EventType from '@/classes/EventType';
 const Model = EventType;
 
 const state = {
-    all: [],
-    selected: [],
-    current: null
+    all: []
 };
 
 const getters = {
@@ -18,6 +16,9 @@ const actions = {};
 const mutations = {
     init(state, set) {
         return _base.mutations.init(state, set, Model);
+    },
+    create(state, item) {
+        return _base.mutations.create(state, item, Model);
     }
 };
 
