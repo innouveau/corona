@@ -1,5 +1,7 @@
 <script>
     import * as d3 from 'd3';
+    import $ from 'jquery';
+    import saveSVGmodule from 'save-svg-as-png';
 
     export default {
         name: 'line-chart',
@@ -20,15 +22,23 @@
             type: {
                 type: String,
                 required: true
+            },
+            title: {
+                type: String,
+                required: true
+            },
+            xAxisLabel: {
+                type: String,
+                required: true
             }
         },
         data() {
-            let margin = {top: 20, right: 70, bottom: 30, left: 50};
+            let margin = {top: 80, right: 70, bottom: 90, left: 50};
             return {
                 settings: {
                     margin,
                     width: 0,
-                    height: 400 - margin.top - margin.bottom
+                    height: 430 - margin.top - margin.bottom
                 },
                 svg: null,
                 container: null,
@@ -55,6 +65,9 @@
             },
             cutYaxis() {
                 return this.$store.state.settings.cutYaxis;
+            },
+            cumulative() {
+                return this.$store.state.settings.cumulative;
             },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
@@ -111,7 +124,7 @@
                 }
 
 
-                if (this.type === 'growth') {
+                if (this.type === 'growth' && this.cumulative) {
                     min = 1;
                     this.max = max;
                 } else {
@@ -138,6 +151,8 @@
 
                 this.drawAxes();
                 this.drawVisor();
+                this.drawTitle();
+                this.drawXAxisLabel();
 
                 for (let country of this.data) {
                     if (country.dataPoints.length > 0) {
@@ -145,6 +160,27 @@
                     }
                 }
                 this.repositionLabels();
+            },
+            drawXAxisLabel() {
+                this.svg.append('g')
+                    .attr('class', 'x-axis-label')
+                    .attr('transform', 'translate(' + this.settings.margin.left + ',' + (this.settings.height + this.settings.margin.top + 40) + ')')
+                    .append('text')
+                    .text(this.xAxisLabel)
+                    .style('font-size', '9px')
+                    .attr('fill', '#888')
+                    .style('font-family', 'Montserrat, sans-serif');
+            },
+            drawTitle() {
+                this.svg.append('g')
+                    .attr('class', 'title')
+                    .attr('transform', 'translate(' + this.settings.margin.left + ', 50)')
+                    .append('text')
+                    .text(this.title)
+                    .style('font-size', '16px')
+                    .style('font-weight', '700')
+                    .attr('fill', '#000')
+                    .style('font-family', 'Montserrat, sans-serif');
             },
             repositionLabels() {
                 let countries, lastY, margin, x;
@@ -245,7 +281,8 @@
                         } else {
                             return 'transparent';
                         }
-                    });
+                    })
+                    .style('opacity',0.2);
 
                 circle.on("mouseover", () => {
                     if (country.visible) {
@@ -277,6 +314,7 @@
                             return 'transparent';
                         }
                     })
+                    .style('fill', 'transparent')
                     .attr("d", line);
 
                 dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
@@ -315,7 +353,8 @@
                     .attr("cx", (d, i) => { return this.xScale(i) })
                     .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
                     .attr("r", 2)
-                    .attr("class", "dot__visbile-area");
+                    .attr("class", "dot__visbile-area")
+                    .style('stroke', '#fff');
             },
             drawCountryLabel(country) {
                 let dataset, lastPoint, x, y;
@@ -334,6 +373,8 @@
                             return 'transparent';
                         }
                     })
+                    .style('font-size', '8px')
+                    .style('font-family', 'Montserrat, sans-serif')
                     .append('text')
                     .text(country.title)
 
@@ -359,13 +400,24 @@
                 this.visorY.attr('visibility', 'hidden')
             },
             showTooltip(country, d, i) {
-                let chart, x, y, html, value;
+                let chart, x, y, html, value, windowWidth, elementWidth;
                 x = this.xScale(i);
                 y = this.yScale(this.getValue(country, d));
                 chart = this.$refs.chart;
-
+                windowWidth = window.innerWidth;
                 value = this.getValue(country, d);
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
+
+                this.tooltip.html(html);
+
+                elementWidth = $(this.tooltip.node()).outerWidth();
+                if (chart.offsetLeft + x + 70 + elementWidth >  windowWidth) {
+                    x = chart.offsetLeft + x + 40 - elementWidth;
+                } else {
+                    x = (chart.offsetLeft + x) + 70;
+                }
+
+
 
                 this.tooltip
                     .style("opacity", 1);
@@ -373,13 +425,13 @@
                 this.tooltip
                     .style("border-left", "4px solid " + country.color);
 
-                this.tooltip.html(html)
-                    .style("top", (chart.offsetTop + y - 10) + "px")
-                    .style("left", (chart.offsetLeft + x) + 70 + "px");
+                this.tooltip
+                    .style("top", (chart.offsetTop + y + 50) + "px")
+                    .style("left", x + "px");
             },
             hideTooltip() {
                 this.tooltip
-                    .style("opacity", 0);
+                   .style("opacity", 0);
             },
             showEventInfo(country, event, d, i) {
                 let chart, x, y, html, value;
@@ -396,7 +448,7 @@
                     .style("border-left", "4px solid " + country.color);
 
                 this.eventInfo.html(html)
-                    .style("top", (chart.offsetTop + y - 10) + "px")
+                    .style("top", (chart.offsetTop + y + 60) + "px")
                     .style("left", (chart.offsetLeft + x) + 70 + "px");
             },
             hideEventInfo() {
@@ -448,7 +500,17 @@
             },
             init() {
                 let div = this.$refs.chart;
-                this.svg = d3.select(div).append("svg");
+                this.svg = d3.select(div).append("svg")
+                    .attr('fill', '#fff');
+            },
+            saveImage() {
+                let node, options;
+                node = this.svg.node();
+                options = {
+                    backgroundColor: '#fff',
+                    scale: 2
+                };
+                saveSVGmodule.saveSvgAsPng(node, "covid-19-chart.png", options);
             }
         },
         mounted() {
@@ -481,63 +543,92 @@
 
 
 <template>
-    <div
-        ref="chart"
-        class="line-chart"></div>
+    <div class="line-chart">
+        <div
+            ref="chart"
+            class="line-chart__container">
+
+        </div>
+        <div
+            @click="saveImage()"
+            class="save-image">
+            <div class="save-image__icon">
+                <img src="assets/img/tools/screenshot.svg">
+            </div>
+            <div class="save-image__label">
+                Save image
+            </div>
+        </div>
+    </div>
 </template>
 
 
 <style lang="scss">
     @import '@/styles/variables.scss';
 
+
+
     .line-chart {
 
-        .line {
-            fill: none;
-            stroke-width: 1;
-        }
+        .save-image {
+            position: relative;
+            left: calc(100% - 50px);
+            bottom: 60px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
 
-        .overlay {
-            fill: none;
-            pointer-events: all;
-        }
+            .save-image__icon {
+                box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+                padding: 2px;
+                margin-right: 4px;
+                width: 24px;
+                height: 24px;
+                border-radius: 2px;
+                background: #fff;
 
-        .dot {
+                img {
+                    width: 100%;
+                }
+            }
 
-            .dot__visbile-area {
-                pointer-events: none;
-                stroke: #fff;
+            .save-image__label {
+                font-size: 8px;
+                display: none;
+            }
+
+            &:hover {
+
+                .save-image__icon {
+                    background: orange;
+                }
             }
         }
 
-        .visor {
-            stroke-width: 1;
-            stroke: #aaa;
-        }
+        .line-chart__container {
 
-        .focus circle {
-            fill: none;
-            stroke: steelblue;
-        }
+            svg {
 
-        .lines {
+                .lines {
 
-        }
+                    .dot {
 
-        .events {
+                        .dot__visbile-area {
+                            pointer-events: none;
+                        }
+                    }
+                }
 
-            .event-group {
-
-                .event {
-                    opacity: 0.2;
+                .visor {
+                    stroke-width: 1;
+                    stroke: #aaa;
                 }
             }
         }
     }
 
-    .country-label {
-        font-size: 8px;
-    }
+
 
     .event-info {
         position: absolute;

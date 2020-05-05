@@ -21,6 +21,17 @@
             },
             cumulative() {
                 return this.$store.state.settings.cumulative;
+            },
+            title() {
+                let string = '';
+                if (this.cumulative) {
+                    string += 'Cumulative ';
+                }
+                string += 'Cases';
+                if (this.perCapita) {
+                    string += ' per 1M capita';
+                }
+                return string;
             }
         },
         methods: {
@@ -63,23 +74,13 @@
     <div
         class="graph-cases graph"
         :style="{'width': (100 / $parent.l) + '%'}">
-        <h2>
-             <span v-if="cumulative">
-                Cumulative
-            </span>
-            Cases
-            <span v-if="perCapita">
-                per 1M capita
-            </span>
-        </h2>
         <line-chart
             :data="data"
             :get-value="getValue"
             :apply-log-scale="true"
-            :type="'cases'"/>
-        <div class="graph__x-axis">
-            {{$parent.xAxis}}
-        </div>
+            :type="'cases'"
+            :title="title"
+            :x-axis-label="$parent.xAxis"/>
     </div>
 </template>
 

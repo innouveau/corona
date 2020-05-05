@@ -131,8 +131,9 @@
     @import '@/styles/variables.scss';
 
     .graphs {
-        padding: 20px;
+        padding: 0 20px;
         display: flex;
+        margin-bottom: 20px;
 
         h2 {
             margin: 0 0 0 50px;

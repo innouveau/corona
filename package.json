@@ -9,6 +9,7 @@
   "dependencies": {
     "d3": "^5.15.0",
     "jquery": "^3.4.1",
+    "save-svg-as-png": "^1.4.17",
     "vue": "^2.6.11",
     "vue-color": "^2.7.1",
     "vue-router": "^3.1.6",

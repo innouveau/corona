@@ -15,9 +15,26 @@
         computed: {
             smoothening() {
                 return this.$store.state.settings.smoothening;
+            },
+            title() {
+                return 'Growth Rate Fatalities';
+            },
+            cumulative() {
+                return this.$store.state.settings.cumulative;
             }
         },
         methods: {
+            getValueForPoint(country, index) {
+                if (this.cumulative) {
+                    return country.originalDataPoints[index].fatalities;
+                } else {
+                    if (index > 0) {
+                        return country.originalDataPoints[index].fatalities - country.originalDataPoints[index - 1].fatalities;
+                    } else {
+                        return country.originalDataPoints[index].fatalities;
+                    }
+                }
+            },
             getValue(country, d) {
                 let index, days, value, totalMultiply, multiply, multiplyDict;
                 multiplyDict = {};
@@ -65,18 +82,20 @@
                     if (thisIndex > country.originalDataPoints.length - 1) {
                         thisIndex = country.originalDataPoints.length - 1;
                     }
-                    point = country.originalDataPoints[thisIndex];
-                    prevPoint = country.originalDataPoints[thisIndex - 1];
+                    point = this.getValueForPoint(country, thisIndex);
+                    //point = country.originalDataPoints[thisIndex];
+                    prevPoint = this.getValueForPoint(country, (thisIndex - 1));
+                    //prevPoint = country.originalDataPoints[thisIndex - 1];
 
-                    if (prevPoint.fatalities === 0 && point.fatalities > 0) {
+                    if (prevPoint === 0 && point > 0) {
                         // skip this
                     } else {
-                        if (prevPoint.fatalities === 0 && point.fatalities === 0) {
+                        if (prevPoint === 0 && point === 0) {
                             // this is 0 / 0
                             thisGrowthNumber = 1;
 
 
-                            if (point.fatalities === 0) {
+                            if (point === 0) {
                                 // this is 0 / 0
                                 thisGrowthNumber = 1;
                             } else {
@@ -85,7 +104,7 @@
                                 thisGrowthNumber = 2;
                             }
                         } else {
-                            thisGrowthNumber = point.fatalities / prevPoint.fatalities;
+                            thisGrowthNumber = point / prevPoint;
                         }
                         addToDict(thisGrowthNumber, multiply);
                     }
@@ -111,17 +130,13 @@
     <div
         class="graph-growth graph"
         :style="{'width': (100 / $parent.l) + '%'}">
-        <h2>
-            Growth Rate Fatalities
-        </h2>
         <line-chart
             :data="data"
             :get-value="getValue"
             :apply-log-scale="false"
-            :type="'growth'"/>
-        <div class="graph__x-axis">
-            {{$parent.xAxis}}
-        </div>
+            :type="'growth'"
+            :title="title"
+            :x-axis-label="$parent.xAxis"/>
     </div>
 </template>
 
