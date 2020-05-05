@@ -17,7 +17,11 @@
                 return this.$store.state.settings.smoothening;
             },
             title() {
-                return 'Growth Rate Fatalities';
+                if (this.cumulative) {
+                    return 'Growth Rate Fatalities on cumulative';
+                } else {
+                    return 'Growth Rate Fatalities';
+                }
             },
             cumulative() {
                 return this.$store.state.settings.cumulative;
