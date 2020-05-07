@@ -29,17 +29,16 @@
         },
         methods: {
             getValueForPoint(country, index) {
-                if (this.cumulative) {
-                    return country.originalDataPoints[index].fatalities;
+                return country.originalDataPoints[index].fatalities;
+            },
+            getValue(country, day, smoothened) {
+                if (smoothened) {
+                    return day.getValue('growth', true);
                 } else {
-                    if (index > 0) {
-                        return country.originalDataPoints[index].fatalities - country.originalDataPoints[index - 1].fatalities;
-                    } else {
-                        return country.originalDataPoints[index].fatalities;
-                    }
+                    return day.getValue('growth', false);
                 }
             },
-            getValue(country, d) {
+            getValue2(country, d) {
                 let index, days, value, totalMultiply, multiply, multiplyDict;
                 multiplyDict = {};
                 totalMultiply = 0;

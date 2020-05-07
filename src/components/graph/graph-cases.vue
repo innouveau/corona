@@ -35,36 +35,13 @@
             }
         },
         methods: {
-            getValue(country, d) {
-                let v, thisPointCases, prevPoint;
-                thisPointCases = d.cases;
-                if (this.cumulative) {
-                    v = thisPointCases;
+            getValue(country, day, smoothened) {
+                if (smoothened) {
+                    return day.getValue('cases', true);
                 } else {
-                    if (d.index > 0) {
-                        prevPoint = country.originalDataPoints[d.index - 1];
-                        v = thisPointCases - prevPoint.cases;
-                    } else {
-                        v = thisPointCases;
-                    }
+                    return day.getValue('cases', false);
                 }
-
-                if (this.perCapita) {
-                    let value = (1000000 * v) / country.population;
-                    // apparently value 0 is a problem for log
-                    if (this.logScale && Math.round(value) === 0) {
-                        return 1;
-                    } else {
-                        return Math.round(value);
-                    }
-                } else {
-                    if (this.logScale && v === 0) {
-                        return 0.00000001;
-                    } else {
-                        return v;
-                    }
-                }
-            },
+            }
         }
     }
 </script>

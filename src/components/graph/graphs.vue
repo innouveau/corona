@@ -2,6 +2,7 @@
     import graphFatalities from "./graph-fatalities";
     import graphGrowth from "./graph-growth";
     import GraphCases from "./graph-cases";
+    import Day from '@/classes/Day';
 
     export default {
         name: 'graphs',
@@ -36,7 +37,7 @@
                     country.dataPoints = [];
                     country.originalDataPoints = [];
                     for (let entry of country.entries) {
-                        let e = {...entry};
+                        let e = new Day(entry, country);
                         country.originalDataPoints.push(e);
                         if (this.isAboveMapping(entry, country) && this.isBeforeStop(country.dataPoints.length)) {
                             country.dataPoints.push(e);

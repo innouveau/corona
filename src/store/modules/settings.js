@@ -1,12 +1,12 @@
 import _base from './_base-module';
 
 const state = {
-    mappingType: 'event',
-    mappingMaxDays: 28,
+    mappingType: 'date',
+    mappingMaxDays: 120,
     mappingStartNumber: 100,
     mappingNumberStyle: 'absolute',
     mappingEventType: 'lockdown',
-    mappingDate: new Date('2020-03-15'),
+    mappingDate: new Date('2020-03-01'),
     logScale: false,
     perCapita: false,
     cutYaxis: false,

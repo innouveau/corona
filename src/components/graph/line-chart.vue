@@ -38,7 +38,7 @@
                 settings: {
                     margin,
                     width: 0,
-                    height: 430 - margin.top - margin.bottom
+                    height: 600 - margin.top - margin.bottom
                 },
                 svg: null,
                 container: null,
@@ -66,14 +66,14 @@
             cutYaxis() {
                 return this.$store.state.settings.cutYaxis;
             },
-            cumulative() {
-                return this.$store.state.settings.cumulative;
-            },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
             },
             showEvents() {
                 return this.$store.state.settings.showEvents;
+            },
+            cumulative() {
+                return this.$store.state.settings.cumulative;
             }
         },
         methods: {
@@ -93,10 +93,12 @@
                 this.settings.width = this.$refs.chart.offsetWidth - this.settings.margin.left - this.settings.margin.right;
             },
             draw() {
-                let n, min, max;
+                let n, min, max, smoothen;
                 n = 0;
                 min = null;
                 max = 0;
+                smoothen = (this.type === 'growth');
+
 
                 for (let country of this.data) {
                     let thisMin, thisMax;
@@ -108,10 +110,10 @@
                             thisMin = 0;
                         }
                     } else {
-                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d)));
+                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, smoothen)));
                     }
 
-                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d)));
+                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, smoothen)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
@@ -124,12 +126,7 @@
                 }
 
 
-                if (this.type === 'growth' && this.cumulative) {
-                    min = 1;
-                    this.max = max;
-                } else {
-                    this.max = 1.2 * max;
-                }
+                this.max = max;
 
                 this.xScale = d3.scaleLinear()
                     .domain([0, n-1])
@@ -150,6 +147,9 @@
 
 
                 this.drawAxes();
+                if (this.type === 'growth' && !this.cumulative) {
+                    this.drawOneLine();
+                }
                 this.drawVisor();
                 this.drawTitle();
                 this.drawXAxisLabel();
@@ -237,7 +237,7 @@
                     .attr('visibility', 'hidden');
             },
             drawCountry(country) {
-                this.drawCountryLine(country);
+                this.drawCountryLines(country);
                 this.drawCountryLabel(country);
                 if (this.showEvents){
                     this.drawEvents(country);
@@ -266,7 +266,7 @@
             drawEvent(country, index, event) {
                 let x, y, eventGroup, circle;
                 x = this.xScale(index);
-                y = this.yScale(this.getValue(country, country.dataPoints[index]));
+                y = this.yScale(this.getValue(country, country.dataPoints[index], true));
 
                 eventGroup = this.eventsLayer.append('g')
                     .attr('class', 'event-group')
@@ -295,18 +295,22 @@
                         }
                     });
             },
-            drawCountryLine(country) {
-                let dots, dataset, line;
-                dataset = country.dataPoints;
-
-                line = d3.line()
+            drawCountryLines(country) {
+                if (this.type !== 'growth') {
+                    this.drawCountryLineRaw(country);
+                }
+                this.drawCountryLineSmoothened(country);
+                this.drawCountryDots(country);
+            },
+            drawCountryLineSmoothened(country) {
+                let line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
-                    .y((d) => { return this.yScale(this.getValue(country, d)); })
+                    .y((d) => { return this.yScale(this.getValue(country, d, true)); })
                     .curve(d3.curveMonotoneX);
 
                 this.linesLayer.append("path")
-                    .datum(dataset)
-                    .attr("class", "line")
+                    .datum(country.dataPoints)
+                    .attr("class", "line line--smoothened")
                     .attr("stroke", () => {
                         if (country.visible) {
                             return country.color;
@@ -315,10 +319,35 @@
                         }
                     })
                     .style('fill', 'transparent')
-                    .attr("d", line);
+                    .attr("d", line)
+                    //.attr('stroke-dasharray', '4,3')
+                    .attr('stroke-width', '1.5');
+            },
+            drawCountryLineRaw(country) {
+                let line = d3.line()
+                    .x((d, i) => { return this.xScale(i); })
+                    .y((d) => { return this.yScale(this.getValue(country, d, false)); })
+                    .curve(d3.curveMonotoneX);
 
-                dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
-                    .data(dataset)
+                this.linesLayer.append("path")
+                    .datum(country.dataPoints)
+                    .attr("class", "line line--raw")
+                    .attr("stroke", () => {
+                        if (country.visible) {
+                            return country.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
+                    .style('fill', 'transparent')
+                    .attr("d", line)
+                    .attr('stroke-width', '0.3');
+            },
+            drawCountryDots(country) {
+                let smoothen = this.type === 'growth';
+
+                let dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
+                    .data(country.dataPoints)
                     .enter().append("g")
                     .attr("class", "dot dot--" + country.id);
 
@@ -326,7 +355,7 @@
                 dots.append("circle")
                     .attr("fill", "transparent")
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, smoothen)) })
                     .attr("r", 7)
                     .attr("class", "dot__active-area")
                     .on("mouseover", (d, i) => {
@@ -351,7 +380,7 @@
                         }
                     })
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, smoothen)) })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area")
                     .style('stroke', '#fff');
@@ -406,6 +435,9 @@
                 chart = this.$refs.chart;
                 windowWidth = window.innerWidth;
                 value = this.getValue(country, d);
+                if (this.type === 'growth') {
+                    value = value.toFixed(3);
+                }
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
                 this.tooltip.html(html);
@@ -464,6 +496,23 @@
                 this.eventInfo = d3.select("body").append("div")
                     .attr("class", "event-info")
                     .style("opacity", 0);
+            },
+            drawOneLine() {
+                let x1, x2, y;
+
+                x1 = this.xScale(0);
+                x2 = this.xScale(this.data[0].dataPoints.length - 1);
+                y = this.yScale(1);
+
+                this.container.append("g")
+                    .attr("class", "one-line")
+                    .append('line')
+                    .attr('x1', x1)
+                    .attr('x2', x2)
+                    .attr('y1', y)
+                    .attr('y2', y)
+                    .attr('stroke-width', 1)
+                    .attr('stroke', '#aaa');
             },
             drawAxes() {
                 this.container = this.svg
@@ -569,6 +618,7 @@
 
 
     .line-chart {
+        overflow: hidden;
 
         .save-image {
             position: relative;
@@ -623,6 +673,10 @@
                 .visor {
                     stroke-width: 1;
                     stroke: #aaa;
+                }
+
+                .one-line {
+
                 }
             }
         }

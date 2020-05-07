@@ -236,7 +236,7 @@
                         this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
                     }
                 } else {
-                    this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
+                    //this.$store.commit('settings/updateProperty', {key: 'logScale', value: true});
                 }
 
                 if (perCapita && perCapita.length > 0) {
@@ -249,6 +249,8 @@
                     if (cutYaxis === 'true') {
                         this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
                     }
+                } else {
+                    this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
                 }
 
                 if (cumulative && cumulative.length > 0) {
@@ -256,7 +258,7 @@
                         this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
                     }
                 } else {
-                    this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
+                    //this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
                 }
 
 
@@ -272,25 +274,31 @@
                 }
             },
             activatePredefinedCountries() {
+                // let countries = [
+                //     {
+                //         title: 'Netherlands',
+                //         color: 'orange'
+                //     }, {
+                //         title: 'Spain',
+                //         color: 'red'
+                //     }, {
+                //         title: 'Italy',
+                //         color: 'blue'
+                //     }, {
+                //         title: 'Belgium',
+                //         color: 'black'
+                //     }, {
+                //         title: 'Hubei',
+                //         color: 'purple'
+                //     }, {
+                //         title: 'Austria',
+                //         color: 'green'
+                //     }];
+
                 let countries = [
                     {
                         title: 'Netherlands',
                         color: 'orange'
-                    }, {
-                        title: 'Spain',
-                        color: 'red'
-                    }, {
-                        title: 'Italy',
-                        color: 'blue'
-                    }, {
-                        title: 'Belgium',
-                        color: 'black'
-                    }, {
-                        title: 'Hubei',
-                        color: 'purple'
-                    }, {
-                        title: 'Austria',
-                        color: 'green'
                     }];
 
                 for (let country of countries) {
