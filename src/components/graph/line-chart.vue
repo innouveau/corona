@@ -192,7 +192,7 @@
                     let lastPoint = country.dataPoints[country.dataPoints.length - 1];
                     return {
                         country,
-                        lastPointValue: this.yScale(this.getValue(country, lastPoint)) + 2
+                        lastPointValue: this.yScale(this.getValue(country, lastPoint, true)) + 2
                     }
                 });
 
@@ -341,7 +341,7 @@
                     })
                     .style('fill', 'transparent')
                     .attr("d", line)
-                    .attr('stroke-width', '0.3');
+                    .attr('stroke-width', '0.1');
             },
             drawCountryDots(country) {
                 let smoothen = this.type === 'growth';
@@ -391,7 +391,7 @@
                 dataset = country.dataPoints;
                 lastPoint = dataset[dataset.length - 1];
                 x = this.xScale(dataset.length - 1) + 6;
-                y = this.yScale(this.getValue(country, lastPoint)) + 2;
+                y = this.yScale(this.getValue(country, lastPoint, true)) + 2;
                 this.linesLayer.append("g")
                     .attr("class", "country-label country-label--" + country.id)
                     .attr('transform', 'translate(' + x + ',' + y + ')')

@@ -143,15 +143,14 @@
                 days (or before if no data).
             </div>
         </div>
-        <div class="settings__row">
-            <div class="settings__info-cell">
-                Smoothen Growth Rate over
-            </div>
-            <div class="settings__row-content">
-                <input class="input--small" v-model="smoothening" type="number"/> days.
-            </div>
-
-        </div>
+<!--        <div class="settings__row">-->
+<!--            <div class="settings__info-cell">-->
+<!--                Smoothen Growth Rate over-->
+<!--            </div>-->
+<!--            <div class="settings__row-content">-->
+<!--                <input class="input&#45;&#45;small" v-model="smoothening" type="number"/> days.-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 

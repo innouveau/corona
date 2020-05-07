@@ -274,32 +274,21 @@
                 }
             },
             activatePredefinedCountries() {
-                // let countries = [
-                //     {
-                //         title: 'Netherlands',
-                //         color: 'orange'
-                //     }, {
-                //         title: 'Spain',
-                //         color: 'red'
-                //     }, {
-                //         title: 'Italy',
-                //         color: 'blue'
-                //     }, {
-                //         title: 'Belgium',
-                //         color: 'black'
-                //     }, {
-                //         title: 'Hubei',
-                //         color: 'purple'
-                //     }, {
-                //         title: 'Austria',
-                //         color: 'green'
-                //     }];
-
                 let countries = [
                     {
                         title: 'Netherlands',
                         color: 'orange'
+                    }, {
+                        title: 'Belgium',
+                        color: 'black'
+                    }, {
+                        title: 'Austria',
+                        color: 'red'
+                    }, {
+                        title: 'Sweden',
+                        color: 'green'
                     }];
+
 
                 for (let country of countries) {
                     let item = this.$store.getters['countries/getItemByProperty']('title', country.title);
