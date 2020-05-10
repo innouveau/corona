@@ -1,3 +1,3 @@
 window.config = {
-    updatetAt: 'Thu Apr 2 - 21:15'
+    updatetAt: 'Sat May 9	 - 22:00 UTC'
 };

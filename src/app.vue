@@ -1,17 +1,19 @@
 <script>
-    import tools from "./components/tools/tools";
-    import graphs from "./components/graph/graphs";
+    import tools from "@/components/tools/tools";
+    import graphs from "@/components/graph/graphs";
     import * as d3 from 'd3';
-    import shareUrl from "./components/share-url";
-    import description from "./components/tools/description";
-    import Credits from "./components/tools/credits";
-    import updatedAt from "./components/updated-at";
+    import shareUrl from "@/components/share-url";
+    import description from "@/components/tools/description";
+    import credits from "@/components/tools/credits";
+    import updatedAt from "@/components/updated-at";
+    import errorModal from "@/components/elements/error-modal";
 
     export default {
         name: 'app',
         components: {
+            errorModal,
             updatedAt,
-            Credits,
+            credits,
             description,
             shareUrl,
             graphs,
@@ -40,6 +42,9 @@
         computed: {
             dataLoaded() {
                 return this.$store.state.dataLoaded;
+            },
+            showErrorModal() {
+                return this.$store.state.errorModal.visible;
             }
         },
         methods: {
@@ -287,21 +292,29 @@
                     }, {
                         title: 'Sweden',
                         color: 'green'
+                    }, {
+                        title: 'Denmark',
+                        color: 'purple'
                     }];
+
+
 
 
                 for (let country of countries) {
                     let item = this.$store.getters['countries/getItemByProperty']('title', country.title);
-                    this.$store.commit('countries/updatePropertyOfItem', {
-                        item,
-                        property: 'active',
-                        value: true
-                    });
-                    this.$store.commit('countries/updatePropertyOfItem', {
-                        item,
-                        property: 'color',
-                        value: country.color
-                    });
+                    if (item) {
+                        this.$store.commit('countries/updatePropertyOfItem', {
+                            item,
+                            property: 'active',
+                            value: true
+                        });
+                        this.$store.commit('countries/updatePropertyOfItem', {
+                            item,
+                            property: 'color',
+                            value: country.color
+                        });
+                    }
+
                 }
             },
             addEvents(events) {
@@ -333,6 +346,8 @@
             v-if="dataLoaded"/>
         <share-url/>
         <updated-at/>
+
+        <error-modal v-if="showErrorModal"/>
         <credits/>
     </div>
 </template>

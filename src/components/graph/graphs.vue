@@ -36,6 +36,7 @@
                     let country = {...c};
                     country.dataPoints = [];
                     country.originalDataPoints = [];
+
                     for (let entry of country.entries) {
                         let e = new Day(entry, country);
                         country.originalDataPoints.push(e);
@@ -45,7 +46,7 @@
                     }
                     delete country.entries;
                     return country;
-                });
+                }).filter(c => c !== null);
             },
             isAbsolute() {
                 return this.$store.state.settings.mappingNumberStyle === 'absolute';
@@ -53,7 +54,7 @@
             xAxis() {
                 let string = '→ Days since ';
                 if (this.mappingType === 'event') {
-                    string += this.$store.state.settings.mappingEventType;
+                    string += this.mappingEventType;
                 } else if (this.mappingType === 'date') {
                     string += this.mappingDateString;
                 } else {
@@ -63,6 +64,9 @@
             },
             mappingType() {
                 return this.$store.state.settings.mappingType;
+            },
+            mappingEventType() {
+                return this.$store.state.settings.mappingEventType;
             },
             mappingDate() {
                 return this.$store.state.settings.mappingDate;
@@ -78,11 +82,9 @@
             },
             isAboveMapping(entry, country) {
                 if (this.mappingType === 'event') {
-                    let event = this.getEvent(country, this.$store.state.settings.mappingEventType);
+                    let event = this.getEvent(country, this.mappingEventType);
                     if (event) {
                         return this.getTime(entry.date) >= this.getTime(event.date);
-                    } else {
-                        return false;
                     }
                 } else if (this.mappingType === 'date') {
                     return this.mappingDate && this.getTime(entry.date) >= this.mappingDate.getTime();
@@ -105,6 +107,39 @@
             },
             isBeforeStop(l) {
                 return l <= this.$store.state.settings.mappingMaxDays;
+            },
+            checkCountriesForEvents() {
+                // first do a check on the event type
+                // to save calculations and be able to throw a message
+                // only once
+                if (this.mappingType === 'event') {
+                    this.countries.forEach(c => {
+                        let event = this.getEvent(c, this.mappingEventType);
+                        if (!event) {
+                            let message = 'No "' + this.mappingEventType + '" found for ' + c.title + '. It might never happened or our database is missing it.';
+                            this.$store.commit('errorModal/push', {level: 0, message});
+                        }
+                    })
+                }
+            }
+        },
+        watch: {
+            countries:  {
+                handler: function() {
+                    this.checkCountriesForEvents();
+                },
+                deep: true
+            },
+            mappingType:  {
+                handler: function() {
+                    this.checkCountriesForEvents();
+                }
+            },
+            mappingEventType:  {
+                handler: function() {
+                    this.checkCountriesForEvents();
+                },
+                deep: true
             }
         }
     }

@@ -471,7 +471,7 @@
                 y = this.yScale(this.getValue(country, d));
                 chart = this.$refs.chart;
 
-                html = event.title;
+                html = country.title + ': ' + event.title;
 
                 this.eventInfo
                     .style("opacity", 1);

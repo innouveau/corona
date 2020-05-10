@@ -6,7 +6,7 @@ const state = {
     mappingStartNumber: 100,
     mappingNumberStyle: 'absolute',
     mappingEventType: 'lockdown',
-    mappingDate: new Date('2020-03-01'),
+    mappingDate: new Date('2020-03-15'),
     logScale: false,
     perCapita: false,
     cutYaxis: false,
