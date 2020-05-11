@@ -56,12 +56,13 @@ class Day {
 
 
     getValue(type, smoothened) {
-        let getTypeOfValue, cumulative;
+        let getTypeOfValue, cumulative, perCapita;
         cumulative = store.state.settings.cumulative;
+        perCapita = store.state.settings.perCapita;
 
         if (type === 'growth') {
             if (smoothened) {
-                getTypeOfValue = function(dataPoint) {
+                getTypeOfValue = (dataPoint) => {
                     return dataPoint.getgrowth(true);
                 };
 
@@ -72,12 +73,20 @@ class Day {
         } else {
             if (smoothened) {
                 if (cumulative) {
-                    getTypeOfValue = function(dataPoint) {
-                        return dataPoint[type];
+                    getTypeOfValue = (dataPoint) => {
+                        if (perCapita) {
+                            return dataPoint[type] / (this.country.population / 1000000)
+                        } else {
+                            return dataPoint[type];
+                        }
                     };
                 } else {
-                    getTypeOfValue = function(dataPoint) {
-                        return dataPoint['delta_' + type];
+                    getTypeOfValue = (dataPoint) => {
+                        if (perCapita) {
+                            return dataPoint['delta_' + type] / (this.country.population / 1000000)
+                        } else {
+                            return dataPoint['delta_' + type];
+                        }
                     };
                 }
 
@@ -85,9 +94,17 @@ class Day {
                 return this.smoothen(getTypeOfValue);
             } else {
                 if (cumulative) {
-                    return this[type];
+                    if (perCapita) {
+                        return this[type] / (this.country.population / 1000000)
+                    } else {
+                        return this[type];
+                    }
                 } else {
-                    return this['delta_' + type];
+                    if (perCapita) {
+                        return this['delta_' + type] / (this.country.population / 1000000)
+                    } else {
+                        return this['delta_' + type];
+                    }
                 }
             }
         }

@@ -36,10 +36,11 @@
         },
         methods: {
             getValue(country, day, smoothened) {
-                if (smoothened) {
-                    return day.getValue('cases', true);
+                let value = day.getValue('cases', smoothened);
+                if (value <= 0 && this.logScale) {
+                    return 0.1;
                 } else {
-                    return day.getValue('cases', false);
+                    return Math.max(value, 0);
                 }
             }
         }

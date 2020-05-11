@@ -178,7 +178,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3];
+                    typeIds = [1, 2,3];
                 }
 
                 for (let typeId of typeIds) {
@@ -248,6 +248,8 @@
                     if (perCapita === 'true') {
                         this.$store.commit('settings/updateProperty', {key: 'perCapita', value: true});
                     }
+                } else {
+                    this.$store.commit('settings/updateProperty', {key: 'perCapita', value: true});
                 }
 
                 if (cutYaxis && cutYaxis.length > 0) {
@@ -284,17 +286,11 @@
                         title: 'Netherlands',
                         color: 'orange'
                     }, {
-                        title: 'Belgium',
-                        color: 'black'
-                    }, {
-                        title: 'Austria',
-                        color: 'red'
-                    }, {
                         title: 'Sweden',
-                        color: 'green'
-                    }, {
-                        title: 'Denmark',
-                        color: 'purple'
+                        color: 'blue'
+                    },{
+                        title: 'US',
+                        color: 'red'
                     }];
 
 
