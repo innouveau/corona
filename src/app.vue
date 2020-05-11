@@ -7,10 +7,13 @@
     import credits from "@/components/tools/credits";
     import updatedAt from "@/components/updated-at";
     import errorModal from "@/components/elements/error-modal";
+    import explanation from "./components/explanation/explanation";
+    import explanationChapters from "./data/explanation";
 
     export default {
         name: 'app',
         components: {
+            explanation,
             errorModal,
             updatedAt,
             credits,
@@ -151,6 +154,8 @@
             loadData(countries) {
                 this.$store.commit('countries/init', countries);
                 this.$store.commit('types/init', this.types);
+                this.$store.commit('explanation/init', explanationChapters);
+                this.$store.commit('explanation/setCurrent', this.$store.state.explanation.all[0]);
                 this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
                 this.getQueryParameters();
             },
@@ -337,6 +342,7 @@
 <template>
     <div class="app">
         <description/>
+        <explanation/>
         <tools/>
         <graphs
             v-if="dataLoaded"/>

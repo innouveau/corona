@@ -28,14 +28,6 @@
                     return this.$store.state.settings.mappingMaxDays;
                 }
             },
-            smoothening: {
-                set(value) {
-                    this.$store.commit('settings/updateProperty', {key: 'smoothening', value})
-                },
-                get() {
-                    return this.$store.state.settings.smoothening;
-                }
-            },
             mappingType: {
                 set(value) {
                     this.$store.commit('settings/updateProperty', {key: 'mappingType', value})

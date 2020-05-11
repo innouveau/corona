@@ -8,6 +8,7 @@ import settings from './modules/settings';
 import ui from './modules/ui';
 import eventTypes from './modules/event-types';
 import errorModal from './modules/error-modal'
+import explanation from './modules/explanation'
 
 const state = {
     dataLoaded: false
@@ -24,7 +25,7 @@ export default new Vuex.Store({
     actions: {},
     modules: {
         countries, types, settings, ui, eventTypes,
-        errorModal
+        errorModal, explanation
     }
 
 })
