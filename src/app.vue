@@ -45,6 +45,9 @@
             },
             showErrorModal() {
                 return this.$store.state.errorModal.visible;
+            },
+            timestamp() {
+                return '?time=' + new Date().getTime();
             }
         },
         methods: {
@@ -60,32 +63,17 @@
             loadCsv() {
                 let cases, fatalities, population, events;
 
-                d3.csv('data/cases.csv')
-                    .then((response) => {
-                        cases = response;
-
-                        d3.csv('data/fatalities.csv')
-                            .then((response) => {
-                                fatalities = response;
-
-                                d3.csv('data/population.csv')
-                                    .then((response) => {
-                                        population = response;
-
-                                        d3.csv('data/events.csv')
-                                            .then((response) => {
-                                                events = response;
-
-                                                this.convertData(cases, fatalities, population);
-                                                this.addEvents(events);
-                                            })
-                                            .catch((error) => {});
-                                    })
-                                    .catch((error) => {});
-                            })
-                            .catch((error) => {});
-                    })
-                    .catch((error) => {});
+                Promise.all([
+                    d3.csv('data/cases.csv' + this.timestamp),
+                    d3.csv('data/fatalities.csv' + this.timestamp),
+                    d3.csv('data/population.csv' + this.timestamp),
+                    d3.csv('data/events.csv' + this.timestamp)
+                ]).then((files) => {
+                    this.convertData(files[0], files[1], files[2]);
+                    this.addEvents(files[3]);
+                }).catch((err) => {
+                    console.log(err);
+                })
             },
             convertData(countriesWithCases, countriesWithFatalities, population) {
                 let countries, counter, countryNameIndex;
