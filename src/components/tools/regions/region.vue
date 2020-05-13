@@ -1,28 +1,28 @@
 <script>
-    import Country from '@/classes/Country';
-    import countryColor from "./country-color";
-    import CountryVisible from "./country-visible";
+    import Region from '@/classes/Region';
+    import regionColor from "./region-color";
+    import RegionVisible from "./region-visible";
 
     export default {
-        name: 'country',
+        name: 'region',
         components: {
-            CountryVisible,
-            countryColor
+            RegionVisible,
+            regionColor
         },
         props: {
-            country: {
-                type: Country,
+            region: {
+                type: Region,
                 required: true
             }
         },
         computed: {
             isVisible() {
-                return this.country.visible;
+                return this.region.visible;
             }
         },
         methods: {
-            deleteCountry() {
-                this.$store.commit('countries/updatePropertyOfItem', {item: this.country, property: 'active', value: false})
+            deleteRegion() {
+                this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: false})
             }
         }
     }
@@ -31,19 +31,19 @@
 
 <template>
     <div
-        :class="{'country--visible': isVisible}"
-        :style="{'border-bottom': '3px solid ' + country.color}"
-        class="country">
-        <country-visible
-            :country="country"/>
-        <country-color
-            :country="country"/>
-        <div class="country__title">
-            {{country.title}}
+        :class="{'region--visible': isVisible}"
+        :style="{'border-bottom': '3px solid ' + region.color}"
+        class="region">
+        <region-visible
+            :region="region"/>
+        <region-color
+            :region="region"/>
+        <div class="region__title">
+            {{region.title}}
         </div>
         <div
-            @click="deleteCountry()"
-            class="country__remove">×</div>
+            @click="deleteRegion()"
+            class="region__remove">×</div>
     </div>
 </template>
 
@@ -51,7 +51,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .country {
+    .region {
         display: flex;
         align-items: center;
         box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
@@ -60,13 +60,13 @@
         transition: opacity 0.2s ease;
         background: #eee;
 
-        .country__title {
+        .region__title {
             padding: 2px 6px;
             border-right: 1px solid #ddd;
             height: 100%;
         }
 
-        .country__remove {
+        .region__remove {
             cursor: pointer;
             background: #555;
             color: #fff;
@@ -83,7 +83,7 @@
             }
         }
 
-        &.country--visible {
+        &.region--visible {
             opacity: 1;
         }
     }

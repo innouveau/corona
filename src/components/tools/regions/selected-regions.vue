@@ -1,21 +1,21 @@
 <script>
-    import country from "./country";
+    import region from "./region";
 
     export default {
-        name: 'selected-countries',
+        name: 'selected-regions',
         components: {
-            country
+            region
         },
         props: {},
         computed: {
-            countries() {
-                return this.$store.state.countries.all.filter(c => c.active);
+            regions() {
+                return this.$store.state.regions.all.filter(c => c.active);
             }
         },
         methods: {
             removeAll() {
-                for (let country of this.countries) {
-                    this.$store.commit('countries/updatePropertyOfItem', {item: country, property: 'active', value: false})
+                for (let region of this.regions) {
+                    this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'active', value: false})
                 }
             }
         }
@@ -24,17 +24,17 @@
 
 
 <template>
-    <div class="selected-countries">
-        <div class="selected-countries__countries">
-            <country
-                    v-for="country in countries"
-                    :country="country"/>
+    <div class="selected-regions">
+        <div class="selected-regions__regions">
+            <region
+                    v-for="region in regions"
+                    :region="region"/>
 
             <div
-                v-if="countries.length > 1"
+                v-if="regions.length > 1"
                 @click="removeAll()"
                 class="text-button">
-                Remove all countries
+                Remove all regions
             </div>
         </div>
 
@@ -48,9 +48,9 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .selected-countries {
+    .selected-regions {
 
-        .selected-countries__countries {
+        .selected-regions__regions {
             display: flex;
             flex-wrap: wrap;
             margin-bottom: 8px;

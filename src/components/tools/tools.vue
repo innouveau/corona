@@ -1,5 +1,5 @@
 <script>
-    import countryPicker from "./countries/country-picker";
+    import regionPicker from "./regions/region-picker";
     import typePicker from "./types/type-picker";
     import settings from "./settings";
     import dashboard from "./dashboard/dashboard";
@@ -12,7 +12,7 @@
             dashboard,
             settings,
             typePicker,
-            countryPicker
+            regionPicker
         },
         props: {},
         computed: {},
@@ -24,7 +24,7 @@
 <template>
     <div class="tools">
         <div class="tools__section">
-            <country-picker/>
+            <region-picker/>
             <type-picker/>
         </div>
         <div class="tools__section">

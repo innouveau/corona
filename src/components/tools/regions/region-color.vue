@@ -1,22 +1,22 @@
 <script>
-    import Country from '@/classes/Country';
+    import Region from '@/classes/Region';
     import { Swatches } from 'vue-color';
 
     export default {
-        name: 'country-color',
+        name: 'region-color',
         components: {
             'swatches-picker': Swatches
         },
         props: {
-            country: {
-                type: Country,
+            region: {
+                type: Region,
                 required: true
             }
         },
         data() {
             return {
                 isOpen: false,
-                color: this.country.color
+                color: this.region.color
             }
         },
         computed: {},
@@ -27,7 +27,7 @@
         },
         watch: {
             color() {
-                this.country.color = this.color.hex;
+                this.region.color = this.color.hex;
             }
         }
     }
@@ -38,11 +38,11 @@
     <div
         @click="toggle()"
 
-        class="country-color">
+        class="region-color">
 
         <div
-            :style="{'background-color': country.color}"
-            class="country-color__swatch">
+            :style="{'background-color': region.color}"
+            class="region-color__swatch">
 
         </div>
         <swatches-picker
@@ -55,7 +55,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .country-color {
+    .region-color {
         padding: 4px;
         display: flex;
         align-items: center;
@@ -63,7 +63,7 @@
         border-right: 1px solid #ddd;
         position: relative;
 
-        .country-color__swatch {
+        .region-color__swatch {
             width: 10px;
             height: 10px;
             border-radius: 50%;

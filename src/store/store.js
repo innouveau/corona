@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 
-import countries from './modules/countries';
+import regions from './modules/regions';
 import types from './modules/types';
 import settings from './modules/settings';
 import ui from './modules/ui';
@@ -23,7 +23,7 @@ export default new Vuex.Store({
     mutations,
     actions: {},
     modules: {
-        countries, types, settings, ui, eventTypes,
+        regions, types, settings, ui, eventTypes,
         errorModal
     }
 

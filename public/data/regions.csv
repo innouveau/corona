@@ -1,0 +1,444 @@
+region,population,parent
+Afghanistan,37172386,Asia
+Albania,2866376,Europe
+Algeria,42228429,Africa
+Andorra,77006,Europe
+Angola,30809762,Africa
+Antigua and Barbuda,96286,
+Argentina,44494502,South America
+Armenia,2951776,Europe
+Australia,24992369,Australia
+Austria,8847037,Europe
+Azerbaijan,9942334,Asia
+Bahamas,385640,South America
+Bahrain,1569439,Asia
+Bangladesh,161356039,Asia
+Barbados,286641,South America
+Belarus,9485386,Europe
+Belgium,11422068,Europe
+Benin,11485048,Africa
+Bhutan,754394,Asia
+Bolivia,11353142,South America
+Bosnia and Herzegovina,3323929,Europe
+Brazil,209469333,South America
+Brunei,428962,Asia
+Bulgaria,7024216,Europe
+Burkina Faso,19751535,Africa
+Cabo Verde,543767,Africa
+Cambodia,16249798,Asia
+Cameroon,25216237,Africa
+Canada,37058856,North America
+Central African Republic,4666377,Africa
+Chad,15477751,Africa
+Chile,18729160,South America
+China,1392730000,Asia
+Hong Kong,7451000,Asia
+Hubei,59500000,China
+Macau,631636,China
+Colombia,49648685,South America
+Congo (Brazzaville),5244363,Africa
+Congo (Kinshasa),84068091,Africa
+Costa Rica,4999441,North America
+Cote d'Ivoire,25069229,Africa
+Croatia,4089400,Europe
+Diamond Princess,3500,-
+Cuba,11338138,South America
+Cyprus,1189265,Europe
+Czechia,10625695,Europe
+Faroe Islands,48497,Europe
+Greenland,56025,
+Denmark,5797446,Europe
+Djibouti,958920,Africa
+Dominican Republic,10627165,South America
+Ecuador,17084357,South America
+Egypt,98423595,Africa
+El Salvador,6420744,
+Equatorial Guinea,1308974,Africa
+Eritrea,3214000,Africa
+Estonia,1320884,Europe
+Eswatini,1136191,Africa
+Ethiopia,109224559,Africa
+Fiji,883483,
+Finland,5518050,Europe
+French Guiana,290700,South America
+French Polynesia,277679,
+Guadeloupe,400124,
+Mayotte,272815,
+New Caledonia,284060,
+Reunion,895312,
+Saint Barthelemy,9877,
+St Martin,38666,
+Martinique,375265,
+France,66987244,Europe
+Gabon,2119275,Africa
+Gambia,2416668,Africa
+Georgia,3731000,
+Germany,82927922,Europe
+Ghana,29767108,Africa
+Greece,10727668,Europe
+Guatemala,17247807,North America
+Guinea,12414318,Africa
+Guyana,779004,South America
+Haiti,11123176,South America
+Holy See,801,-
+Honduras,9587522,North America
+Hungary,9768785,Europe
+Iceland,353574,Europe
+India,1352617328,Asia
+Indonesia,267663435,Asia
+Iran,81800269,Asia
+Iraq,38433600,Asia
+Ireland,4853506,Europe
+Israel,8883800,Asia
+Italy,60431283,Europe
+Jamaica,2934855,South America
+Japan,126529100,Asia
+Jordan,9956011,Asia
+Kazakhstan,18276499,Asia
+Kenya,51393010,Africa
+Kuwait,4137309,Asia
+Kyrgyzstan,6524195,Asia
+Latvia,1926542,Europe
+Lebanon,6848925,Asia
+Liberia,4818977,Africa
+Liechtenstein,37910,Europe
+Lithuania,2789533,Europe
+Luxembourg,607728,Europe
+Madagascar,26262368,Africa
+Malaysia,31528585,Asia
+Maldives,515696,Africa
+Malta,483530,Europe
+Mauritania,4403319,Africa
+Mauritius,1265303,Africa
+Mexico,126190788,North America
+Moldova,3545883,Europe
+Monaco,38682,Europe
+Mongolia,3170208,Asia
+Montenegro,622345,Europe
+Morocco,36029138,Africa
+Namibia,2448255,Africa
+Nepal,28087871,Asia
+Aruba,105845,South America
+Curacao,159849,South America
+Sint Maarten,42876,South America
+Netherlands,17231017,Europe
+New Zealand,4885500,Australia
+Nicaragua,6465513,North America
+Niger,22442948,Africa
+Nigeria,195874740,Africa
+North Macedonia,2082958,Europe
+Norway,5314336,Europe
+Oman,4829483,Asia
+Pakistan,212215030,Asia
+Panama,4176873,North America
+Papua New Guinea,8606316,Asia
+Paraguay,6956071,South America
+Peru,31989256,South America
+Philippines,106651922,Asia
+Poland,37978548,Europe
+Portugal,10281762,Europe
+Qatar,2781677,Asia
+Romania,19473936,Europe
+Russia,144478050,Europe
+Rwanda,12301939,Africa
+Saint Lucia,183627,
+Saint Vincent and the Grenadines,110940,
+San Marino,33785,Europe
+Saudi Arabia,33699947,Asia
+Senegal,15854360,Africa
+Serbia,6982084,Europe
+Seychelles,96762,
+Singapore,5638676,Asia
+Slovakia,5459642,Europe
+Slovenia,2067372,Europe
+Somalia,15008154,Africa
+South Africa,57779622,Africa
+Spain,46723749,Europe
+Sri Lanka,21670000,Asia
+Sudan,41801533,Africa
+Suriname,575991,South America
+Sweden,10183175,Europe
+Switzerland,8516543,Europe
+Taiwan,23780000,Asia
+Tanzania,56318348,Africa
+Thailand,69428524,Asia
+Togo,7889094,Africa
+Trinidad and Tobago,1389858,North America
+Tunisia,11565204,Africa
+Turkey,82319724,Europe
+Uganda,42723139,Africa
+Ukraine,44622516,Europe
+United Arab Emirates,9630959,Asia
+Bermuda,63968,South America
+Cayman Islands,64174,
+Channel Islands,170499,
+Gibraltar,33718,Europe
+Isle of Man,84077,Europe
+Montserrat,4992,
+United Kingdom,66488991,Europe
+Uruguay,3449299,South America
+US,331002000,North America
+Uzbekistan,32955400,Asia
+Venezuela,28435980,South America
+Vietnam,95540395,Asia
+Zambia,17351822,Africa
+Zimbabwe,14439018,Africa
+Dominica,71625,
+Grenada,111454,
+Mozambique,29495962,Africa
+Syria,17500658,Asia
+Timor-Leste,1267972,Asia
+Belize,383071,North America
+Laos,7275560,Asia
+Libya,6678567,Africa
+West Bank and Gaza,4569087,Asia
+Guinea-Bissau,1874309,Africa
+Mali,19077690,Africa
+Saint Kitts and Nevis,53199,
+Kosovo,1845300,Europe
+Burma,53710000,
+Anguilla,15003,
+British Virgin Islands,29802,
+Turks and Caicos Islands,37665,
+MS Zaandam,3500,-
+Botswana,2254126,Africa
+Burundi,11175378,Africa
+Sierra Leone,7650154,Africa
+Bonaire,Sint Eustatius and Saba,
+Malawi,18143315,Africa
+Falkland Islands (Malvinas),3480,Europe
+Saint Pierre and Miquelon,5794,
+South Sudan,10975920,Africa
+Western Sahara,594500,Africa
+Sao Tome and Principe,211028,
+Yemen,28500000,Asia
+Bonaire Sint Eustatius and Saba,20000,South America
+South Korea,51635256,Asia
+Korea South,51635256,Asia
+Korea,51635256,Asia
+Alberta,4067175,Canada
+British Columbia,4648055,Canada
+Grand Princess,5000,Canada
+Manitoba,1278365,Canada
+New Brunswick,747101,Canada
+Newfoundland and Labrador,519716,Canada
+Nova Scotia,923598,Canada
+Ontario,13448494,Canada
+Prince Edward Island,142907,Canada
+Quebec,8164361,Canada
+Saskatchewan,1098352,Canada
+Anhui,59500510,
+Beijing,19612368,China
+Chongqing,28846170,China
+Fujian,36894216,China
+Gansu,25575254,China
+Guangdong,104303132,China
+Guangxi,46026629,China
+Guizhou,35806468,China
+Hainan,9261518,China
+Hebei,71854202,China
+Heilongjiang,38312224,China
+Henan,94023567,China
+Hubei,59500000,China
+Hunan,65683722,China
+Inner Mongolia,24706321,China
+Jiangsu,78659903,China
+Jiangxi,44567475,China
+Jilin,27462297,China
+Liaoning,43746323,China
+Ningxia,6176900,China
+Qinghai,5626722,China
+Shaanxi,37327378,China
+Shandong,100063065,China
+Shanghai,23019148,China
+Shanxi,37022111,China
+Sichuan,80418200,China
+Tianjin,12938224,China
+Tibet,3002166,China
+Xinjiang,21813334,China
+Yunnan,45966239,China
+Zhejiang,54426891,China
+Diamond Princess,3200,-
+Northwest Territories,44826,Canada
+Yukon,35874,Canada
+Abruzzo,1311580,
+Alentejo,1,
+Algarve,1,Portugal
+Andalucía,1,Spain
+Aragón,1,Spain
+Ayrshire and Arran,1,
+Açores,1,
+Baden-Württemberg,11069533,
+Basilicata,562869,
+Bayern,13076721,Germany
+Berlin,3644826,Germany
+Bolzano,106951,Italy
+Brandenburg,2511917,Germany
+Bremen,682986,Germany
+Burgenland,1,
+Calabria,1947131,
+Campania,5801692,
+Canarias,1,
+Cantabria,1,
+Castilla y León,1,Spain
+Castilla-La Mancha,1,
+Cataluña,1,
+Centro,1,
+Ciudad Autónoma de Ceuta,1,
+Ciudad Autónoma de Melilla,1,
+Comunidad Foral de Navarra,1,
+Comunidad Valenciana,1,Spain
+Comunidad de Madrid,1,Spain
+Dumfries and Galloway,1,
+East of England,6201214,
+Eileanan Siar (Western Isles),1,
+Emilia-Romagna,4459477,
+England,55977178,
+Estrageiro,1,
+Extremadura,1,
+Faroe,1,Portugal
+Fife,1,
+Forth Valley,1,
+Friuli Venezia Giulia,1215220,
+Galicia,1,
+Grampian,1,
+Greater Glasgow and Clyde,1,
+Greenland,1,
+Hamburg,1841179,Germany
+Hessen,6265809,Germany
+Highland,1,
+Hovedstaden,1,
+Illes Balears,1,
+Kärnten,1,
+La Rioja,1,
+Lanarkshire,1,
+Lazio,5879082,
+Liguria,1550640,
+Lisbon,1,
+Lombardia,10060574,Italy
+London,8908081,United Kingdom
+Lothian,1,
+Madeira,1,
+Marche,1525271,Italy
+Mecklenburg-Vorpommern,1609675,Germany
+Midlands,10700000,United Kingdom
+Midtjylland,1,
+Molise,305617,
+Niedersachsen,7982000,Germany
+Niederösterreich,1,Austria
+Nordjylland,1,Denmark
+Nordrhein-Westfalen,17932651,Germany
+Norte,1,
+North East and Yorkshire,8100000,United Kingdom
+North West,7292093,
+Northern Ireland,1881641,
+Oberösterreich,1,
+Orkney,1,
+País Vasco,1,
+Piemonte,4356406,
+Principado de Asturias,1,
+Puglia,4029053,
+Región de Murcia,1,
+Repatriierte,1,
+Rheinland-Pfalz,4084844,
+Saarland,990509,
+Sachsen,4077937,
+Sachsen-Anhalt,2208321,
+Salzburg,1,
+Sardegna,1639591,
+Schleswig Holstein,2896712,
+Scotland,5438100,
+Shetland,1,
+Sicilia,4999891,
+Sjælland,1,
+South East,9133625,
+South West,5599735,
+Steiermark,1,
+Syddanmark,1,
+Tayside,1,
+Thüringen,2143145,
+Tirol,1,
+Toscana,1,
+Trento,1072276,
+Umbria,882015,
+Valle d'Aosta,125666,
+Veneto,4905854,
+Vorarlberg,1,
+Wales,3138631,
+Wien,1,
+Alabama,4903185,US
+Alaska,731545,US
+American Samoa,55641,US
+Arizona,7278717,US
+Arkansas,3017825,US
+California,39512223,US
+Colorado,5758736,US
+Connecticut,3565287,US
+Delaware,973764,US
+District of Columbia,705749,US
+Florida,21477737,US
+Georgia,10617423,US
+Guam,165718,US
+Hawaii,1415872,US
+Idaho,1787065,US
+Illinois,12671821,US
+Indiana,6732219,US
+Iowa,3155070,US
+Kansas,2913314,US
+Kentucky,4467673,US
+Louisiana,4648794,US
+Maine,1344212,US
+Maryland,6045680,US
+Massachusetts,6949503,US
+Michigan,9986857,US
+Minnesota,5639632,US
+Mississippi,2976149,US
+Missouri,6137428,US
+Montana,1068778,US
+Nebraska,1934408,US
+Nevada,3080156,US
+New Hampshire,1359711,US
+New Jersey,8882190,US
+New Mexico,2096829,US
+New York,19453561,US
+North Carolina,10488084,US
+North Dakota,762062,US
+Northern Mariana Islands,55194,US
+Ohio,11689100,US
+Oklahoma,3956971,US
+Oregon,4217737,US
+Pennsylvania,12801989,US
+Puerto Rico,3193694,US
+Rhode Island,1059361,US
+South Carolina,5148714,US
+South Dakota,884659,US
+Tennessee,6833174,US
+Texas,28995881,US
+U.S. Virgin Islands,104914,US
+Utah,3205958,US
+Vermont,623989,US
+Virginia,8535519,US
+Washington,7614893,US
+West Virginia,1792147,US
+Wisconsin,5822434,US
+Wyoming,578759,US
+New South Wales,8089526,Australia
+Victoria,6594804,Australia
+Queensland,5095100,Australia
+Western Australia,2621680,Australia
+South Australia,1751693,Australia
+Tasmania,534281,Australia
+Australian Capital Territory,426709,Australia
+Northern Territory,245869,Australia
+Drenthe,493449,Netherlands
+Flevoland,422202,Netherlands
+Friesland,649988,Netherlands
+Gelderland,2084478,Netherlands
+Groningen,585881,Netherlands
+Limburg,1118223,Netherlands
+North Brabant,2562566,Netherlands
+North Holland,2877909,Netherlands
+Overijssel,1162215,Netherlands
+South Holland,3705625,Netherlands
+Utrecht,1353596,Netherlands
+Zeeland,383689,Netherlands

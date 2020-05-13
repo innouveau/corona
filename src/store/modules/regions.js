@@ -1,7 +1,7 @@
 import _base from './_base-module';
-import Country from '@/classes/Country';
+import Region from '@/classes/Region';
 
-const Model = Country;
+const Model = Region;
 
 const state = {
     all: [],

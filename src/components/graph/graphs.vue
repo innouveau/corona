@@ -29,7 +29,7 @@
                 return this.$store.state.types.all.filter(t => t.active).length;
             },
             countries() {
-                return this.$store.state.countries.all.filter(c => c.active);
+                return this.$store.state.regions.all.filter(c => c.active);
             },
             data() {
                 return this.countries.map(c => {

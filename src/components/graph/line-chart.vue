@@ -58,7 +58,7 @@
                 return this.$store.state.settings;
             },
             countries() {
-                return this.$store.state.countries.all;
+                return this.$store.state.regions.all;
             },
             logScale() {
                 return this.$store.state.settings.logScale;
@@ -117,14 +117,13 @@
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
-                    if ((!min || thisMin < min) && thisMin !== null) {
+                    if ((min === null || thisMin < min) && thisMin !== null) {
                         min = thisMin;
                     }
                     if (thisMax > max) {
                         max = thisMax;
                     }
                 }
-
 
                 this.max = max;
 
@@ -147,7 +146,7 @@
 
 
                 this.drawAxes();
-                if (this.type === 'growth' && !this.cumulative) {
+                if (this.type === 'growth' && !this.cumulative && this.data.length > 0) {
                     this.drawOneLine();
                 }
                 this.drawVisor();
@@ -156,7 +155,7 @@
 
                 for (let country of this.data) {
                     if (country.dataPoints.length > 0) {
-                        this.drawCountry(country);
+                        this.drawRegion(country);
                     }
                 }
                 this.repositionLabels();
@@ -236,9 +235,9 @@
                     .attr('y2', 10)
                     .attr('visibility', 'hidden');
             },
-            drawCountry(country) {
-                this.drawCountryLines(country);
-                this.drawCountryLabel(country);
+            drawRegion(country) {
+                this.drawRegionLines(country);
+                this.drawRegionLabel(country);
                 if (this.showEvents){
                     this.drawEvents(country);
                 }
@@ -295,14 +294,14 @@
                         }
                     });
             },
-            drawCountryLines(country) {
+            drawRegionLines(country) {
                 if (this.type !== 'growth') {
-                    this.drawCountryLineRaw(country);
+                    this.drawRegionLineRaw(country);
                 }
-                this.drawCountryLineSmoothened(country);
-                this.drawCountryDots(country);
+                this.drawRegionLineSmoothened(country);
+                this.drawRegionDots(country);
             },
-            drawCountryLineSmoothened(country) {
+            drawRegionLineSmoothened(country) {
                 let line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
                     .y((d) => { return this.yScale(this.getValue(country, d, true)); })
@@ -323,7 +322,7 @@
                     //.attr('stroke-dasharray', '4,3')
                     .attr('stroke-width', '1.5');
             },
-            drawCountryLineRaw(country) {
+            drawRegionLineRaw(country) {
                 let line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
                     .y((d) => { return this.yScale(this.getValue(country, d, false)); })
@@ -343,7 +342,7 @@
                     .attr("d", line)
                     .attr('stroke-width', '0.1');
             },
-            drawCountryDots(country) {
+            drawRegionDots(country) {
                 let smoothen = this.type === 'growth';
 
                 let dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
@@ -385,7 +384,7 @@
                     .attr("class", "dot__visbile-area")
                     .style('stroke', '#fff');
             },
-            drawCountryLabel(country) {
+            drawRegionLabel(country) {
                 let dataset, lastPoint, x, y;
 
                 dataset = country.dataPoints;

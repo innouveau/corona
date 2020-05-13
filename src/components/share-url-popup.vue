@@ -10,7 +10,7 @@
         },
         computed: {
             countries() {
-                return this.$store.state.countries.all.filter(c => c.active);
+                return this.$store.state.regions.all.filter(c => c.active);
             },
             date() {
                 let d, month, day, year;

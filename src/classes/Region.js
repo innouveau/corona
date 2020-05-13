@@ -1,8 +1,9 @@
 import Event from '@/classes/Event';
 
-class Country {
+class Region {
     constructor({
         id = null,
+        parent = null,
         title = '',
         searchTags = '',
         color = '',
@@ -10,6 +11,7 @@ class Country {
         entries = []
     }) {
         this.id = id;
+        this.parent = parent;
         this.title = title;
         this.searchTags = searchTags;
         this.color = color;
@@ -29,4 +31,4 @@ class Country {
     }
 }
 
-export default Country;
+export default Region;

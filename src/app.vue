@@ -66,88 +66,95 @@
                 Promise.all([
                     d3.csv('data/cases.csv' + this.timestamp),
                     d3.csv('data/fatalities.csv' + this.timestamp),
-                    d3.csv('data/population.csv' + this.timestamp),
+                    d3.csv('data/regions.csv' + this.timestamp),
                     d3.csv('data/events.csv' + this.timestamp)
                 ]).then((files) => {
                     this.convertData(files[0], files[1], files[2]);
+                    this.addRegionData(files[2]);
                     this.addEvents(files[3]);
                 }).catch((err) => {
                     console.log(err);
                 })
             },
-            convertData(countriesWithCases, countriesWithFatalities, population) {
-                let countries, counter, countryNameIndex;
-                countries = [];
+            convertData(regionsWithCases, regionsWithFatalities, population) {
+                let regions, counter, regionNameIndex;
+                regions = [];
                 counter = 0;
-                countryNameIndex = 'Land/regio';
+                regionNameIndex = 'Land/regio';
 
-                const getCountry = function(countryName) {
-                    for (let country of countriesWithFatalities) {
-                        if (country[countryNameIndex] === countryName) {
-                            return country;
+                const getRegion = function(regionName) {
+                    for (let region of regionsWithFatalities) {
+                        if (region[regionNameIndex] === regionName) {
+                            return region;
                         }
                     }
                     return null;
                 };
 
-                for (let countryWithCases of countriesWithCases) {
-                    let country, countryWithFatalities, countryName;
+                for (let regionWithCases of regionsWithCases) {
+                    let region, regionWithFatalities, regionName;
 
-                    countryName = countryWithCases[countryNameIndex];
-                    countryWithFatalities = getCountry(countryName);
-                    country = {};
-                    country.entries = [];
-                    country.title = countryName;
-                    country.id = countries.length + 1;
-                    country.searchTags = '';
-                    country.color = this.getRandomColor();
-                    country.population = this.getPopulation(countryName, population);
-                    for (let date in countryWithCases) {
-                        if (date !== countryNameIndex && date !== '') {
+                    regionName = regionWithCases[regionNameIndex];
+                    regionWithFatalities = getRegion(regionName);
+                    region = {};
+                    region.entries = [];
+                    region.title = regionName;
+                    region.id = regions.length + 1;
+                    region.searchTags = '';
+                    region.color = this.getRandomColor();
+                    for (let date in regionWithCases) {
+                        if (date !== regionNameIndex && date !== '') {
                             let entry, casesForDate, fatalitiesForDate;
-                            casesForDate = countryWithCases[date] !== '' ? Number(countryWithCases[date]) : 0;
+                            casesForDate = regionWithCases[date] !== '' ? Number(regionWithCases[date]) : 0;
 
-                            if (countryWithFatalities && countryWithFatalities.hasOwnProperty(date)) {
-                                fatalitiesForDate = countryWithFatalities[date] !== '' ? Number(countryWithFatalities[date]) : 0;
+                            if (regionWithFatalities && regionWithFatalities.hasOwnProperty(date)) {
+                                fatalitiesForDate = regionWithFatalities[date] !== '' ? Number(regionWithFatalities[date]) : 0;
                             } else {
                                 fatalitiesForDate = 0;
                             }
 
                             entry = {
-                                index: country.entries.length,
+                                index: region.entries.length,
                                 date: date,
                                 cases: casesForDate,
                                 fatalities: fatalitiesForDate
                             };
-                            country.entries.push(entry)
+                            region.entries.push(entry)
                         }
                     }
 
-                    countries.push(country);
+                    regions.push(region);
                     counter++;
                 }
-                this.loadData(countries);
+                this.loadData(regions);
             },
-            getPopulation(countryName, population) {
-                for (let country of population) {
-                    if (country.Country === countryName) {
-                        return Number(country.Population);
+            addRegionData(regions) {
+                for (let regionData of regions) {
+                    let region = this.$store.getters['regions/getItemByProperty']('title', regionData.region, true);
+                    if (region) {
+                        this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'population', value: Number(regionData.population)});
+                        if (regionData.parent) {
+                            let parent = this.$store.getters['regions/getItemByProperty']('title', regionData.parent, true);
+                            if (parent) {
+                                this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'parent', value: parent});
+
+                            }
+                        }
                     }
                 }
-                return 0
             },
-            loadData(countries) {
-                this.$store.commit('countries/init', countries);
+            loadData(regions) {
+                this.$store.commit('regions/init', regions);
                 this.$store.commit('types/init', this.types);
                 this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
                 this.getQueryParameters();
             },
             getQueryParameters(){
-                let countries, description,
+                let regions, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
                     mappingEventType, mappingDate, logScale, perCapita, cutYaxis,
                     cumulative, smoothening, types, typeIds;
-                countries = this.$route.query.countries;
+                regions = this.$route.query.regions;
                 description = this.$route.query.description;
 
                 mappingType = this.$route.query.mappingType;
@@ -166,22 +173,22 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1, 2,3];
+                    typeIds = [1,2,3];
                 }
 
                 for (let typeId of typeIds) {
                     this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});
                 }
 
-                // countries
-                if (countries && countries.length > 0) {
+                // regions
+                if (regions && regions.length > 0) {
                     let cs, separator;
-                    cs = countries.split(',');
+                    cs = regions.split(',');
                     separator = ':';
                     for (let string of cs) {
-                        let country, colorString, countryName, color;
+                        let region, colorString, regionName, color;
                         if (string.indexOf(separator) > -1) {
-                            countryName = string.split(separator)[0];
+                            regionName = string.split(separator)[0];
                             colorString = string.split(separator)[1];
                             if (colorString.indexOf('hex') > -1) {
                                 color = '#' + colorString.substr(3);
@@ -189,13 +196,13 @@
                                 color = colorString;
                             }
                         } else {
-                            countryName = string;
+                            regionName = string;
                         }
-                        country = this.$store.getters['countries/getItemByProperty']('title', countryName, true);
-                        if (country) {
-                            this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'active', value: true});
+                        region = this.$store.getters['regions/getItemByProperty']('title', regionName, true);
+                        if (region) {
+                            this.$store.commit('regions/updatePropertyOfItem', {item: {id: region.id}, property: 'active', value: true});
                             if (color) {
-                                this.$store.commit('countries/updatePropertyOfItem', {item: {id: country.id}, property: 'color', value: color});
+                                this.$store.commit('regions/updatePropertyOfItem', {item: {id: region.id}, property: 'color', value: color});
                             }
                         }
                     }
@@ -269,33 +276,35 @@
                 }
             },
             activatePredefinedCountries() {
-                let countries = [
-                    {
-                        title: 'Netherlands',
-                        color: 'orange'
-                    }, {
-                        title: 'Sweden',
-                        color: 'blue'
-                    },{
-                        title: 'US',
-                        color: 'red'
-                    }];
+                // let regions = [
+                //     {
+                //         title: 'Netherlands',
+                //         color: 'orange'
+                //     }, {
+                //         title: 'Sweden',
+                //         color: 'blue'
+                //     },{
+                //         title: 'US',
+                //         color: 'red'
+                //     }];
+
+                let regions = [];
 
 
 
 
-                for (let country of countries) {
-                    let item = this.$store.getters['countries/getItemByProperty']('title', country.title);
+                for (let region of regions) {
+                    let item = this.$store.getters['regions/getItemByProperty']('title', region.title);
                     if (item) {
-                        this.$store.commit('countries/updatePropertyOfItem', {
+                        this.$store.commit('regions/updatePropertyOfItem', {
                             item,
                             property: 'active',
                             value: true
                         });
-                        this.$store.commit('countries/updatePropertyOfItem', {
+                        this.$store.commit('regions/updatePropertyOfItem', {
                             item,
                             property: 'color',
-                            value: country.color
+                            value: region.color
                         });
                     }
 
@@ -304,7 +313,7 @@
             addEvents(events) {
                 for (let event of events) {
                     this.addEventType(event.type);
-                    this.$store.commit('countries/addEvent', {country: event.country, event: event});
+                    this.$store.commit('regions/addEvent', {region: event.region, event: event});
                 }
             },
             addEventType(type) {

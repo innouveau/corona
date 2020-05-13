@@ -1,9 +1,10 @@
 <script>
-    import searchCountriesCountry from "./search-countries-country";
+    import searchRegionsRegion from "./search-regions-region";
+
     export default {
-        name: 'search-countries',
+        name: 'search-regions',
         components: {
-            searchCountriesCountry
+            searchRegionsRegion
         },
         data() {
             return {
@@ -16,10 +17,10 @@
                 if (this.search === '') {
                     return [];
                 } else {
-                    return this.$store.state.countries.all.filter(country => {
-                        return !country.active &&
-                            (country.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-                                country.searchTags.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
+                    return this.$store.state.regions.all.filter(region => {
+                        return !region.active &&
+                            (region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
+                                region.searchTags.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
                     })
                 }
             }
@@ -30,14 +31,14 @@
 
 
 <template>
-    <div class="search-countries">
+    <div class="search-regions">
         <input
             v-model="search"
-            placeholder="Search country..."/>
-        <div class="search-countries__results">
-            <search-countries-country
-                v-for="country in results"
-                :country="country"/>
+            placeholder="Search country / region..."/>
+        <div class="search-regions__results">
+            <search-regions-region
+                v-for="region in results"
+                :region="region"/>
         </div>
     </div>
 </template>
@@ -46,7 +47,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .search-countries {
+    .search-regions {
         margin-bottom: 10px;
         width: 300px;
         height: 32px;
@@ -57,7 +58,7 @@
             width: 100%;
         }
 
-        .search-countries__results {
+        .search-regions__results {
             position: absolute;
             left: 0;
             top: 100%;

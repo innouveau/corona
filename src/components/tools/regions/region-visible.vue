@@ -1,12 +1,12 @@
 <script>
-    import Country from '@/classes/Country';
+    import Region from '@/classes/Region';
 
     export default {
-        name: 'country-visible',
+        name: 'region-visible',
         components: {},
         props: {
-            country: {
-                type: Country,
+            region: {
+                type: Region,
                 required: true
             }
         },
@@ -15,7 +15,7 @@
         },
         methods: {
             toggle() {
-                this.$store.commit('countries/updatePropertyOfItem', {item: this.country, property: 'visible', value: !this.country.visible})
+                this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'visible', value: !this.region.visible})
             }
         }
     }
@@ -27,7 +27,7 @@
         @click="toggle()"
         title="hide"
 
-        class="country-visible">
+        class="region-visible">
         <img src="assets/img/tools/eye.svg"/>
     </div>
 </template>
@@ -36,7 +36,7 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .country-visible {
+    .region-visible {
         cursor: pointer;
         border-right: 1px solid #ddd;
         height: 100%;
