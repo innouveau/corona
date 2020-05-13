@@ -42,8 +42,7 @@
 
         <div
             :style="{'background-color': region.color}"
-            class="region-color__swatch">
-
+            class="color-swatch">
         </div>
         <swatches-picker
             v-if="isOpen"
@@ -63,11 +62,6 @@
         border-right: 1px solid #ddd;
         position: relative;
 
-        .region-color__swatch {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
 
         .vc-swatches {
             z-index: 100;
@@ -82,7 +76,13 @@
                 left: 10px;
                 top: 10px;
                 width: calc(100% - 20px);
-;            }
+            }
         }
+    }
+
+    .color-swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
     }
 </style>

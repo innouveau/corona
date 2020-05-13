@@ -23,11 +23,19 @@ const mutations = {
         _base.mutations.updatePropertyOfItem(state, payload.item, payload.property, payload.value);
     },
     addEvent(state, payload) {
-        state.all = state.all.map((country) => {
-            if (country.title === payload.country) {
-                country.addEvent(payload.event);
+        state.all = state.all.map((region) => {
+            if (region.title === payload.region) {
+                region.addEvent(payload.event);
             }
-            return country;
+            return region;
+        });
+    },
+    addChild(state, payload) {
+        state.all = state.all.map((region) => {
+            if (region.id === payload.item.id) {
+                region.children.push(payload.child);
+            }
+            return region;
         });
     }
 };

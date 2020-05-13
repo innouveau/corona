@@ -1,10 +1,10 @@
 <script>
-    import searchRegionsRegion from "./search-regions-region";
+    import SearchResult from "./search-result";
 
     export default {
         name: 'search-regions',
         components: {
-            searchRegionsRegion
+            SearchResult
         },
         data() {
             return {
@@ -17,11 +17,38 @@
                 if (this.search === '') {
                     return [];
                 } else {
-                    return this.$store.state.regions.all.filter(region => {
-                        return !region.active &&
-                            (region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1 ||
-                                region.searchTags.toLowerCase().indexOf(this.search.toLowerCase()) > -1);
-                    })
+                    let results = [];
+
+                    const findParentResult = function(parent) {
+                        for (let result of results) {
+                            if (result.type === 'parent' && result.title === parent) {
+                                return result;
+                            }
+                        }
+                        return null;
+                    };
+
+                    for (let region of this.$store.state.regions.all) {
+                        if (!region.active && region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            results.push({
+                                type: 'region',
+                                region: region
+                            })
+                        }
+                        if (region.parent && region.parent.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            let parentResult = findParentResult(region.parent);
+                            if (!parentResult) {
+                                parentResult = {
+                                    type: 'parent',
+                                    title: region.parent,
+                                    regions: []
+                                };
+                                results.push(parentResult);
+                            }
+                            parentResult.regions.push(region);
+                        }
+                    }
+                    return results;
                 }
             }
         },
@@ -36,9 +63,10 @@
             v-model="search"
             placeholder="Search country / region..."/>
         <div class="search-regions__results">
-            <search-regions-region
-                v-for="region in results"
-                :region="region"/>
+            <search-result
+                v-for="result in results"
+                :result="result"/>
+
         </div>
     </div>
 </template>

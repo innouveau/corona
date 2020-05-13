@@ -7,6 +7,7 @@
     import credits from "@/components/tools/credits";
     import updatedAt from "@/components/updated-at";
     import errorModal from "@/components/elements/error-modal";
+    import color from '@/tools/color';
 
     export default {
         name: 'app',
@@ -51,15 +52,6 @@
             }
         },
         methods: {
-            getRandomColor() {
-                let letters, color;
-                letters = '0123456789ABCDEF';
-                color = '#';
-                for (let i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            },
             loadCsv() {
                 let cases, fatalities, population, events;
 
@@ -101,7 +93,7 @@
                     region.title = regionName;
                     region.id = regions.length + 1;
                     region.searchTags = '';
-                    region.color = this.getRandomColor();
+                    region.color = color.getRandom();
                     for (let date in regionWithCases) {
                         if (date !== regionNameIndex && date !== '') {
                             let entry, casesForDate, fatalitiesForDate;
@@ -134,11 +126,7 @@
                     if (region) {
                         this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'population', value: Number(regionData.population)});
                         if (regionData.parent) {
-                            let parent = this.$store.getters['regions/getItemByProperty']('title', regionData.parent, true);
-                            if (parent) {
-                                this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'parent', value: parent});
-
-                            }
+                            this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'parent', value: regionData.parent});
                         }
                     }
                 }

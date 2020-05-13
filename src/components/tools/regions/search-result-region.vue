@@ -2,7 +2,7 @@
     import Region from '@/classes/Region';
 
     export default {
-        name: 'search-regions-region',
+        name: 'search-result-region',
         components: {},
         props: {
             region: {
@@ -14,7 +14,7 @@
         methods: {
             select() {
                 this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: true});
-                this.$parent.search = '';
+                this.$parent.$parent.search = '';
             }
         }
     }
@@ -24,8 +24,10 @@
 <template>
     <div
         @click="select()"
-        class="search-regions-region">
-        {{region.title}}
+        class="search-result-region search-result-button">
+        <div class="search-result-button__main">
+            {{region.title}}
+        </div>
     </div>
 </template>
 
@@ -33,17 +35,22 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-    .search-regions-region {
-        padding: 8px;
+    .search-result-button {
         border-bottom: 1px solid #ddd;
-        cursor: pointer;
+        position: relative;
 
-        &:hover {
-            background: #ddd;
+        .search-result-button__main {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 8px;
+            cursor: pointer;
+
+            &:hover {
+                background: #ddd;
+            }
         }
 
-        &:last-child {
-            border-bottom: 0;
-        }
+
     }
 </style>

@@ -4,6 +4,7 @@ class Region {
     constructor({
         id = null,
         parent = null,
+        children = [],
         title = '',
         searchTags = '',
         color = '',
@@ -12,6 +13,7 @@ class Region {
     }) {
         this.id = id;
         this.parent = parent;
+        this.children = children;
         this.title = title;
         this.searchTags = searchTags;
         this.color = color;
