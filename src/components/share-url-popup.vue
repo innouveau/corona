@@ -9,7 +9,7 @@
             }
         },
         computed: {
-            countries() {
+            regions() {
                 return this.$store.state.regions.all.filter(c => c.active);
             },
             date() {
@@ -21,8 +21,8 @@
                 return year + '-' + month + '-' + day;
             },
             url() {
-                let countries, types, string;
-                countries = this.countries.map(c => {
+                let regions, types, string;
+                regions = this.regions.map(c => {
                     let string = c.title.toLowerCase() + ':';
                     // cannot pass the # via the url
                     if (c.color[0] === '#') {
@@ -32,7 +32,7 @@
                     }
                     return string;
                 });
-                string = '?countries=' + countries;
+                string = '?regions=' + regions;
                 if (this.$store.state.settings.logScale) {
                     string += '&logScale=true';
                 } else {
@@ -65,8 +65,6 @@
                 string += '&mappingEventType=' + this.$store.state.settings.mappingEventType;
                 string += '&mappingDate=' + this.date;
                 string += '&smoothening=' + this.$store.state.settings.smoothening;
-
-                console.log(this.$store.state.settings.mappingDate);
 
                 if (this.description && this.description.length > 0) {
                     string += '&description=' + encodeURIComponent(this.description);

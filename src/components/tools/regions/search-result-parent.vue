@@ -1,6 +1,9 @@
 <script>
     import colorTool from '@/tools/color';
     import { Swatches } from 'vue-color';
+    import Parent from "@/classes/Parent";
+    import Region from "@/classes/Region";
+    import Day from "@/classes/Day";
 
     export default {
         name: 'search-result-parent',
@@ -8,8 +11,8 @@
             'swatches-picker': Swatches
         },
         props: {
-            result: {
-                type: Object,
+            parent: {
+                type: Parent,
                 required: true
             }
         },
@@ -24,7 +27,7 @@
         computed: {},
         methods: {
             select(sameColor) {
-                for (let region of this.result.regions) {
+                for (let region of this.parent.regions) {
                     this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'active', value: true});
                     if (sameColor) {
                         this.$store.commit('regions/updatePropertyOfItem', {
@@ -34,10 +37,53 @@
                         });
                     }
                 }
-                this.$parent.$parent.search = '';
+                this.close();
+            },
+            selectMerged() {
+                let data, r;
+
+                data = {
+                    id: this.$store.state.regions.all.length + 1,
+                    title: this.parent.title,
+                    color: colorTool.getRandom(),
+                    population: 0,
+                    entries: []
+                };
+                r = new Region(data);
+                r.active = true;
+
+                let index = 0;
+                for (let region of this.parent.regions) {
+                    r.population += region.population;
+                    let dayIndex = 0;
+                    for (let day of region.entries) {
+                        if (index === 0) {
+                            let d = new Day({
+                                index: data.entries.length,
+                                cases: 0,
+                                fatalities: 0,
+                                date: day.date
+                            }, r);
+                            r.entries.push(d);
+                        }
+
+                        let rd = r.entries[dayIndex];
+                        rd.cases += day.cases;
+                        rd.fatalities += day.fatalities;
+                        dayIndex++;
+                    }
+                    index++;
+                }
+
+                this.$store.commit('regions/create', r);
+                this.parent.merged = true;
+                this.close();
             },
             toggle() {
                 this.isOpen = !this.isOpen;
+            },
+            close() {
+                this.$parent.$parent.search = '';
             }
         },
         watch: {
@@ -56,14 +102,14 @@
             @click="select(false)"
             class="search-result-button">
             <div class="search-result-button__main">
-                All regions in: {{result.title}} ({{result.regions.length}})
+                All regions in: {{parent.title}} ({{parent.regions.length}})
             </div>
         </div>
         <div class="search-result-button">
             <div
                 @click="select(true)"
                 class="search-result-button__main">
-                All regions in: {{result.title}} ({{result.regions.length}}) Same color
+                All regions in: {{parent.title}} ({{parent.regions.length}}) Same color
             </div>
             <div
                 @click="toggle()"
@@ -71,6 +117,15 @@
                 <div
                     :style="{'background-color': color}"
                     class="color-swatch"></div>
+            </div>
+        </div>
+        <div
+            class="search-result-button">
+            <div
+                v-if="!parent.originalRegion && !parent.merged"
+                    @click="selectMerged(true)"
+                    class="search-result-button__main">
+                {{parent.title}} as one merged result
             </div>
         </div>
 
@@ -85,6 +140,10 @@
     @import '@/styles/variables.scss';
 
     .search-result-parent {
+
+        .search-result-button__main {
+            background: #eee;
+        }
 
         .search-result-button__color {
             position: absolute;

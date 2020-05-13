@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 import regions from './modules/regions';
+import parents from './modules/parents';
 import types from './modules/types';
 import settings from './modules/settings';
 import ui from './modules/ui';
@@ -23,7 +24,7 @@ export default new Vuex.Store({
     mutations,
     actions: {},
     modules: {
-        regions, types, settings, ui, eventTypes,
+        regions, parents, types, settings, ui, eventTypes,
         errorModal
     }
 

@@ -32,20 +32,17 @@
                         if (!region.active && region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
                             results.push({
                                 type: 'region',
-                                region: region
+                                item: region
                             })
                         }
-                        if (region.parent && region.parent.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
-                            let parentResult = findParentResult(region.parent);
-                            if (!parentResult) {
-                                parentResult = {
-                                    type: 'parent',
-                                    title: region.parent,
-                                    regions: []
-                                };
-                                results.push(parentResult);
-                            }
-                            parentResult.regions.push(region);
+                    }
+
+                    for (let parent of this.$store.state.parents.all) {
+                        if (parent.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            results.push({
+                                type: 'parent',
+                                item: parent
+                            })
                         }
                     }
                     return results;

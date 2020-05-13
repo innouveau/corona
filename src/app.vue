@@ -126,7 +126,17 @@
                     if (region) {
                         this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'population', value: Number(regionData.population)});
                         if (regionData.parent) {
-                            this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'parent', value: regionData.parent});
+                            let parent = this.$store.getters['parents/getItemByProperty']('title', regionData.parent, true);
+                            if (!parent) {
+                                let originalRegion = this.$store.getters['regions/getItemByProperty']('title', regionData.parent, true);
+                                this.$store.commit('parents/create', {
+                                    id: (this.$store.state.parents.all.length + 1),
+                                    title: regionData.parent,
+                                    originalRegion: originalRegion
+                                });
+                                parent = this.$store.getters['parents/getLastItem'];
+                            }
+                            this.$store.commit('parents/addChild', {item: parent, child: region})
                         }
                     }
                 }
@@ -138,11 +148,12 @@
                 this.getQueryParameters();
             },
             getQueryParameters(){
-                let regions, description,
+                let regions, countries, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
                     mappingEventType, mappingDate, logScale, perCapita, cutYaxis,
                     cumulative, smoothening, types, typeIds;
                 regions = this.$route.query.regions;
+                countries = this.$route.query.countries;
                 description = this.$route.query.description;
 
                 mappingType = this.$route.query.mappingType;
@@ -168,6 +179,10 @@
                     this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});
                 }
 
+                // catch previously used parameter countries
+                if (countries && countries.length > 0 && (!regions || regions.length === 0)) {
+                    regions = countries;
+                }
                 // regions
                 if (regions && regions.length > 0) {
                     let cs, separator;

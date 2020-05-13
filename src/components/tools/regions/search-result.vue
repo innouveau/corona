@@ -24,10 +24,10 @@
     <div class="search-result">
         <search-result-region
             v-if="result.type === 'region'"
-            :region="result.region"/>
+            :region="result.item"/>
         <search-result-parent
             v-if="result.type === 'parent'"
-            :result="result"/>
+            :parent="result.item"/>
     </div>
 </template>
 
