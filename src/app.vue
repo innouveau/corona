@@ -58,8 +58,6 @@
         },
         methods: {
             loadCsv() {
-                let cases, fatalities, population, events;
-
                 Promise.all([
                     d3.csv('data/cases.csv' + this.timestamp),
                     d3.csv('data/fatalities.csv' + this.timestamp),
@@ -285,20 +283,22 @@
                 }
             },
             activatePredefinedCountries() {
-                let regions = [
-                    {
-                        title: 'New York',
-                        color: 'red'
-                    }, {
-                        title: 'Lombardia',
-                        color: 'green'
-                    }, {
-                        title: 'Nordrhein-Westfalen',
-                        color: 'black'
-                    }, {
-                        title: 'New Jersey',
-                        color: 'orange'
-                    }];
+                // let regions = [
+                //     {
+                //         title: 'New York',
+                //         color: 'red'
+                //     }, {
+                //         title: 'Lombardia',
+                //         color: 'green'
+                //     }, {
+                //         title: 'Nordrhein-Westfalen',
+                //         color: 'black'
+                //     }, {
+                //         title: 'New Jersey',
+                //         color: 'orange'
+                //     }];
+
+                    let regions = [{title: 'Georgia', color: 'black'}];
 
                 for (let region of regions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);

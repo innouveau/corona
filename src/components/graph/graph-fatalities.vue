@@ -1,5 +1,7 @@
 <script>
     import lineChart from "./line-chart";
+    import consts from '@/data/consts';
+
 
     export default {
         name: 'graph-fatalities',
@@ -37,8 +39,9 @@
         methods: {
             getValue(country, day, smoothened) {
                 let value = day.getValue('fatalities', smoothened);
+                //console.log(value);
                 if (value <= 0  && this.logScale) {
-                    return 0.1;
+                    return consts.virtualZero;
                 } else {
                     return Math.max(value, 0);
                 }
