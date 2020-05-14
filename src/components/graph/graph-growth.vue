@@ -10,6 +10,10 @@
             data: {
                 type: Array,
                 required: true
+            },
+            source: {
+                type: String,
+                required: true
             }
         },
         computed: {
@@ -18,9 +22,9 @@
             },
             title() {
                 if (this.cumulative) {
-                    return 'Growth Rate Fatalities on cumulative';
+                    return 'Growth rate ' + this.source + ' on cumulative';
                 } else {
-                    return 'Growth Rate Fatalities';
+                    return 'Growth rate ' + this.source;
                 }
             },
             cumulative() {
@@ -31,11 +35,16 @@
             getValueForPoint(country, index) {
                 return country.originalDataPoints[index].fatalities;
             },
-            getValue(country, day, smoothened) {
+            getValue(country, day, smoothened, valueForMinMax) {
+                let source = this.source;
+                // sync the two growth graphs
+                if (valueForMinMax) {
+                    source = 'fatalities';
+                }
                 if (smoothened) {
-                    return day.getValue('growth', true);
+                    return day.getValue('growth', true, source);
                 } else {
-                    return day.getValue('growth', false);
+                    return day.getValue('growth', false, source);
                 }
             },
             getValue2(country, d) {

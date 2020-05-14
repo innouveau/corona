@@ -75,6 +75,9 @@
             },
             cumulative() {
                 return this.$store.state.settings.cumulative;
+            },
+            perCapita() {
+                return this.$store.state.settings.perCapita;
             }
         },
         methods: {
@@ -111,10 +114,10 @@
                             thisMin = 0;
                         }
                     } else {
-                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, smoothen)));
+                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, smoothen, true)));
                     }
 
-                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, smoothen)));
+                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, smoothen, true)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
@@ -438,7 +441,6 @@
                 if (this.type === 'growth') {
                     value = value.toFixed(3);
                 }
-
                 if (value === consts.virtualZero) {
                     value = 0;
                 } else if (this.type !== 'growth' && this.perCapita) {

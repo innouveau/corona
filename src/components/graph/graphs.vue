@@ -14,16 +14,20 @@
         props: {},
         computed: {
             showFatalities() {
-                let fatalities = this.$store.getters['types/getItemByProperty']('property', 'fatalities');
-                return fatalities.active;
+                let type = this.$store.getters['types/getItemByProperty']('property', 'fatalities');
+                return type.active;
             },
             showCases() {
-                let cases = this.$store.getters['types/getItemByProperty']('property', 'cases');
-                return cases.active;
+                let type = this.$store.getters['types/getItemByProperty']('property', 'cases');
+                return type.active;
             },
-            showGrowth() {
-                let growth = this.$store.getters['types/getItemByProperty']('property', 'growth');
-                return growth.active;
+            showGrowthFatalities() {
+                let type = this.$store.getters['types/getItemByProperty']('property', 'growth');
+                return type.active;
+            },
+            showGrowthCases() {
+                let type = this.$store.getters['types/getItemByProperty']('property', 'growth-cases');
+                return type.active;
             },
             l() {
                 return this.$store.state.types.all.filter(t => t.active).length;
@@ -157,8 +161,14 @@
             :data="data"/>
 
         <graph-growth
-            v-if="showGrowth"
-            :data="data"/>
+            v-if="showGrowthCases"
+            :data="data"
+            :source="'cases'"/>
+
+        <graph-growth
+            v-if="showGrowthFatalities"
+            :data="data"
+            :source="'fatalities'"/>
     </div>
 </template>
 

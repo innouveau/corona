@@ -36,8 +36,12 @@
                         property: 'fatalities'
                     }, {
                         id: 3,
-                        title: 'Growth',
+                        title: 'Growth fatalities',
                         property: 'growth'
+                    }, {
+                        id: 4,
+                        title: 'Growth cases',
+                        property: 'growth-cases'
                     }
                 ]
             }
@@ -176,7 +180,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3];
+                    typeIds = [2,3,4];
                 }
 
                 for (let typeId of typeIds) {
@@ -283,22 +287,22 @@
                 }
             },
             activatePredefinedCountries() {
-                // let regions = [
-                //     {
-                //         title: 'New York',
-                //         color: 'red'
-                //     }, {
-                //         title: 'Lombardia',
-                //         color: 'green'
-                //     }, {
-                //         title: 'Nordrhein-Westfalen',
-                //         color: 'black'
-                //     }, {
-                //         title: 'New Jersey',
-                //         color: 'orange'
-                //     }];
+                let regions = [
+                    {
+                        title: 'New York',
+                        color: 'red'
+                    }, {
+                        title: 'Lombardia',
+                        color: 'green'
+                    }, {
+                        title: 'Nordrhein-Westfalen',
+                        color: 'black'
+                    }, {
+                        title: 'New Jersey',
+                        color: 'orange'
+                    }];
 
-                    let regions = [{title: 'Korea South', color: 'black'}, {title: 'Netherlands', color: 'orange'}];
+                //let regions = [{title: 'Netherlands', color: 'orange'}];
 
                 for (let region of regions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);

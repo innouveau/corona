@@ -33,13 +33,13 @@ class Day {
         }
     }
 
-    getgrowth(smoothened) {
+    getgrowth(smoothened, source) {
         let thisValue, previousValue;
 
         if (this.previous) {
             if (smoothened) {
-                thisValue = this.getValue('fatalities', true);
-                previousValue = this.previous.getValue('fatalities', true);
+                thisValue = this.getValue(source, true);
+                previousValue = this.previous.getValue(source, true);
             } else {
                 thisValue = this.delta_fatalities;
                 previousValue = this.previous.delta_fatalities;
@@ -55,7 +55,7 @@ class Day {
     }
 
 
-    getValue(type, smoothened) {
+    getValue(type, smoothened, source) {
         let getTypeOfValue, cumulative, perCapita;
         cumulative = store.state.settings.cumulative;
         perCapita = store.state.settings.perCapita;
@@ -63,12 +63,12 @@ class Day {
         if (type === 'growth') {
             if (smoothened) {
                 getTypeOfValue = (dataPoint) => {
-                    return dataPoint.getgrowth(true);
+                    return dataPoint.getgrowth(true, source);
                 };
 
                 return this.smoothen(getTypeOfValue);
             } else {
-                return this.getgrowth(true);
+                return this.getgrowth(true, source);
             }
         } else {
             if (smoothened) {
