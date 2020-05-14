@@ -302,7 +302,7 @@
                         color: 'orange'
                     }];
 
-                //let regions = [{title: 'Netherlands', color: 'orange'}];
+                // let regions = [{title: 'Netherlands', color: 'orange'}];
 
                 for (let region of regions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);
@@ -318,13 +318,12 @@
                             value: region.color
                         });
                     }
-
                 }
             },
             addEvents(events) {
                 for (let event of events) {
                     this.addEventType(event.type);
-                    this.$store.commit('regions/addEvent', {region: event.region, event: event});
+                    this.$store.commit('regions/addEvent', {region: event.country, event: event});
                 }
             },
             addEventType(type) {
