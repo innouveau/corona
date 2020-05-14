@@ -27,6 +27,11 @@
         class="search-result-region search-result-button">
         <div class="search-result-button__main">
             {{region.title}}
+            <div
+                v-if="region.parent.originalRegion"
+                class="region__parent">
+                ({{region.parent.title}})
+            </div>
         </div>
     </div>
 </template>
@@ -45,6 +50,10 @@
             height: 100%;
             padding: 8px;
             cursor: pointer;
+
+            .region__parent {
+                margin-left: 4px;
+            }
 
             &:hover {
                 background: #ddd;

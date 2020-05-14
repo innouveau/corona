@@ -8,10 +8,12 @@
     import updatedAt from "@/components/updated-at";
     import errorModal from "@/components/elements/error-modal";
     import color from '@/tools/color';
+    import RegionInfo from "./components/tools/regions/region-info";
 
     export default {
         name: 'app',
         components: {
+            RegionInfo,
             errorModal,
             updatedAt,
             credits,
@@ -49,6 +51,9 @@
             },
             timestamp() {
                 return '?time=' + new Date().getTime();
+            },
+            currentRegion() {
+                return this.$store.state.ui.currentRegion;
             }
         },
         methods: {
@@ -136,6 +141,7 @@
                                 });
                                 parent = this.$store.getters['parents/getLastItem'];
                             }
+                            this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'parent', value: parent});
                             this.$store.commit('parents/addChild', {item: parent, child: region})
                         }
                     }
@@ -279,22 +285,20 @@
                 }
             },
             activatePredefinedCountries() {
-                // let regions = [
-                //     {
-                //         title: 'Netherlands',
-                //         color: 'orange'
-                //     }, {
-                //         title: 'Sweden',
-                //         color: 'blue'
-                //     },{
-                //         title: 'US',
-                //         color: 'red'
-                //     }];
-
-                let regions = [];
-
-
-
+                let regions = [
+                    {
+                        title: 'New York',
+                        color: 'red'
+                    }, {
+                        title: 'Lombardia',
+                        color: 'green'
+                    }, {
+                        title: 'Nordrhein-Westfalen',
+                        color: 'black'
+                    }, {
+                        title: 'New Jersey',
+                        color: 'orange'
+                    }];
 
                 for (let region of regions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);
@@ -340,8 +344,19 @@
         <tools/>
         <graphs
             v-if="dataLoaded"/>
-        <share-url/>
+
+        <div class="app__tools">
+            <share-url/>
+            <a href="https://datagraver.com/case/tool-for-comparing-countries-and-regions-on-covid-19-developments" target="_blank">
+                <div class="help">?</div> Help / explain
+            </a>
+
+        </div>
+
         <updated-at/>
+
+        <region-info
+            v-if="currentRegion"/>
 
         <error-modal v-if="showErrorModal"/>
         <credits/>
@@ -354,5 +369,47 @@
 
     .app {
         position: relative;
+
+        .app__tools {
+            position: fixed;
+            right: 8px;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            flex-direction: row-reverse;
+
+            a {
+                margin-right: 16px;
+                color: #000;
+                padding: 4px;
+                border: 1px solid #000;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                background: #ddd;
+
+                .help {
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                    margin-right: 4px;
+                    border: 1px solid #000;
+                    background: #fff;
+                }
+
+                &:hover {
+                    background: #000;
+                    color: #fff;
+
+                    .help {
+                        color: #000;
+                    }
+                };
+            }
+        }
     }
 </style>

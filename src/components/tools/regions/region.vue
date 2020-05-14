@@ -23,6 +23,9 @@
         methods: {
             deleteRegion() {
                 this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: false})
+            },
+            selectRegion() {
+                this.$store.commit('ui/updateProperty', {key: 'currentRegion', value: this.region})
             }
         }
     }
@@ -40,6 +43,11 @@
             :region="region"/>
         <div class="region__title">
             {{region.title}}
+        </div>
+        <div
+            @click="selectRegion()"
+            class="region__population">
+            {{region.populationString}}
         </div>
         <div
             @click="deleteRegion()"
@@ -64,6 +72,21 @@
             padding: 2px 6px;
             border-right: 1px solid #ddd;
             height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .region__population {
+            padding: 2px 6px;
+            border-right: 1px solid #ddd;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            &:hover {
+                background: #ddd;
+            }
         }
 
         .region__remove {

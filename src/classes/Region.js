@@ -27,6 +27,25 @@ class Region {
     addEvent(event) {
         this.events.push(new Event(event));
     }
+
+    get lastEntry() {
+        return this.entries[this.entries.length - 1];
+    }
+
+    get populationString() {
+        let n, million, mille;
+        million = 1000000;
+        mille = 1000;
+        if (this.population >= million) {
+            n = Math.round(this.population / million);
+            return n + 'M';
+        } else if (this.population >= mille) {
+            n = Math.round(this.population / mille);
+            return n + 'k';
+        } else {
+            return this.population;
+        }
+    }
 }
 
 export default Region;

@@ -100,7 +100,7 @@
 
         <div
             @click="close()"
-            class="share-url-popup__close">
+            class="close-button">
             ×
         </div>
     </div>
@@ -155,28 +155,26 @@
                 }
             }
         }
+    }
 
+    .close-button {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        font-size: 32px;
+        color: #fff;
+        padding: 4px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
 
-
-        .share-url-popup__close {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            font-size: 32px;
-            color: #fff;
-            padding: 4px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-
-            &:hover {
-                border: 1px solid #fff;
-            }
+        &:hover {
+            border: 1px solid #fff;
         }
     }
 </style>
