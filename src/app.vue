@@ -298,7 +298,7 @@
                 //         color: 'orange'
                 //     }];
 
-                    let regions = [{title: 'Georgia', color: 'black'}];
+                    let regions = [{title: 'Korea South', color: 'black'}, {title: 'Netherlands', color: 'orange'}];
 
                 for (let region of regions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);

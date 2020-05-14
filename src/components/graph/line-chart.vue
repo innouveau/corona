@@ -2,6 +2,7 @@
     import * as d3 from 'd3';
     import $ from 'jquery';
     import saveSVGmodule from 'save-svg-as-png';
+    import consts from '@/data/consts';
 
     export default {
         name: 'line-chart',
@@ -437,6 +438,18 @@
                 if (this.type === 'growth') {
                     value = value.toFixed(3);
                 }
+
+                if (value === consts.virtualZero) {
+                    value = 0;
+                } else if (this.type !== 'growth' && this.perCapita) {
+                    if (value > 10) {
+                        value = Math.round(value);
+                    } else {
+                        value = value.toFixed(1);
+                    }
+                }
+
+
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
                 this.tooltip.html(html);
