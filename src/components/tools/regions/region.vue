@@ -42,12 +42,12 @@
         <region-color
             :region="region"/>
         <div class="region__title">
-            {{region.title}}
+            {{region.title}} ({{region.populationString}})
         </div>
         <div
             @click="selectRegion()"
-            class="region__population">
-            {{region.populationString}}
+            class="region__select">
+            <div class="rounded-icon">i</div>
         </div>
         <div
             @click="deleteRegion()"
@@ -76,13 +76,19 @@
             align-items: center;
         }
 
-        .region__population {
+        .region__select {
             padding: 2px 6px;
             border-right: 1px solid #ddd;
             height: 100%;
             display: flex;
             align-items: center;
             cursor: pointer;
+
+            .rounded-icon {
+                width: 12px;
+                height: 12px;
+                font-size: 10px;
+            }
 
             &:hover {
                 background: #ddd;

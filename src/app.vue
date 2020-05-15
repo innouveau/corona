@@ -180,7 +180,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [2,3,4];
+                    typeIds = [1,2,4];
                 }
 
                 for (let typeId of typeIds) {
@@ -351,9 +351,8 @@
         <div class="app__tools">
             <share-url/>
             <a href="https://datagraver.com/case/tool-for-comparing-countries-and-regions-on-covid-19-developments" target="_blank">
-                <div class="help">?</div> Help / explain
+                <div class="rounded-icon">?</div> Help / explain
             </a>
-
         </div>
 
         <updated-at/>
@@ -391,19 +390,6 @@
                 align-items: center;
                 background: #ddd;
 
-                .help {
-                    width: 16px;
-                    height: 16px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 11px;
-                    margin-right: 4px;
-                    border: 1px solid #000;
-                    background: #fff;
-                }
-
                 &:hover {
                     background: #000;
                     color: #fff;
@@ -414,5 +400,18 @@
                 };
             }
         }
+    }
+
+    .rounded-icon {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        margin-right: 4px;
+        border: 1px solid #000;
+        background: #fff;
     }
 </style>

@@ -3,10 +3,14 @@
     import $ from 'jquery';
     import saveSVGmodule from 'save-svg-as-png';
     import consts from '@/data/consts';
+    import logo from "@/components/elements/logo";
+
 
     export default {
         name: 'line-chart',
-        components: {},
+        components: {
+            logo
+        },
         props: {
             data: {
                 type: Array,
@@ -41,7 +45,10 @@
                     width: 0,
                     height: 600 - margin.top - margin.bottom
                 },
+                showLogo: true,
                 svg: null,
+                main: null,
+                logo: null,
                 container: null,
                 linesLayer: null,
                 eventsLayer: null,
@@ -89,12 +96,23 @@
                 }, );
             },
             clear() {
-                if (this.svg) {
-                    this.svg.selectAll('*').remove();
+                if (this.main) {
+                    this.main.selectAll('*').remove();
                 }
             },
             setWidth() {
-                this.settings.width = this.$refs.chart.offsetWidth - this.settings.margin.left - this.settings.margin.right;
+                let x, y, width, height;
+                this.settings.width = this.$refs.container.offsetWidth - this.settings.margin.left - this.settings.margin.right;
+                width = this.settings.width + this.settings.margin.left + this.settings.margin.right;
+                height = this.settings.height + this.settings.margin.top + this.settings.margin.bottom;
+                x = width - 100;
+                y = height - 60;
+                this.svg
+                    .attr("width", width)
+                    .attr("height", height);
+
+                this.logo
+                    .attr('transform', 'translate(' + x + ',' + y + ')')
             },
             draw() {
                 let n, min, max, smoothen;
@@ -165,7 +183,7 @@
                 this.repositionLabels();
             },
             drawXAxisLabel() {
-                this.svg.append('g')
+                this.main.append('g')
                     .attr('class', 'x-axis-label')
                     .attr('transform', 'translate(' + this.settings.margin.left + ',' + (this.settings.height + this.settings.margin.top + 40) + ')')
                     .append('text')
@@ -175,7 +193,7 @@
                     .style('font-family', 'Montserrat, sans-serif');
             },
             drawTitle() {
-                this.svg.append('g')
+                this.main.append('g')
                     .attr('class', 'title')
                     .attr('transform', 'translate(' + this.settings.margin.left + ', 50)')
                     .append('text')
@@ -209,7 +227,7 @@
                     return 0;
                 });
                 for (let item of countries) {
-                    let label = this.svg.select('.country-label--' + item.country.id);
+                    let label = this.main.select('.country-label--' + item.country.id);
                     if (lastY !== null && item.lastPointValue > (lastY - margin)) {
                         lastY -= margin;
                     } else {
@@ -435,7 +453,7 @@
                 let chart, x, y, html, value, windowWidth, elementWidth;
                 x = this.xScale(i);
                 y = this.yScale(this.getValue(country, d));
-                chart = this.$refs.chart;
+                chart = this.$refs.container;
                 windowWidth = window.innerWidth;
                 value = this.getValue(country, d);
                 if (this.type === 'growth') {
@@ -483,7 +501,7 @@
                 let chart, x, y, html, value;
                 x = this.xScale(i);
                 y = this.yScale(this.getValue(country, d));
-                chart = this.$refs.chart;
+                chart = this.$refs.container;
 
                 html = country.title + ': ' + event.title;
 
@@ -529,9 +547,9 @@
                     .attr('stroke', '#aaa');
             },
             drawAxes() {
-                this.container = this.svg
-                    .attr("width", this.settings.width + this.settings.margin.left + this.settings.margin.right)
-                    .attr("height", this.settings.height + this.settings.margin.top + this.settings.margin.bottom)
+
+
+                this.container = this.main
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
 
@@ -562,9 +580,9 @@
 
             },
             init() {
-                let div = this.$refs.chart;
-                this.svg = d3.select(div).append("svg")
-                    .attr('fill', '#fff');
+                this.svg = d3.select(this.$refs.container).select('svg');
+                this.main = this.svg.select('.line-chart__content');
+                this.logo = d3.select(this.$refs.container).select('.line-chart__logo');
             },
             saveImage() {
                 let node, options;
@@ -573,7 +591,11 @@
                     backgroundColor: '#fff',
                     scale: 2
                 };
+                this.showLogo = true;
                 saveSVGmodule.saveSvgAsPng(node, "covid-19-chart.png", options);
+                setTimeout(()=>{
+                    this.showLogo = false;
+                })
             }
         },
         mounted() {
@@ -608,18 +630,25 @@
 <template>
     <div class="line-chart">
         <div
-            ref="chart"
+            ref="container"
             class="line-chart__container">
-
+            <svg fill="#fff">
+                <g class="line-chart__content"></g>
+                <g class="line-chart__logo">
+                    <logo v-if="showLogo"/>
+                </g>
+            </svg>
         </div>
-        <div
-            @click="saveImage()"
-            class="save-image">
-            <div class="save-image__icon">
-                <img src="assets/img/tools/screenshot.svg">
-            </div>
-            <div class="save-image__label">
-                Save image
+        <div class="save-image__container">
+            <div
+                @click="saveImage()"
+                class="save-image">
+                <div class="save-image__icon">
+                    <img src="assets/img/tools/screenshot.svg">
+                </div>
+                <div class="save-image__label">
+                    Save image
+                </div>
             </div>
         </div>
     </div>
@@ -633,39 +662,45 @@
 
     .line-chart {
         overflow: hidden;
+        position: relative;
 
-        .save-image {
-            position: relative;
-            left: calc(100% - 50px);
-            bottom: 60px;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
+        .save-image__container {
+            position: absolute;
+            right: 10px;
+            bottom: 26px;
+            padding: 4px 24px 4px 60px;
+            z-index: 1;
+            background: #fff;
 
-            .save-image__icon {
-                box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-                padding: 2px;
-                margin-right: 4px;
-                width: 24px;
-                height: 24px;
-                border-radius: 2px;
-                background: #fff;
-
-                img {
-                    width: 100%;
-                }
-            }
-
-            .save-image__label {
-                font-size: 8px;
-                display: none;
-            }
-
-            &:hover {
+            .save-image {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
 
                 .save-image__icon {
-                    background: orange;
+                    box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+                    padding: 2px;
+                    margin-right: 4px;
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 2px;
+                    background: #fff;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .save-image__label {
+                    font-size: 8px;
+                    display: none;
+                }
+
+                &:hover {
+
+                    .save-image__icon {
+                        background: orange;
+                    }
                 }
             }
         }
@@ -695,8 +730,6 @@
             }
         }
     }
-
-
 
     .event-info {
         position: absolute;

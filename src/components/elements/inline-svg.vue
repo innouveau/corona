@@ -13,7 +13,6 @@
         computed: {},
         methods: {
             readSvg() {
-                console.log("!");
                 $(this.$refs.container).empty();
                 $.get(this.src, (data) => {
                     let svg = $(data).find('svg');
