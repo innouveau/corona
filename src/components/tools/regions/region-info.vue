@@ -69,7 +69,9 @@
                         {{region.populationString}}
                     </div>
                 </div>
-                <div class="region-info__row">
+                <div
+                    v-if="region.parent"
+                    class="region-info__row">
                     <div class="region-info__label">
                         Part of
                     </div>

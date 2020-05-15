@@ -28,7 +28,7 @@
         <div class="search-result-button__main">
             {{region.title}}
             <div
-                v-if="region.parent.originalRegion"
+                v-if="region.parent && region.parent.originalRegion"
                 class="region__parent">
                 ({{region.parent.title}})
             </div>
