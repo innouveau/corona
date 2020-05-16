@@ -42,9 +42,9 @@
                     source = 'fatalities';
                 }
                 if (smoothened) {
-                    return day.getValue('growth', true, source);
+                    return day.getValue('growth', true, source, 'growth');
                 } else {
-                    return day.getValue('growth', false, source);
+                    return day.getValue('growth', false, source, 'growth');
                 }
             },
             getValue2(country, d) {

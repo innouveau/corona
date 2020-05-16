@@ -10,7 +10,7 @@ const state = {
     logScale: false,
     perCapita: false,
     cutYaxis: false,
-    cumulative: false,
+    cumulative: true,
     smoothening: 7,
 
     showEvents: true,

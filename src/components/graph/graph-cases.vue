@@ -36,7 +36,7 @@
         },
         methods: {
             getValue(country, day, smoothened) {
-                let value = day.getValue('cases', smoothened);
+                let value = day.getValue('cases', smoothened, '', 'cases');
                 if (value <= 0 && this.logScale) {
                     return 0.1;
                 } else {

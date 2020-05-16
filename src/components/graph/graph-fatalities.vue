@@ -38,7 +38,7 @@
         },
         methods: {
             getValue(country, day, smoothened) {
-                let value = day.getValue('fatalities', smoothened);
+                let value = day.getValue('fatalities', smoothened, 'fatalities');
                 //console.log(value);
                 if (value <= 0  && this.logScale) {
                     return consts.virtualZero;

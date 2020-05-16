@@ -55,7 +55,7 @@ class Day {
     }
 
 
-    getValue(type, smoothened, source) {
+    getValue(type, smoothened, source, graphType) {
         let getTypeOfValue, cumulative, perCapita;
         cumulative = store.state.settings.cumulative;
         perCapita = store.state.settings.perCapita;
@@ -66,7 +66,7 @@ class Day {
                     return dataPoint.getgrowth(true, source);
                 };
 
-                return this.smoothen(getTypeOfValue);
+                return this.smoothen(getTypeOfValue, graphType);
             } else {
                 return this.getgrowth(true, source);
             }
@@ -91,7 +91,7 @@ class Day {
                 }
 
 
-                return this.smoothen(getTypeOfValue);
+                return this.smoothen(getTypeOfValue, graphType);
             } else {
                 if (cumulative) {
                     if (perCapita) {
@@ -110,24 +110,32 @@ class Day {
         }
     }
 
-    smoothen(getTypeOfValue) {
-        let totalValue, thisIndex, startingIndex, endIndex, totalWeight, rollingNumber;
-        rollingNumber = 7;
-        totalValue = 0;
+    smoothen(getTypeOfValue, graphType) {
+        let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
+            desiredLength, availableLength;
         totalWeight = 0;
+        totalValue = 0;
+
+        desiredLength = 6;
         thisIndex = this.index;
-        startingIndex = Math.max(thisIndex - rollingNumber, 0) + 1;
-        endIndex = Math.min(thisIndex + rollingNumber, (this.country.originalDataPoints.length - 1)) - 1;
+        if (store.state.settings.cumulative && graphType !== 'growth') {
+            availableLength = Math.min(thisIndex, desiredLength);
+            availableLength = Math.min(availableLength, (this.country.originalDataPoints.length - 1 - thisIndex));
+
+            startingIndex = thisIndex - availableLength;
+            endIndex = thisIndex + availableLength;
+        } else {
+            startingIndex = Math.max(thisIndex - desiredLength, 0) + 1;
+            endIndex = Math.min(thisIndex + desiredLength, (this.country.originalDataPoints.length - 1)) - 1;
+            availableLength = desiredLength;
+        }
         for (let i = startingIndex; i < (endIndex + 1); i++) {
             let dataPoint, weight;
             dataPoint = this.country.originalDataPoints[i];
-            weight = rollingNumber - Math.abs(i - thisIndex);
-
+            weight = 1 + availableLength - Math.abs(i - thisIndex);
             totalValue += getTypeOfValue(dataPoint) * weight;
-            //console.log('x ' + weight);
             totalWeight += weight;
         }
-        //console.log('total weight ' + totalWeight);
         return totalValue / totalWeight;
     }
 }

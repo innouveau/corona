@@ -117,7 +117,7 @@
                 </div>
                 <div class="region-info__row">
                     <div class="region-info__label">
-                        Case Fatality Rate
+                        Naïve Case Fatality Rate
                     </div>
                     <div class="region-info__value">
                         {{cfr}}
