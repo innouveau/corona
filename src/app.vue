@@ -181,7 +181,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3];
+                    typeIds = [1,2,3, 4];
                 }
 
                 for (let typeId of typeIds) {

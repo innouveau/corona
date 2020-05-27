@@ -29,6 +29,12 @@
             },
             cumulative() {
                 return this.$store.state.settings.cumulative;
+            },
+            growthFatalitiesActive() {
+                return this.$store.getters['types/getItemByProperty']('property', 'growth').active;
+            },
+            growthCasesActive() {
+                return this.$store.getters['types/getItemByProperty']('property', 'growth-cases').active;
             }
         },
         methods: {
@@ -38,8 +44,22 @@
             getValue(country, day, smoothened, valueForMinMax) {
                 let source = this.source;
                 // sync the two growth graphs
+
+                function regionHasFatalityInfo(country) {
+                    for (let day of country.originalDataPoints) {
+                        if (day.fatalities > 0) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
                 if (valueForMinMax) {
-                    source = 'cases';
+                    if (this.growthFatalitiesActive && regionHasFatalityInfo(country)) {
+                        source = 'fatalities';
+                    } else {
+                        source = 'cases';
+                    }
                 }
                 if (smoothened) {
                     return day.getValue('growth', true, source, 'growth');

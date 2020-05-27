@@ -699,7 +699,7 @@
             right: 10px;
             bottom: 26px;
             padding: 4px 24px 4px 60px;
-            z-index: 1;
+            z-index: 0;
             background: #fff;
 
             .save-image {
