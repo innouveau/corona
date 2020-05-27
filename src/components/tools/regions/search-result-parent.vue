@@ -2,8 +2,7 @@
     import colorTool from '@/tools/color';
     import { Swatches } from 'vue-color';
     import Parent from "@/classes/Parent";
-    import Region from "@/classes/Region";
-    import Day from "@/classes/Day";
+    import regionTool from '@/tools/regions';
 
     export default {
         name: 'search-result-parent',
@@ -40,43 +39,7 @@
                 this.close();
             },
             selectMerged() {
-                let data, r;
-
-                data = {
-                    id: this.$store.state.regions.all.length + 1,
-                    title: this.parent.title,
-                    color: colorTool.getRandom(),
-                    population: 0,
-                    entries: []
-                };
-                r = new Region(data);
-                r.active = true;
-
-                let index = 0;
-                for (let region of this.parent.regions) {
-                    r.population += region.population;
-                    let dayIndex = 0;
-                    for (let day of region.entries) {
-                        if (index === 0) {
-                            let d = new Day({
-                                index: data.entries.length,
-                                cases: 0,
-                                fatalities: 0,
-                                date: day.date
-                            }, r);
-                            r.entries.push(d);
-                        }
-
-                        let rd = r.entries[dayIndex];
-                        rd.cases += day.cases;
-                        rd.fatalities += day.fatalities;
-                        dayIndex++;
-                    }
-                    index++;
-                }
-
-                this.$store.commit('regions/create', r);
-                this.parent.merged = true;
+                regionTool.selectParentAsMerged(this.parent);
                 this.close();
             },
             toggle() {

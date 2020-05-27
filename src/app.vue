@@ -9,6 +9,7 @@
     import errorModal from "@/components/elements/error-modal";
     import color from '@/tools/color';
     import RegionInfo from "./components/tools/regions/region-info";
+    import regionTool from '@/tools/regions';
 
     export default {
         name: 'app',
@@ -70,9 +71,9 @@
                     d3.csv('data/starting-regions.csv' + this.timestamp),
                 ]).then((files) => {
                     this.convertData(files[0], files[1]);
-                    this.getQueryParameters(files[4]);
                     this.addRegionData(files[2]);
                     this.addEvents(files[3]);
+                    this.getQueryParameters(files[4]);
                 }).catch((err) => {
                     console.log(err);
                 })
@@ -181,7 +182,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3, 4];
+                    typeIds = [1,2,3];
                 }
 
                 for (let typeId of typeIds) {
@@ -210,7 +211,7 @@
                         } else {
                             regionName = string;
                         }
-                        region = this.$store.getters['regions/getItemByProperty']('title', regionName, true);
+                        region = this.getRegionByTitle(regionName);
                         if (region) {
                             this.$store.commit('regions/updatePropertyOfItem', {item: {id: region.id}, property: 'active', value: true});
                             if (color) {
@@ -287,9 +288,24 @@
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
             },
+            getRegionByTitle(regionTitle) {
+                console.log(regionTitle);
+                let region, parent;
+                region = this.$store.getters['regions/getItemByProperty']('title', regionTitle, true);
+                // try parent
+                if (!region) {
+                    parent = this.$store.getters['parents/getItemByProperty']('title', regionTitle, true);
+                    console.log(parent);
+                    if (parent) {
+                        regionTool.selectParentAsMerged(parent);
+                        region = this.$store.getters['regions/getItemByProperty']('title', regionTitle, true);
+                    }
+                }
+                return region;
+            },
             activateStartingRegions(startingRegions) {
                 for (let region of startingRegions) {
-                    let item = this.$store.getters['regions/getItemByProperty']('title', region.title);
+                    let item = this.getRegionByTitle(region.title);
                     if (item) {
                         this.$store.commit('regions/updatePropertyOfItem', {
                             item,
