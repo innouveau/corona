@@ -39,7 +39,7 @@
                 let source = this.source;
                 // sync the two growth graphs
                 if (valueForMinMax) {
-                    source = 'fatalities';
+                    source = 'cases';
                 }
                 if (smoothened) {
                     return day.getValue('growth', true, source, 'growth');
@@ -95,9 +95,7 @@
                         thisIndex = country.originalDataPoints.length - 1;
                     }
                     point = this.getValueForPoint(country, thisIndex);
-                    //point = country.originalDataPoints[thisIndex];
                     prevPoint = this.getValueForPoint(country, (thisIndex - 1));
-                    //prevPoint = country.originalDataPoints[thisIndex - 1];
 
                     if (prevPoint === 0 && point > 0) {
                         // skip this

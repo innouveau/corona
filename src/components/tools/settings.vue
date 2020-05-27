@@ -2,11 +2,13 @@
     import Datepicker from 'vuejs-datepicker';
     import vSelect from 'vue-select';
     import 'vue-select/dist/vue-select.css';
+    import GraphSettings from "./dashboard/graph-settings";
 
 
     export default {
         name: 'settings',
         components: {
+            GraphSettings,
             Datepicker,
             vSelect
         },
@@ -143,7 +145,16 @@
                 days (or before if no data).
             </div>
         </div>
-<!--        <div class="settings__row">-->
+        <div class="settings__row">
+            <div class="settings__info-cell">
+                Graph settings
+            </div>
+            <div class="settings__row-content">
+                <graph-settings/>
+            </div>
+        </div>
+
+        <!--        <div class="settings__row">-->
 <!--            <div class="settings__info-cell">-->
 <!--                Smoothen Growth Rate over-->
 <!--            </div>-->

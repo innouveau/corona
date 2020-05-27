@@ -35,13 +35,13 @@
                         title: 'Fatalities',
                         property: 'fatalities'
                     }, {
-                        id: 3,
-                        title: 'Growth fatalities',
-                        property: 'growth'
-                    }, {
                         id: 4,
                         title: 'Growth cases',
                         property: 'growth-cases'
+                    }, {
+                        id: 3,
+                        title: 'Growth fatalities',
+                        property: 'growth'
                     }
                 ]
             }
@@ -66,16 +66,18 @@
                     d3.csv('data/cases.csv' + this.timestamp),
                     d3.csv('data/fatalities.csv' + this.timestamp),
                     d3.csv('data/regions.csv' + this.timestamp),
-                    d3.csv('data/events.csv' + this.timestamp)
+                    d3.csv('data/events.csv' + this.timestamp),
+                    d3.csv('data/starting-regions.csv' + this.timestamp),
                 ]).then((files) => {
-                    this.convertData(files[0], files[1], files[2]);
+                    this.convertData(files[0], files[1]);
+                    this.getQueryParameters(files[4]);
                     this.addRegionData(files[2]);
                     this.addEvents(files[3]);
                 }).catch((err) => {
                     console.log(err);
                 })
             },
-            convertData(regionsWithCases, regionsWithFatalities, population) {
+            convertData(regionsWithCases, regionsWithFatalities) {
                 let regions, counter, regionNameIndex;
                 regions = [];
                 counter = 0;
@@ -153,9 +155,8 @@
                 this.$store.commit('regions/init', regions);
                 this.$store.commit('types/init', this.types);
                 this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
-                this.getQueryParameters();
             },
-            getQueryParameters(){
+            getQueryParameters(startingRegions){
                 let regions, countries, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
                     mappingEventType, mappingDate, logScale, perCapita, cutYaxis,
@@ -218,7 +219,7 @@
                         }
                     }
                 } else {
-                    this.activatePredefinedCountries();
+                    this.activateStartingRegions(startingRegions);
                 }
 
                 // register the settings
@@ -286,25 +287,8 @@
                     this.$store.commit('ui/updateProperty', {key: 'description', value: description});
                 }
             },
-            activatePredefinedCountries() {
-                // let regions = [
-                //     {
-                //         title: 'New York',
-                //         color: 'red'
-                //     }, {
-                //         title: 'Lombardia',
-                //         color: 'green'
-                //     }, {
-                //         title: 'Nordrhein-Westfalen',
-                //         color: 'black'
-                //     }, {
-                //         title: 'New Jersey',
-                //         color: 'orange'
-                //     }];
-
-                let regions = [{title: 'Netherlands', color: 'orange'}];
-
-                for (let region of regions) {
+            activateStartingRegions(startingRegions) {
+                for (let region of startingRegions) {
                     let item = this.$store.getters['regions/getItemByProperty']('title', region.title);
                     if (item) {
                         this.$store.commit('regions/updatePropertyOfItem', {

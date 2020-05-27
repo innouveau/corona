@@ -10,12 +10,12 @@ const state = {
     logScale: false,
     perCapita: false,
     cutYaxis: false,
-    cumulative: true,
-    smoothening: 7,
+    cumulative: false,
+    graphSetting: 'Both',
 
     showEvents: true,
     eventTypes: [],
-    hasDescriptionViaQuery: false
+    hasDescriptionViaQuery: false,
 };
 
 const getters = {

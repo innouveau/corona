@@ -85,6 +85,21 @@
             },
             perCapita() {
                 return this.$store.state.settings.perCapita;
+            },
+            graphSetting() {
+                return this.$store.state.settings.graphSetting;
+            },
+            drawRaw() {
+                return this.type !== 'growth' && this.graphSetting !== 'Smoothened';
+            },
+            drawSmoothened() {
+                return this.graphSetting !== 'Raw data' || this.type === 'growth';
+            },
+            smoothen() {
+                return this.type === 'growth';
+            },
+            dotsBasedOnSmoothened() {
+                return !this.drawRaw
             }
         },
         methods: {
@@ -115,11 +130,10 @@
                     .attr('transform', 'translate(' + x + ',' + y + ')')
             },
             draw() {
-                let n, min, max, smoothen;
+                let n, min, max;
                 n = 0;
                 min = null;
                 max = 0;
-                smoothen = (this.type === 'growth');
 
 
                 for (let country of this.data) {
@@ -132,10 +146,10 @@
                             thisMin = 0;
                         }
                     } else {
-                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, smoothen, true)));
+                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
                     }
 
-                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, smoothen, true)));
+                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
@@ -287,7 +301,7 @@
             drawEvent(country, index, event) {
                 let x, y, eventGroup, circle;
                 x = this.xScale(index);
-                y = this.yScale(this.getValue(country, country.dataPoints[index], true));
+                y = this.yScale(this.getValue(country, country.dataPoints[index], this.drawSmoothened));
 
                 eventGroup = this.eventsLayer.append('g')
                     .attr('class', 'event-group')
@@ -317,10 +331,12 @@
                     });
             },
             drawRegionLines(country) {
-                if (this.type !== 'growth') {
+                if (this.drawRaw) {
                     this.drawRegionLineRaw(country);
                 }
-                this.drawRegionLineSmoothened(country);
+                if (this.drawSmoothened) {
+                    this.drawRegionLineSmoothened(country);
+                }
                 this.drawRegionDots(country);
             },
             drawRegionLineSmoothened(country) {
@@ -362,11 +378,15 @@
                     })
                     .style('fill', 'transparent')
                     .attr("d", line)
-                    .attr('stroke-width', '0.1');
+                    .attr('stroke-width', ()=> {
+                        if (!this.drawSmoothened) {
+                            return 1;
+                        } else {
+                            return 0.1;
+                        }
+                    });
             },
             drawRegionDots(country) {
-                let smoothen = this.type === 'growth';
-
                 let dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
                     .data(country.dataPoints)
                     .enter().append("g")
@@ -376,7 +396,7 @@
                 dots.append("circle")
                     .attr("fill", "transparent")
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, smoothen)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened)) })
                     .attr("r", 7)
                     .attr("class", "dot__active-area")
                     .on("mouseover", (d, i) => {
@@ -401,7 +421,7 @@
                         }
                     })
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, smoothen)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened)) })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area")
                     .style('stroke', '#fff');
@@ -427,7 +447,6 @@
                     .style('font-family', 'Montserrat, sans-serif')
                     .append('text')
                     .text(country.title)
-
             },
 
             // events
@@ -435,7 +454,7 @@
             showVisor(country, d, i) {
                 let x, y;
                 x = this.xScale(i);
-                y = this.yScale(this.getValue(country, d));
+                y = this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened));
                 this.visorX.attr('x1', x)
                     .attr('x2', x)
                     .attr('visibility', 'visible');
@@ -450,12 +469,18 @@
                 this.visorY.attr('visibility', 'hidden')
             },
             showTooltip(country, d, i) {
-                let chart, x, y, html, value, windowWidth, elementWidth;
-                x = this.xScale(i);
-                y = this.yScale(this.getValue(country, d));
+                let chart, parent, parentX, parentY, x, y, html,
+                    value, windowWidth, elementWidth;
+
+                parent = $(this.$refs.container);
+                parentX = parent.offset().left - 12;
+                parentY = parent.offset().top;
+
+                x = parentX + this.xScale(i);
+                y = parentY + this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened));
                 chart = this.$refs.container;
                 windowWidth = window.innerWidth;
-                value = this.getValue(country, d);
+                value = this.getValue(country, d, this.smoothen);
                 if (this.type === 'growth') {
                     value = value.toFixed(3);
                 }
@@ -465,7 +490,11 @@
                     if (value > 10) {
                         value = Math.round(value);
                     } else {
-                        value = value.toFixed(1);
+                        if (value > 1) {
+                            value = value.toFixed(1);
+                        } else {
+                            value = value.toFixed(2);
+                        }
                     }
                 }
 
@@ -498,9 +527,12 @@
                    .style("opacity", 0);
             },
             showEventInfo(country, event, d, i) {
-                let chart, x, y, html, value;
-                x = this.xScale(i);
-                y = this.yScale(this.getValue(country, d));
+                let chart, x, y, html,  parent, parentX, parentY;
+                parent = $(this.$refs.container);
+                parentX = parent.offset().left - 12;
+                parentY = parent.offset().top;
+                x = parentX + this.xScale(i);
+                y = parentY + this.yScale(this.getValue(country, d, this.smoothen));
                 chart = this.$refs.container;
 
                 html = country.title + ': ' + event.title;
@@ -547,8 +579,6 @@
                     .attr('stroke', '#aaa');
             },
             drawAxes() {
-
-
                 this.container = this.main
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
