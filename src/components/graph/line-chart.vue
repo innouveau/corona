@@ -136,7 +136,7 @@
                 max = 0;
 
 
-                for (let country of this.data) {
+                for (let region of this.data) {
                     let thisMin, thisMax;
                     if (!this.cutYaxis) {
                         // 0 gives trouble for logscale
@@ -146,12 +146,12 @@
                             thisMin = 0;
                         }
                     } else {
-                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
+                        thisMin = d3.min(region.dataPoints.map(d => this.getValue(region, d, this.smoothen, true)));
                     }
 
-                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
-                    if (country.dataPoints.length > n) {
-                        n = country.dataPoints.length;
+                    thisMax = d3.max(region.dataPoints.map(d => this.getValue(region, d, this.smoothen, true)));
+                    if (region.dataPoints.length > n) {
+                        n = region.dataPoints.length;
                     }
                     if ((min === null || thisMin < min) && thisMin !== null) {
                         min = thisMin;
@@ -189,9 +189,9 @@
                 this.drawTitle();
                 this.drawXAxisLabel();
 
-                for (let country of this.data) {
-                    if (country.dataPoints.length > 0) {
-                        this.drawRegion(country);
+                for (let region of this.data) {
+                    if (region.dataPoints.length > 0) {
+                        this.drawRegion(region);
                     }
                 }
                 this.repositionLabels();
@@ -221,13 +221,13 @@
                 let countries, lastY, margin, x;
                 margin = 6;
                 lastY = null;
-                countries = this.data.filter(country => {
-                    return country.dataPoints.length > 0;
-                }).map(country => {
-                    let lastPoint = country.dataPoints[country.dataPoints.length - 1];
+                countries = this.data.filter(region => {
+                    return region.dataPoints.length > 0;
+                }).map(region => {
+                    let lastPoint = region.dataPoints[region.dataPoints.length - 1];
                     return {
-                        country,
-                        lastPointValue: this.yScale(this.getValue(country, lastPoint, true)) + 2
+                        region,
+                        lastPointValue: this.yScale(this.getValue(region, lastPoint, true)) + 2
                     }
                 });
 
@@ -241,13 +241,13 @@
                     return 0;
                 });
                 for (let item of countries) {
-                    let label = this.main.select('.country-label--' + item.country.id);
+                    let label = this.main.select('.region-label--' + item.region.id);
                     if (lastY !== null && item.lastPointValue > (lastY - margin)) {
                         lastY -= margin;
                     } else {
                         lastY = item.lastPointValue;
                     }
-                    x = this.xScale(item.country.dataPoints.length - 1) + 6;
+                    x = this.xScale(item.region.dataPoints.length - 1) + 6;
                     label.attr('transform', 'translate(' + x + ',' + lastY + ')');
                 }
 
@@ -271,11 +271,11 @@
                     .attr('y2', 10)
                     .attr('visibility', 'hidden');
             },
-            drawRegion(country) {
-                this.drawRegionLines(country);
-                this.drawRegionLabel(country);
+            drawRegion(region) {
+                this.drawRegionLines(region);
+                this.drawRegionLabel(region);
                 if (this.showEvents){
-                    this.drawEvents(country);
+                    this.drawEvents(region);
                 }
             },
             getIndexByDate(date, dataPoints) {
@@ -288,20 +288,20 @@
                 }
                 return -1;
             },
-            drawEvents(country) {
-                for (let event of country.events) {
-                    let index = this.getIndexByDate(event.date, country.dataPoints);
+            drawEvents(region) {
+                for (let event of region.events) {
+                    let index = this.getIndexByDate(event.date, region.dataPoints);
                     if (index > -1) {
                         if (this.$store.state.settings.eventTypes.indexOf(event.type) > -1) {
-                            this.drawEvent(country, index, event);
+                            this.drawEvent(region, index, event);
                         }
                     }
                 }
             },
-            drawEvent(country, index, event) {
+            drawEvent(region, index, event) {
                 let x, y, eventGroup, circle;
                 x = this.xScale(index);
-                y = this.yScale(this.getValue(country, country.dataPoints[index], this.drawSmoothened));
+                y = this.yScale(this.getValue(region, region.dataPoints[index], this.drawSmoothened));
 
                 eventGroup = this.eventsLayer.append('g')
                     .attr('class', 'event-group')
@@ -311,8 +311,8 @@
                     .attr('class', 'event')
                     .attr('r', 7)
                     .attr('fill', function(d){
-                        if (country.visible) {
-                            return country.color;
+                        if (region.visible) {
+                            return region.color;
                         } else {
                             return 'transparent';
                         }
@@ -320,37 +320,40 @@
                     .style('opacity',0.2);
 
                 circle.on("mouseover", () => {
-                    if (country.visible) {
-                        this.showEventInfo(country, event, country.dataPoints[index], index);
+                    if (region.visible) {
+                        this.showEventInfo(region, event, region.dataPoints[index], index);
                     }
                 })
                     .on("mouseout", (d) => {
-                        if (country.visible) {
+                        if (region.visible) {
                             this.hideEventInfo();
                         }
                     });
             },
-            drawRegionLines(country) {
+            drawRegionLines(region) {
                 if (this.drawRaw) {
-                    this.drawRegionLineRaw(country);
+                    this.drawRegionLineRaw(region);
                 }
                 if (this.drawSmoothened) {
-                    this.drawRegionLineSmoothened(country);
+                    this.drawRegionLineSmoothened(region);
                 }
-                this.drawRegionDots(country);
+                if (this.type === 'growth') {
+                    this.drawConfidenceArea(region)
+                }
+                this.drawRegionDots(region);
             },
-            drawRegionLineSmoothened(country) {
+            drawRegionLineSmoothened(region) {
                 let line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
-                    .y((d) => { return this.yScale(this.getValue(country, d, true)); })
+                    .y((d) => { return this.yScale(this.getValue(region, d, true)); })
                     .curve(d3.curveMonotoneX);
 
                 this.linesLayer.append("path")
-                    .datum(country.dataPoints)
+                    .datum(region.dataPoints)
                     .attr("class", "line line--smoothened")
                     .attr("stroke", () => {
-                        if (country.visible) {
-                            return country.color;
+                        if (region.visible) {
+                            return region.color;
                         } else {
                             return 'transparent';
                         }
@@ -360,18 +363,18 @@
                     //.attr('stroke-dasharray', '4,3')
                     .attr('stroke-width', '1.5');
             },
-            drawRegionLineRaw(country) {
+            drawRegionLineRaw(region) {
                 let line = d3.line()
                     .x((d, i) => { return this.xScale(i); })
-                    .y((d) => { return this.yScale(this.getValue(country, d, false)); })
+                    .y((d) => { return this.yScale(this.getValue(region, d, false)); })
                     .curve(d3.curveMonotoneX);
 
                 this.linesLayer.append("path")
-                    .datum(country.dataPoints)
+                    .datum(region.dataPoints)
                     .attr("class", "line line--raw")
                     .attr("stroke", () => {
-                        if (country.visible) {
-                            return country.color;
+                        if (region.visible) {
+                            return region.color;
                         } else {
                             return 'transparent';
                         }
@@ -386,27 +389,51 @@
                         }
                     });
             },
-            drawRegionDots(country) {
-                let dots = this.linesLayer.selectAll(".dot.dot--" + country.id)
-                    .data(country.dataPoints)
+            drawConfidenceArea(region) {
+                this.linesLayer.append("path")
+                    .datum(region.dataPoints)
+                    .attr("fill", ()=> {
+                        if (region.visible) {
+                            return region.color;
+                        } else {
+                            return 'transparent';
+                        }
+                    })
+                    .style('opacity', 0.2)
+                    .attr("stroke", "none")
+                    .attr("d", d3.area()
+                        .x((d, i) => { return this.xScale(i); })
+                        .y0((d) => {
+                            let pTop = this.getValue(region, d, true) + this.$parent.getInterval(region, d);
+                            return this.yScale(pTop);
+                        })
+                        .y1((d) => {
+                            let pBottom = this.getValue(region, d, true) - this.$parent.getInterval(region, d);
+                            return this.yScale(pBottom);
+                        })
+                    )
+            },
+            drawRegionDots(region) {
+                let dots = this.linesLayer.selectAll(".dot.dot--" + region.id)
+                    .data(region.dataPoints)
                     .enter().append("g")
-                    .attr("class", "dot dot--" + country.id);
+                    .attr("class", "dot dot--" + region.id);
 
 
                 dots.append("circle")
                     .attr("fill", "transparent")
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(region, d, this.dotsBasedOnSmoothened)) })
                     .attr("r", 7)
                     .attr("class", "dot__active-area")
                     .on("mouseover", (d, i) => {
-                        if (country.visible) {
-                            this.showTooltip(country, d, i);
-                            this.showVisor(country, d, i);
+                        if (region.visible) {
+                            this.showTooltip(region, d, i);
+                            this.showVisor(region, d, i);
                         }
                     })
                     .on("mouseout", (d) => {
-                        if (country.visible) {
+                        if (region.visible) {
                             this.hideTooltip();
                             this.hideVisor();
                         }
@@ -414,31 +441,31 @@
 
                 dots.append("circle")
                     .attr("fill", () => {
-                        if (country.visible) {
-                            return country.color;
+                        if (region.visible) {
+                            return region.color;
                         } else {
                             return 'transparent';
                         }
                     })
                     .attr("cx", (d, i) => { return this.xScale(i) })
-                    .attr("cy", (d) => { return this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened)) })
+                    .attr("cy", (d) => { return this.yScale(this.getValue(region, d, this.dotsBasedOnSmoothened)) })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area")
                     .style('stroke', '#fff');
             },
-            drawRegionLabel(country) {
+            drawRegionLabel(region) {
                 let dataset, lastPoint, x, y;
 
-                dataset = country.dataPoints;
+                dataset = region.dataPoints;
                 lastPoint = dataset[dataset.length - 1];
                 x = this.xScale(dataset.length - 1) + 6;
-                y = this.yScale(this.getValue(country, lastPoint, true)) + 2;
+                y = this.yScale(this.getValue(region, lastPoint, true)) + 2;
                 this.linesLayer.append("g")
-                    .attr("class", "country-label country-label--" + country.id)
+                    .attr("class", "region-label region-label--" + region.id)
                     .attr('transform', 'translate(' + x + ',' + y + ')')
                     .attr('fill', () => {
-                        if (country.visible) {
-                            return country.color;
+                        if (region.visible) {
+                            return region.color;
                         } else {
                             return 'transparent';
                         }
@@ -446,15 +473,15 @@
                     .style('font-size', '8px')
                     .style('font-family', 'Montserrat, sans-serif')
                     .append('text')
-                    .text(country.title)
+                    .text(region.title)
             },
 
             // events
 
-            showVisor(country, d, i) {
+            showVisor(region, d, i) {
                 let x, y;
                 x = this.xScale(i);
-                y = this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened));
+                y = this.yScale(this.getValue(region, d, this.dotsBasedOnSmoothened));
                 this.visorX.attr('x1', x)
                     .attr('x2', x)
                     .attr('visibility', 'visible');
@@ -468,7 +495,7 @@
 
                 this.visorY.attr('visibility', 'hidden')
             },
-            showTooltip(country, d, i) {
+            showTooltip(region, d, i) {
                 let chart, parent, parentX, parentY, x, y, html,
                     value, windowWidth, elementWidth;
 
@@ -477,10 +504,10 @@
                 parentY = parent.offset().top;
 
                 x = parentX + this.xScale(i);
-                y = parentY + this.yScale(this.getValue(country, d, this.dotsBasedOnSmoothened));
+                y = parentY + this.yScale(this.getValue(region, d, this.dotsBasedOnSmoothened));
                 chart = this.$refs.container;
                 windowWidth = window.innerWidth;
-                value = this.getValue(country, d, this.smoothen);
+                value = this.getValue(region, d, this.smoothen);
                 if (this.type === 'growth') {
                     value = value.toFixed(3);
                 }
@@ -499,7 +526,7 @@
                 }
 
 
-                html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
+                html = '<div class="tooltip__region">' + region.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
 
                 this.tooltip.html(html);
 
@@ -516,7 +543,7 @@
                     .style("opacity", 1);
 
                 this.tooltip
-                    .style("border-left", "4px solid " + country.color);
+                    .style("border-left", "4px solid " + region.color);
 
                 this.tooltip
                     .style("top", (chart.offsetTop + y + 50) + "px")
@@ -526,22 +553,22 @@
                 this.tooltip
                    .style("opacity", 0);
             },
-            showEventInfo(country, event, d, i) {
+            showEventInfo(region, event, d, i) {
                 let chart, x, y, html,  parent, parentX, parentY;
                 parent = $(this.$refs.container);
                 parentX = parent.offset().left - 12;
                 parentY = parent.offset().top;
                 x = parentX + this.xScale(i);
-                y = parentY + this.yScale(this.getValue(country, d, this.smoothen));
+                y = parentY + this.yScale(this.getValue(region, d, this.smoothen));
                 chart = this.$refs.container;
 
-                html = country.title + ': ' + event.title;
+                html = region.title + ': ' + event.title;
 
                 this.eventInfo
                     .style("opacity", 1);
 
                 this.eventInfo
-                    .style("border-left", "4px solid " + country.color);
+                    .style("border-left", "4px solid " + region.color);
 
                 this.eventInfo.html(html)
                     .style("top", (chart.offsetTop + y + 60) + "px")
@@ -781,7 +808,7 @@
         opacity: 0;
         box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
 
-        .tooltip__country {
+        .tooltip__region {
             height: 100%;
             display: flex;
             align-items: center;

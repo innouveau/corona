@@ -289,7 +289,6 @@
                 }
             },
             getRegionByTitle(regionTitle) {
-                console.log(regionTitle);
                 let region, parent;
                 region = this.$store.getters['regions/getItemByProperty']('title', regionTitle, true);
                 // try parent

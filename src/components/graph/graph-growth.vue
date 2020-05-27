@@ -67,89 +67,23 @@
                     return day.getValue('growth', false, source, 'growth');
                 }
             },
-            getValue2(country, d) {
-                let index, days, value, totalMultiply, multiply, multiplyDict;
-                multiplyDict = {};
-                totalMultiply = 0;
-                multiply = 1;
-                index = d.index;
-                days = Number(this.smoothening);
+            getInterval(region, d) {
+                return 0.05;
+                // let p, n;
+                // n = d[this.source];
+                // if (n === 0) {
+                //     return 1;
+                // } else {
+                //     p = this.getValue(region, d, true);
+                //     let v = 2 * Math.sqrt((p * ( 1 - p)) / n);
+                //     if (isNaN(v)) {
+                //         console.log('-');
+                //         console.log(p);
+                //         console.log(n);
+                //     }
+                //     return v;
+                // }
 
-
-                const addToDict = function(growthNumber, multiply) {
-                    if (!multiplyDict[multiply]) {
-                        multiplyDict[multiply] = [];
-                    }
-                    multiplyDict[multiply].push(growthNumber);
-                };
-
-                const calculateDict = function() {
-                    let value, n;
-                    value = 0;
-                    n = 0;
-                    for (let key in multiplyDict) {
-                        let k = Number(key);
-                        // if for some rease a point is skipped, we have respect
-                        // the dict mirror. So if one side is missing, the
-                        // other side wont count;
-                        if (multiplyDict[k].length === 2) {
-                            value += multiplyDict[k][0] * k;
-                            value += multiplyDict[k][1] * k;
-                            n += 2 * k;
-                        } else if (k === (days + 1)) {
-                            // this is the center point
-                            value += multiplyDict[k][0] * k;
-                            n += k;
-                        }
-                    }
-                    return value / n;
-                };
-
-                for (let i = 0 ; i < (2 * days + 1); i++ ) {
-                    let thisGrowthNumber, point, prevPoint, thisIndex;
-                    thisIndex = index - days + i;
-                    if (thisIndex < 1) {
-                        thisIndex = 1;
-                    }
-                    if (thisIndex > country.originalDataPoints.length - 1) {
-                        thisIndex = country.originalDataPoints.length - 1;
-                    }
-                    point = this.getValueForPoint(country, thisIndex);
-                    prevPoint = this.getValueForPoint(country, (thisIndex - 1));
-
-                    if (prevPoint === 0 && point > 0) {
-                        // skip this
-                    } else {
-                        if (prevPoint === 0 && point === 0) {
-                            // this is 0 / 0
-                            thisGrowthNumber = 1;
-
-
-                            if (point === 0) {
-                                // this is 0 / 0
-                                thisGrowthNumber = 1;
-                            } else {
-                                // this is 1 / 0
-                                // what should the ratio be like? lets keep it 1 for now
-                                thisGrowthNumber = 2;
-                            }
-                        } else {
-                            thisGrowthNumber = point / prevPoint;
-                        }
-                        addToDict(thisGrowthNumber, multiply);
-                    }
-
-
-
-                    totalMultiply += multiply;
-                    if (i >= days) {
-                        multiply--;
-                    } else {
-                        multiply++;
-                    }
-                }
-                value = calculateDict();
-                return Math.round(value * 100) / 100;
             }
         }
     }
