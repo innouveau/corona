@@ -182,7 +182,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3];
+                    typeIds = [3,4];
                 }
 
                 for (let typeId of typeIds) {
@@ -265,7 +265,7 @@
                         this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
                     }
                 } else {
-                    this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
+                    //this.$store.commit('settings/updateProperty', {key: 'cutYaxis', value: true});
                 }
 
                 if (cumulative && cumulative.length > 0) {

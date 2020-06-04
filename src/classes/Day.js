@@ -1,4 +1,5 @@
 import store from '@/store/store';
+import calculate from '@/tools/calculate';
 
 class Day {
     constructor(entry, country) {
@@ -31,6 +32,78 @@ class Day {
         } else {
             return this.fatalities;
         }
+    }
+
+    get rawGrowthFatalities() {
+        if (!this.previous || this.previous.delta_fatalities === 0) {
+            // ??
+            return 5;
+        } else {
+            return this.delta_fatalities / this.previous.delta_fatalities;
+        }
+    }
+
+    get rawGrowthCases() {
+        if (!this.previous || this.previous.delta_cases === 0) {
+            // ??
+            return 5;
+        } else {
+            return this.delta_cases / this.previous.delta_cases;
+        }
+    }
+
+
+
+    get standardDeviationForFatalities() {
+        let thisIndex, desiredLength, startingIndex, endIndex, set;
+        desiredLength = 4;
+        thisIndex = this.index;
+        set = [];
+        startingIndex = Math.max(thisIndex - desiredLength, 0);
+        endIndex = Math.min(thisIndex + desiredLength, (this.country.originalDataPoints.length - 1));
+        for (let i = startingIndex; i < (endIndex + 1); i++) {
+            let day = this.country.originalDataPoints[i];
+            set.push(day.rawGrowthFatalities);
+        }
+        return {
+            n: set.length,
+            standardDeviation: calculate.standardDeviation(set)
+        };
+    }
+
+    get standardDeviationForCases() {
+        let thisIndex, desiredLength, startingIndex, endIndex, set;
+        desiredLength = 4;
+        thisIndex = this.index;
+        set = [];
+        startingIndex = Math.max(thisIndex - desiredLength, 0);
+        endIndex = Math.min(thisIndex + desiredLength, (this.country.originalDataPoints.length - 1));
+        for (let i = startingIndex; i < (endIndex + 1); i++) {
+            let day = this.country.originalDataPoints[i];
+            set.push(day.rawGrowthCases);
+        }
+        return {
+            n: set.length,
+            standardDeviation: calculate.standardDeviation(set)
+        };
+    }
+
+    get confidenceForFatalities() {
+        let criticalValue95pct, standardDeviationInfo, standardDeviation, n;
+        standardDeviationInfo = this.standardDeviationForFatalities;
+        criticalValue95pct = 1.96;
+        standardDeviation = standardDeviationInfo.standardDeviation;
+        n = standardDeviationInfo.n;
+        return criticalValue95pct * (standardDeviation / Math.sqrt(n));
+    }
+
+    get confidenceForCases() {
+        let criticalValue95pct, standardDeviationInfo, standardDeviation, n;
+        standardDeviationInfo = this.standardDeviationForCases;
+        criticalValue95pct = 1.96;
+        standardDeviation = standardDeviationInfo.standardDeviation;
+        n = standardDeviationInfo.n;
+        return criticalValue95pct * (standardDeviation / Math.sqrt(n));
     }
 
     getgrowth(smoothened, source) {

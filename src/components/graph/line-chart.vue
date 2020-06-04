@@ -408,7 +408,7 @@
                             return this.yScale(pTop);
                         })
                         .y1((d) => {
-                            let pBottom = this.getValue(region, d, true) - this.$parent.getInterval(region, d);
+                            let pBottom = Math.max(this.getValue(region, d, true) - this.$parent.getInterval(region, d), 0);
                             return this.yScale(pBottom);
                         })
                     )

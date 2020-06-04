@@ -68,22 +68,11 @@
                 }
             },
             getInterval(region, d) {
-                return 0.05;
-                // let p, n;
-                // n = d[this.source];
-                // if (n === 0) {
-                //     return 1;
-                // } else {
-                //     p = this.getValue(region, d, true);
-                //     let v = 2 * Math.sqrt((p * ( 1 - p)) / n);
-                //     if (isNaN(v)) {
-                //         console.log('-');
-                //         console.log(p);
-                //         console.log(n);
-                //     }
-                //     return v;
-                // }
-
+                if (this.source === 'fatalities') {
+                    return d.confidenceForFatalities;
+                } else {
+                    return d.confidenceForCases;
+                }
             }
         }
     }
