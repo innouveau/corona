@@ -1,12 +1,16 @@
 import _base from './_base-module';
 
+const today = new Date();
+const initialDate = today.setDate(today.getDate() - 50);
+
+
 const state = {
     mappingType: 'date',
     mappingMaxDays: 120,
     mappingStartNumber: 100,
     mappingNumberStyle: 'absolute',
     mappingEventType: 'lockdown',
-    mappingDate: new Date('2020-03-15'),
+    mappingDate: new Date(initialDate),
     logScale: false,
     perCapita: false,
     cutYaxis: false,
