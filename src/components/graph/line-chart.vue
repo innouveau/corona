@@ -599,7 +599,8 @@
                 } else {
                     this.container.append("g")
                         .attr("class", "y axis")
-                        .call(d3.axisLeft(this.yScale));
+                        .call(d3.axisLeft(this.yScale)
+                        .tickFormat(d3.format(".2s")))
                 }
 
                 this.linesLayer = this.container.append('g')
