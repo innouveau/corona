@@ -188,7 +188,7 @@
                 .vdp-datepicker {
 
                     input {
-                        width: 80px;
+                        width: 100px;
                     }
                 }
             }
