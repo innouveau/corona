@@ -4,16 +4,16 @@ Albania,2866376,Europe
 Algeria,42228429,Africa
 Andorra,77006,Europe
 Angola,30809762,Africa
-Antigua and Barbuda,96286,South America
+Antigua and Barbuda,96286,North America
 Argentina,44494502,South America
 Armenia,2951776,Europe
-Australia,24992369,Australia
+Australia,24992369,Oceania
 Austria,8847037,Europe
 Azerbaijan,9942334,Asia
-Bahamas,385640,South America
+Bahamas,385640,North America
 Bahrain,1569439,Asia
 Bangladesh,161356039,Asia
-Barbados,286641,South America
+Barbados,286641,North America
 Belarus,9485386,Europe
 Belgium,11422068,Europe
 Benin,11485048,Africa
@@ -41,33 +41,33 @@ Costa Rica,4999441,North America
 Cote d'Ivoire,25069229,Africa
 Croatia,4089400,Europe
 Diamond Princess,3500,-
-Cuba,11338138,South America
+Cuba,11338138,North America
 Cyprus,1189265,Europe
 Czechia,10625695,Europe
 Faroe Islands,48497,Europe
 Greenland,56025,Europe
 Denmark,5797446,Europe
 Djibouti,958920,Africa
-Dominican Republic,10627165,South America
+Dominican Republic,10627165,North America
 Ecuador,17084357,South America
 Egypt,98423595,Africa
-El Salvador,6420744,South America
+El Salvador,6420744,North America
 Equatorial Guinea,1308974,Africa
 Eritrea,3214000,Africa
 Estonia,1320884,Europe
 Eswatini,1136191,Africa
 Ethiopia,109224559,Africa
-Fiji,883483,Asia
+Fiji,883483,Oceania
 Finland,5518050,Europe
 French Guiana,290700,South America
-French Polynesia,277679,Asia
-Guadeloupe,400124,South America
+French Polynesia,277679,Oceania
+Guadeloupe,400124,North America
 Mayotte,272815,Africa
-New Caledonia,284060,Asia
+New Caledonia,284060,Oceania
 Reunion,895312,Asia
-Saint Barthelemy,9877,South America
-St Martin,38666,South America
-Martinique,375265,South America
+Saint Barthelemy,9877,North America
+St Martin,38666,North America
+Martinique,375265,North America
 France,66987244,Europe
 Gabon,2119275,Africa
 Gambia,2416668,Africa
@@ -78,7 +78,7 @@ Greece,10727668,Europe
 Guatemala,17247807,North America
 Guinea,12414318,Africa
 Guyana,779004,South America
-Haiti,11123176,South America
+Haiti,11123176,North America
 Holy See,801,-
 Honduras,9587522,North America
 Hungary,9768785,Europe
@@ -90,7 +90,7 @@ Iraq,38433600,Asia
 Ireland,4853506,Europe
 Israel,8883800,Asia
 Italy,60431283,Europe
-Jamaica,2934855,South America
+Jamaica,2934855,North America
 Japan,126529100,Asia
 Jordan,9956011,Asia
 Kazakhstan,18276499,Asia
@@ -121,7 +121,7 @@ Aruba,105845,South America
 Curacao,159849,South America
 Sint Maarten,42876,South America
 Netherlands,17231017,Europe
-New Zealand,4885500,Australia
+New Zealand,4885500,Oceania
 Nicaragua,6465513,North America
 Niger,22442948,Africa
 Nigeria,195874740,Africa
@@ -130,7 +130,7 @@ Norway,5314336,Europe
 Oman,4829483,Asia
 Pakistan,212215030,Asia
 Panama,4176873,North America
-Papua New Guinea,8606316,Asia
+Papua New Guinea,8606316,Oceania
 Paraguay,6956071,South America
 Peru,31989256,South America
 Philippines,106651922,Asia
@@ -140,8 +140,8 @@ Qatar,2781677,Asia
 Romania,19473936,Europe
 Russia,144478050,Europe
 Rwanda,12301939,Africa
-Saint Lucia,183627,South America
-Saint Vincent and the Grenadines,110940,South America
+Saint Lucia,183627,North America
+Saint Vincent and the Grenadines,110940,North America
 San Marino,33785,Europe
 Saudi Arabia,33699947,Asia
 Senegal,15854360,Africa
@@ -168,12 +168,12 @@ Turkey,82319724,Europe
 Uganda,42723139,Africa
 Ukraine,44622516,Europe
 United Arab Emirates,9630959,Asia
-Bermuda,63968,South America
-Cayman Islands,64174,South America
+Bermuda,63968,North America
+Cayman Islands,64174,North America
 Channel Islands,170499,Europe
 Gibraltar,33718,Europe
 Isle of Man,84077,Europe
-Montserrat,4992,South America
+Montserrat,4992,North America
 United Kingdom,66488991,Europe
 Uruguay,3449299,South America
 US,331002000,North America
@@ -182,8 +182,8 @@ Venezuela,28435980,South America
 Vietnam,95540395,Asia
 Zambia,17351822,Africa
 Zimbabwe,14439018,Africa
-Dominica,71625,South America
-Grenada,111454,South America
+Dominica,71625,North America
+Grenada,111454,North America
 Mozambique,29495962,Africa
 Syria,17500658,Asia
 Timor-Leste,1267972,Asia
@@ -193,17 +193,18 @@ Libya,6678567,Africa
 West Bank and Gaza,4569087,Asia
 Guinea-Bissau,1874309,Africa
 Mali,19077690,Africa
-Saint Kitts and Nevis,53199,South America
+Saint Kitts and Nevis,53199,North America
 Kosovo,1845300,Europe
 Burma,53710000,Asia
-Anguilla,15003,South America
-British Virgin Islands,29802,South America
-Turks and Caicos Islands,37665,South America
+Anguilla,15003,North America
+British Virgin Islands,29802,North America
+Turks and Caicos Islands,37665,North America
 MS Zaandam,3500,-
 Botswana,2254126,Africa
 Burundi,11175378,Africa
 Sierra Leone,7650154,Africa
-Bonaire,Sint Eustatius and Saba,
+Bonaire; Sint Eustatius and Saba,26000,North America
+Bonaire Sint Eustatius and Saba,26000,North America
 Malawi,18143315,Africa
 Falkland Islands (Malvinas),3480,Europe
 Saint Pierre and Miquelon,5794,North America
@@ -211,7 +212,7 @@ South Sudan,10975920,Africa
 Western Sahara,594500,Africa
 Sao Tome and Principe,211028,Africa
 Yemen,28500000,Asia
-Bonaire Sint Eustatius and Saba,20000,South America
+Bonaire Sint Eustatius and Saba,20000,North America
 South Korea,51635256,Asia
 Korea South,51635256,Asia
 Korea,51635256,Asia
@@ -265,7 +266,7 @@ Alentejo,358000,Portugal
 Algarve,227000,Portugal
 Andalucía,8388875,Spain
 Aragón,1311301,Spain
-Ayrshire and Arran,1,United Kingdom
+Ayrshire and Arran,5058,United Kingdom
 Açores,122000,Portugal
 Baden-Württemberg,11069533,Germany
 Basilicata,562869,Italy
@@ -288,35 +289,34 @@ Ciudad Autónoma de Melilla,83870,Spain
 Comunidad Foral de Navarra,636450,Spain
 Comunidad Valenciana,4956427,Spain
 Comunidad de Madrid,6378297,Spain
-Dumfries and Galloway,1,United Kingdom
+Dumfries and Galloway,148790,United Kingdom
 East of England,6201214,United Kingdom
-Eileanan Siar (Western Isles),1,United Kingdom
+Eileanan Siar (Western Isles),26830,United Kingdom
 Emilia-Romagna,4459477,Italy
 England,55977178,United Kingdom
-Estrageiro,1,
 Extremadura,1099605,Spain
-Faroe,1,Portugal
-Fife,1,
-Forth Valley,1,
+Faroe,48497,Denmark
+Fife,371910,United Kingdom
+Forth Valley,306640,United Kingdom
 Friuli Venezia Giulia,1215220,Italy
 Galicia,2747226,Spain
-Grampian,1,
-Greater Glasgow and Clyde,1,United Kingdom
+Grampian,500000,United Kingdom
+Greater Glasgow and Clyde,1183120,United Kingdom
 Greenland,56025,Europe
 Hamburg,1841179,Germany
 Hessen,6265809,Germany
-Highland,1,United Kingdom
-Hovedstaden,1,
-Illes Balears,1,
+Highland,235540,United Kingdom
+Hovedstaden,1836000,Denmark
+Illes Balears,1188000,Spain
 Kärnten,561390,Austria
 La Rioja,315223,Spain
-Lanarkshire,1,United Kingdom
+Lanarkshire,319020,United Kingdom
 Lazio,5879082,Italy
 Liguria,1550640,Italy
 Lisbon,1383000,Portugal
 Lombardia,10060574,Italy
 London,8908081,United Kingdom
-Lothian,1,
+Lothian,858090,United Kingdom
 Madeira,131000,Portugal
 Marche,1525271,Italy
 Mecklenburg-Vorpommern,1609675,Germany
@@ -332,8 +332,8 @@ North East and Yorkshire,8100000,United Kingdom
 North West,7292093,United Kingdom
 Northern Ireland,1881641,United Kingdom
 Oberösterreich,1490392,Austria
-Orkney,1,United Kingdom
-País Vasco,1,
+Orkney,22190,United Kingdom
+País Vasco,3155597,Spain
 Piemonte,4356406,Italy
 Principado de Asturias,1058975,Spain
 Puglia,4029053,Italy
@@ -440,6 +440,7 @@ Overijssel,1162215,Netherlands
 South Holland,3705625,Netherlands
 Utrecht,1353596,Netherlands
 Zeeland,383689,Netherlands
+Wallonie,3630000,Belgium
 Wallonia,3630000,Belgium
 Brussels,1210000,Belgium
 Flanders,6900000,Belgium
@@ -492,7 +493,7 @@ Pohjois-Savo,244236,Finland
 Satakunta,216752,Finland
 Vaasa,169741,Finland
 Varsinais-Suomi,479341,Finland
-West North,1,Finland
+West North,1000000,Finland
 Ahvenanmaa,29884,Finland
 Itä-Savo,42221,Finland
 Kymenlaakso,171167,Finland
@@ -505,7 +506,6 @@ Suðurnes Peninsula,16727,Iceland
 West Fjords,8014,Iceland
 West Iceland,14457,Iceland
 East Iceland,11798,Iceland
-Hovedstaden,632340,Denmark
 Dolnośląskie,2901225,Poland
 Kujawsko-pomorskie,2077775,Poland
 Łódzkie,2466322,Poland
@@ -548,3 +548,32 @@ Valais,345394,Switzerland
 Vaud,804861,Switzerland
 Zug,127612,Switzerland
 Zurich,1538848,Switzerland
+Acre,881935,Brazil
+Alagoas,3337357,Brazil
+Amapá,845731,Brazil
+Amazonas,4144597,Brazil
+Bahia,14873064,Brazil
+Ceará,9132078,Brazil
+Distrito Federal,3015268,Brazil
+Espírito Santo,4018650,Brazil
+Goiás,7018354,Brazil
+Maranhão,7075181,Brazil
+Mato Grosso,3484466,Brazil
+Mato Grosso do Sul,2778986,Brazil
+Minas Gerais,21168791,Brazil
+Pará,8602865,Brazil
+Paraíba,4018127,Brazil
+Paraná,11433957,Brazil
+Pernambuco,9557071,Brazil
+Piauí,3273227,Brazil
+Rio de Janeiro,17264943,Brazil
+Rio Grande do Norte,3506853,Brazil
+Rio Grande do Sul,11377239,Brazil
+Rondônia,1777225,Brazil
+Roraima,605761,Brazil
+Santa Catarina,7164788,Brazil
+São Paulo,45919049,Brazil
+Sergipe,2298696,Brazil
+Tocantins,1572866,Brazil
+EU27,445834883,EU
+World,7800000000,All
