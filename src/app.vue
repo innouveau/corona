@@ -289,13 +289,11 @@
                 }
             },
             getRegionByTitle(regionTitle) {
-                console.log(regionTitle);
                 let region, parent;
                 region = this.$store.getters['regions/getItemByProperty']('title', regionTitle, true);
                 // try parent
                 if (!region) {
                     parent = this.$store.getters['parents/getItemByProperty']('title', regionTitle, true);
-                    console.log(parent);
                     if (parent) {
                         regionTool.selectParentAsMerged(parent);
                         region = this.$store.getters['regions/getItemByProperty']('title', regionTitle, true);
