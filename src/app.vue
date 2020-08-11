@@ -10,6 +10,7 @@
     import color from '@/tools/color';
     import RegionInfo from "./components/tools/regions/region-info";
     import regionTool from '@/tools/regions';
+    import loader from '@/tools/loader';
 
     export default {
         name: 'app',
@@ -64,77 +65,39 @@
         methods: {
             loadCsv() {
                 Promise.all([
-                    d3.csv('data/cases.csv' + this.timestamp),
-                    d3.csv('data/fatalities.csv' + this.timestamp),
                     d3.csv('data/regions.csv' + this.timestamp),
                     d3.csv('data/events.csv' + this.timestamp),
                     d3.csv('data/starting-regions.csv' + this.timestamp),
                 ]).then((files) => {
-                    this.convertData(files[0], files[1]);
-                    this.addRegionData(files[2]);
-                    this.addEvents(files[3]);
-                    this.getQueryParameters(files[4]);
+                    this.addRegions(files[0]);
+                    this.connectParents(files[0]);
+                    this.addEvents(files[1]);
+                    this.getQueryParameters(files[2]);
+
+                    this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
                 }).catch((err) => {
                     console.log(err);
                 })
             },
-            convertData(regionsWithCases, regionsWithFatalities) {
-                let regions, counter, regionNameIndex;
-                regions = [];
+            addRegions(regions) {
+                let counter, convertedRegions;
                 counter = 0;
-                regionNameIndex = 'Land/regio';
-
-                const getRegion = function(regionName) {
-                    for (let region of regionsWithFatalities) {
-                        if (region[regionNameIndex] === regionName) {
-                            return region;
-                        }
-                    }
-                    return null;
-                };
-
-                for (let regionWithCases of regionsWithCases) {
-                    let region, regionWithFatalities, regionName;
-
-                    regionName = regionWithCases[regionNameIndex];
-                    regionWithFatalities = getRegion(regionName);
-                    region = {};
-                    region.entries = [];
-                    region.title = regionName;
-                    region.id = regions.length + 1;
-                    region.searchTags = '';
-                    region.color = color.getRandom();
-                    for (let date in regionWithCases) {
-                        if (date !== regionNameIndex && date !== '') {
-                            let entry, casesForDate, fatalitiesForDate;
-                            casesForDate = regionWithCases[date] !== '' ? Number(regionWithCases[date]) : 0;
-
-                            if (regionWithFatalities && regionWithFatalities.hasOwnProperty(date)) {
-                                fatalitiesForDate = regionWithFatalities[date] !== '' ? Number(regionWithFatalities[date]) : 0;
-                            } else {
-                                fatalitiesForDate = 0;
-                            }
-
-                            entry = {
-                                index: region.entries.length,
-                                date: date,
-                                cases: casesForDate,
-                                fatalities: fatalitiesForDate
-                            };
-                            region.entries.push(entry)
-                        }
-                    }
-
-                    regions.push(region);
+                convertedRegions = regions.map(region => {
                     counter++;
-                }
-                this.loadData(regions);
+                    return {
+                        id: counter,
+                        population: Number(region.population),
+                        title: region.region,
+                        color: color.getRandom()
+                    };
+                });
+                this.$store.commit('regions/init', convertedRegions);
+
             },
-            addRegionData(regions) {
+            connectParents(regions) {
                 for (let regionData of regions) {
                     let region = this.$store.getters['regions/getItemByProperty']('title', regionData.region, true);
                     if (region) {
-                        this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'population', value: Number(regionData.population)});
                         if (regionData.parent) {
                             let parent = this.$store.getters['parents/getItemByProperty']('title', regionData.parent, true);
                             if (!parent) {
@@ -151,11 +114,6 @@
                         }
                     }
                 }
-            },
-            loadData(regions) {
-                this.$store.commit('regions/init', regions);
-                this.$store.commit('types/init', this.types);
-                this.$store.commit('updateProperty', {key: 'dataLoaded', value: true});
             },
             getQueryParameters(startingRegions){
                 let regions, countries, description,
@@ -184,7 +142,6 @@
                 } else {
                     typeIds = [1,2,3];
                 }
-
                 for (let typeId of typeIds) {
                     this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});
                 }
@@ -307,14 +264,16 @@
                     if (item) {
                         this.$store.commit('regions/updatePropertyOfItem', {
                             item,
-                            property: 'active',
-                            value: true
-                        });
-                        this.$store.commit('regions/updatePropertyOfItem', {
-                            item,
                             property: 'color',
                             value: region.color
                         });
+                        if (!item.dataLoaded) {
+                            loader.loadRegion(item).then(result => {
+                                this.$store.commit('regions/updatePropertyOfItem', {item, property: 'active', value: true});
+                            })
+                        } else {
+                            this.$store.commit('regions/updatePropertyOfItem', {item, property: 'active', value: true});
+                        }
                     }
                 }
             },
@@ -333,6 +292,7 @@
             }
         },
         mounted() {
+            this.$store.commit('types/init', this.types);
             this.loadCsv();
         }
     }

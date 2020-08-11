@@ -25,6 +25,14 @@ const mutations = {
     updatePropertyOfItem(state, payload) {
         _base.mutations.updatePropertyOfItem(state, payload.item, payload.property, payload.value);
     },
+    addEntries(state, payload) {
+        state.all = state.all.map((region) => {
+            if (region === payload.region) {
+                region.addEntries(payload.entries);
+            }
+            return region;
+        });
+    },
     addEvent(state, payload) {
         state.all = state.all.map((region) => {
             if (region.title === payload.region) {

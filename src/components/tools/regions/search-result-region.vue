@@ -1,5 +1,6 @@
 <script>
     import Region from '@/classes/Region';
+    import loader from '@/tools/loader';
 
     export default {
         name: 'search-result-region',
@@ -13,7 +14,15 @@
         computed: {},
         methods: {
             select() {
-                this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: true});
+                if (!this.region.dataLoaded) {
+                    loader.loadRegion(this.region).then(result => {
+                        this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: true});
+                    })
+                } else {
+                    this.$store.commit('regions/updatePropertyOfItem', {item: this.region, property: 'active', value: true});
+                }
+
+
                 this.$parent.$parent.search = '';
             }
         }

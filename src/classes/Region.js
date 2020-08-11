@@ -3,21 +3,24 @@ import Event from '@/classes/Event';
 class Region {
     constructor({
         id = null,
-        parent = null,
         title = '',
         color = '',
         population = 0,
-        entries = []
     }) {
         this.id = id;
-        this.parent = parent;
         this.title = title;
         this.color = color;
         this.population = population;
-        this.entries = entries;
+
+        // added properties
+        this.parent = null;
+        this.entries = [];
+        this.events = [];
+
+        // state
+        this.dataLoaded = false;
         this.active = false;
         this.visible = true;
-        this.events = [];
     }
 
     showInGraph() {
@@ -26,6 +29,12 @@ class Region {
 
     addEvent(event) {
         this.events.push(new Event(event));
+    }
+
+    addEntries(entries) {
+        for (let day of entries) {
+            this.entries.push(day)
+        }
     }
 
     get lastEntry() {
