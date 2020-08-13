@@ -27,6 +27,22 @@ const loadRegion = function(region) {
     });
 };
 
+const loadRegions = function(regions) {
+    return new Promise((resolve, reject) => {
+        Promise.all([
+            d3.csv('data/cases.csv' + getTimestamp()),
+            d3.csv('data/fatalities.csv' + getTimestamp()),
+        ]).then((files) => {
+            for (let region of regions) {
+                addEntries(getRow(files[0], region), getRow(files[1], region), region);
+            }
+            resolve();
+        }).catch((err) => {
+            console.log(err);
+        })
+    });
+};
+
 const addEntries = function(cases, fatalities, region) {
     let entries = [];
 
@@ -53,10 +69,11 @@ const addEntries = function(cases, fatalities, region) {
         }
     }
     store.commit('regions/addEntries', {region, entries});
-    store.commit('regions/updatePropertyOfItem', {item: region, property: 'dataLoaded', value: true})
+    store.commit('regions/updatePropertyOfItem', {item: region, property: 'dataLoaded', value: true});
 };
 
 
 export default {
-    loadRegion
+    loadRegion,
+    loadRegions
 }

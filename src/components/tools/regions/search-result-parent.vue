@@ -26,14 +26,11 @@
         computed: {},
         methods: {
             select(sameColor) {
-                for (let region of this.parent.regions) {
-                    this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'active', value: true});
-                    if (sameColor) {
-                        this.$store.commit('regions/updatePropertyOfItem', {
-                            item: region,
-                            property: 'color',
-                            value: this.color
-                        });
+                regionTool.selectRegions(this.parent.regions);
+
+                if (sameColor) {
+                    for (let region of this.parent.regions) {
+                        this.$store.commit('regions/updatePropertyOfItem', {item: region, property: 'color', value: this.color });
                     }
                 }
                 this.close();
