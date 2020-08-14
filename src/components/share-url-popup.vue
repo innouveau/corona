@@ -92,8 +92,10 @@
             </div>
 
             <div class="share-url-popup__url">
-                <input v-model="url"/><br><br>
-                <a :href="url" target="_blank">Try the link</a>
+                <input v-model="url"/>
+                <div class="share-url-popup__button">
+                    <a :href="url" target="_blank">Try the link</a>
+                </div>
             </div>
         </div>
 
@@ -149,9 +151,15 @@
                     max-width: 100%;
                 }
 
-                a {
-                    color: #000;
-                    font-size: 14px;
+                .share-url-popup__button {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 12px;
+
+                    a {
+                        color: #000;
+                        font-size: 14px;
+                    }
                 }
             }
         }
