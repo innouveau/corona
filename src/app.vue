@@ -150,6 +150,7 @@
                 if (countries && countries.length > 0 && (!regions || regions.length === 0)) {
                     regions = countries;
                 }
+
                 // regions
                 if (regions && regions.length > 0) {
                     let cs, separator;
@@ -170,7 +171,7 @@
                         }
                         region = this.getRegionByTitle(regionName);
                         if (region) {
-                            this.$store.commit('regions/updatePropertyOfItem', {item: {id: region.id}, property: 'active', value: true});
+                            regionTool.selectRegion(region);
                             if (color) {
                                 this.$store.commit('regions/updatePropertyOfItem', {item: {id: region.id}, property: 'color', value: color});
                             }
@@ -267,13 +268,7 @@
                             property: 'color',
                             value: region.color
                         });
-                        if (!item.dataLoaded) {
-                            loader.loadRegion(item).then(result => {
-                                this.$store.commit('regions/updatePropertyOfItem', {item, property: 'active', value: true});
-                            })
-                        } else {
-                            this.$store.commit('regions/updatePropertyOfItem', {item, property: 'active', value: true});
-                        }
+                        regionTool.selectRegion(item);
                     }
                 }
             },
