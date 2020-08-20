@@ -88,6 +88,7 @@
                         id: counter,
                         population: Number(region.population),
                         title: region.region,
+                        alternativeNames: region.Altcountryname.length > 0 ? region.Altcountryname.split(';') : [],
                         color: color.getRandom()
                     };
                 });

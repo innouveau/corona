@@ -6,6 +6,7 @@ class Region {
         title = '',
         color = '',
         population = 0,
+        alternativeNames = ''
     }) {
         this.id = id;
         this.title = title;
@@ -21,6 +22,7 @@ class Region {
         this.dataLoaded = false;
         this.active = false;
         this.visible = true;
+        this.alternativeNames = alternativeNames;
     }
 
     showInGraph() {

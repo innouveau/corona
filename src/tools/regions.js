@@ -46,6 +46,7 @@ const selectParentAsMerged = function(parent) {
 
     loader.loadRegions(regionsNotLoaded).then(result => {
         for (let region of parent.regions) {
+            console.log(region);
             //console.log('merging ' + region.title + ' has length ' + region.entries.length);
 
             mergedRegion.population += region.population;

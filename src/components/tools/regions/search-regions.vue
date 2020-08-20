@@ -29,7 +29,7 @@
                     };
 
                     for (let region of this.$store.state.regions.all) {
-                        if (!region.active && region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                        if ( !region.active &&  this.matchesSearch(region) ) {
                             results.push({
                                 type: 'region',
                                 item: region
@@ -49,7 +49,21 @@
                 }
             }
         },
-        methods: {}
+        methods: {
+            matchesSearch(region) {
+                const matchesAlternativeNames = (region) => {
+                    for (let alternativeName of region.alternativeNames) {
+                        if (alternativeName.toLowerCase().indexOf(this.search.toLowerCase()) > -1) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                return region.title.toLowerCase().indexOf(this.search.toLowerCase()) > -1 || matchesAlternativeNames(region);
+
+            }
+        }
     }
 </script>
 
