@@ -16,8 +16,8 @@ const getRow = function(rows, region) {
 const loadRegion = function(region) {
     return new Promise((resolve, reject) => {
         Promise.all([
-            d3.csv('data/cases.csv' + getTimestamp()),
-            d3.csv('data/fatalities.csv' + getTimestamp()),
+            d3.csv(window.config.repo + 'cases.csv' + getTimestamp()),
+            d3.csv(window.config.repo + 'fatalities.csv' + getTimestamp()),
         ]).then((files) => {
             addEntries(getRow(files[0], region), getRow(files[1], region), region);
             resolve();
@@ -30,8 +30,8 @@ const loadRegion = function(region) {
 const loadRegions = function(regions) {
     return new Promise((resolve, reject) => {
         Promise.all([
-            d3.csv('data/cases.csv' + getTimestamp()),
-            d3.csv('data/fatalities.csv' + getTimestamp()),
+            d3.csv(window.config.repo + 'cases.csv' + getTimestamp()),
+            d3.csv(window.config.repo + 'fatalities.csv' + getTimestamp()),
         ]).then((files) => {
             for (let region of regions) {
                 addEntries(getRow(files[0], region), getRow(files[1], region), region);
@@ -75,5 +75,6 @@ const addEntries = function(cases, fatalities, region) {
 
 export default {
     loadRegion,
-    loadRegions
+    loadRegions,
+    getTimestamp
 }

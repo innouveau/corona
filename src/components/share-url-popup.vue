@@ -64,7 +64,7 @@
                 string += '&mappingNumberStyle=' + this.$store.state.settings.mappingNumberStyle;
                 string += '&mappingEventType=' + this.$store.state.settings.mappingEventType;
                 string += '&mappingDate=' + this.date;
-                string += '&smoothening=' + this.$store.state.settings.smoothening;
+                string += '&graphSetting=' + this.$store.state.settings.graphSetting;
 
                 if (this.description && this.description.length > 0) {
                     string += '&description=' + encodeURIComponent(this.description);

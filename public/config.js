@@ -1,3 +1,3 @@
 window.config = {
-    updatetAt: 'Sat May 9 - 22:00 UTC'
+    repo: 'https://raw.githubusercontent.com/Datagraver/Covid-19-base/main/'
 };

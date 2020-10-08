@@ -65,9 +65,9 @@
         methods: {
             loadCsv() {
                 Promise.all([
-                    d3.csv('data/regions.csv' + this.timestamp),
-                    d3.csv('data/events.csv' + this.timestamp),
-                    d3.csv('data/starting-regions.csv' + this.timestamp),
+                    d3.csv(window.config.repo + 'regions.csv' + this.timestamp),
+                    d3.csv(window.config.repo + 'events.csv' + this.timestamp),
+                    d3.csv(window.config.repo + 'starting-regions.csv' + this.timestamp),
                 ]).then((files) => {
                     this.addRegions(files[0]);
                     this.connectParents(files[0]);
@@ -120,7 +120,7 @@
                 let regions, countries, description,
                     mappingType, mappingMaxDays, mappingStartNumber, mappingNumberStyle,
                     mappingEventType, mappingDate, logScale, perCapita, cutYaxis,
-                    cumulative, smoothening, types, typeIds;
+                    cumulative, types, typeIds, graphSetting;
                 regions = this.$route.query.regions;
                 countries = this.$route.query.countries;
                 description = this.$route.query.description;
@@ -135,8 +135,9 @@
                 perCapita = this.$route.query.perCapita;
                 cutYaxis = this.$route.query.cutYaxis;
                 cumulative = this.$route.query.cumulative;
-                smoothening = this.$route.query.smoothening;
                 types = this.$route.query.types;
+                graphSetting = this.$route.query.graphSetting;
+
                 // activate types
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
@@ -235,11 +236,13 @@
                     //this.$store.commit('settings/updateProperty', {key: 'cumulative', value: true});
                 }
 
-
-
-                if (smoothening && smoothening.length > 0) {
-                    this.$store.commit('settings/updateProperty', {key: 'smoothening', value: Number(smoothening)});
+                if (graphSetting && graphSetting.length > 0) {
+                    this.$store.commit('settings/updateProperty', {key: 'graphSetting', value: graphSetting});
                 }
+
+
+
+
 
 
                 if (description && description.length > 0) {

@@ -146,10 +146,10 @@
                             thisMin = 0;
                         }
                     } else {
-                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
+                        thisMin = d3.min(country.dataPoints.map(d => this.getValue(country, d, !this.drawRaw, true)));
                     }
 
-                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, this.smoothen, true)));
+                    thisMax = d3.max(country.dataPoints.map(d => this.getValue(country, d, !this.drawRaw, true)));
                     if (country.dataPoints.length > n) {
                         n = country.dataPoints.length;
                     }
