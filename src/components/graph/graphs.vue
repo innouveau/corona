@@ -3,10 +3,12 @@
     import graphGrowth from "./graph-growth";
     import GraphCases from "./graph-cases";
     import Day from '@/classes/Day';
+    import GraphCumulativeVsGrowth from "./graph-cumulative-vs-growth";
 
     export default {
         name: 'graphs',
         components: {
+            GraphCumulativeVsGrowth,
             GraphCases,
             graphGrowth,
             graphFatalities
@@ -27,6 +29,10 @@
             },
             showGrowthCases() {
                 let type = this.$store.getters['types/getItemByProperty']('property', 'growth-cases');
+                return type.active;
+            },
+            showCumulativeVsGrowth() {
+                let type = this.$store.getters['types/getItemByProperty']('property', 'cumulative-vs-growth');
                 return type.active;
             },
             l() {
@@ -169,6 +175,11 @@
             v-if="showGrowthFatalities"
             :data="data"
             :source="'fatalities'"/>
+
+        <graph-cumulative-vs-growth
+            v-if="showCumulativeVsGrowth"
+            :data="data"
+            :source="'cases'"/>
     </div>
 </template>
 

@@ -44,6 +44,10 @@
                         id: 3,
                         title: 'Growth fatalities',
                         property: 'growth'
+                    }, {
+                        id: 5,
+                        title: 'Cumulative vs growth',
+                        property: 'cumulative-vs-growth'
                     }
                 ]
             }
@@ -142,7 +146,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [1,2,3];
+                    typeIds = [5];
                 }
                 for (let typeId of typeIds) {
                     this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});

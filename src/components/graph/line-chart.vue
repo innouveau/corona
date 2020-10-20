@@ -689,8 +689,6 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
-
-
     .line-chart {
         overflow: hidden;
         position: relative;
