@@ -46,7 +46,7 @@
                         property: 'growth'
                     }, {
                         id: 5,
-                        title: 'Cumulative vs growth',
+                        title: 'Cumulative cases vs daily cases',
                         property: 'cumulative-vs-growth'
                     }
                 ]
