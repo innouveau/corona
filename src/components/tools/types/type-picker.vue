@@ -31,5 +31,6 @@
 
     .type-picker {
         display: flex;
+        flex-wrap: wrap;
     }
 </style>

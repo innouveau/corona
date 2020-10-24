@@ -46,7 +46,7 @@
                         property: 'growth'
                     }, {
                         id: 5,
-                        title: 'Cumulative cases vs daily cases',
+                        title: 'Cumulative cases vs daily cases (log/log)',
                         property: 'cumulative-vs-growth'
                     }
                 ]
@@ -146,7 +146,7 @@
                 if (types) {
                     typeIds = types.split(',').map(t => Number(t));
                 } else {
-                    typeIds = [5];
+                    typeIds = [1,2,5];
                 }
                 for (let typeId of typeIds) {
                     this.$store.commit('types/updatePropertyOfItem', {item: {id: typeId}, property: 'active', value: true});

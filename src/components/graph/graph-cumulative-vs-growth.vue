@@ -2,7 +2,7 @@
     import * as d3 from 'd3';
     import logo from "@/components/elements/logo";
     import graphMixin from './graph-mixin';
-
+    import consts from '@/data/consts';
 
     export default {
         name: 'line-chart',
@@ -29,6 +29,10 @@
                     string += ' per 1M capita';
                 }
                 return string;
+            },
+            smoothened() {
+                return true;
+                //return this.$store.state.graphSetting === 'Smoothened';
             }
         },
         methods: {
@@ -87,10 +91,6 @@
                     }
                 }
 
-                // prevent zeros
-                minCumulativeCases = Math.max(minCumulativeCases, 1);
-                minCases = Math.max(minCases, 1);
-
                 this.maxX = maxCumulativeCases;
                 this.maxY = maxCases;
                 this.xScale = d3.scaleLog()
@@ -107,24 +107,43 @@
                 this.drawRegionDots(country);
             },
             getY(country, d, i) {
-                if (this.perCapita) {
-                    return d.delta_cases / (country.population / 1000000)
-                } else {
-                    return d.delta_cases;
-                }
-
+                return d.getValue('cases', this.smoothened, '', 'cases');
+                // let value;
+                // if (this.smoothened) {
+                //     value =
+                // } else {
+                //     value = d.delta_cases;
+                // }
+                //
+                // if (value === 0) {
+                //     return consts.virtualZero
+                // } else {
+                //     if (this.perCapita) {
+                //         return value / (country.population / 1000000);
+                //     } else {
+                //         return value;
+                //     }
+                // }
             },
             getX(country, d, i) {
-                if (this.perCapita) {
-                    return d.cases / (country.population / 1000000)
+                if (d.cases === 0) {
+                    return consts.virtualZero
                 } else {
-                    return d.cases;
+                    if (this.perCapita) {
+                        return d.cases / (country.population / 1000000)
+                    } else {
+                        return d.cases;
+                    }
                 }
             },
             drawRegionLine(country) {
                 let line = d3.line()
-                    .x((d, i) => { return this.xScale(this.getX(country, d, i)); })
-                    .y((d, i) => { return this.yScale(this.getY(country, d, i)); })
+                    .x((d, i) => {
+                        return this.xScale(this.getX(country, d, i));
+                    })
+                    .y((d, i) => {
+                        return this.yScale(this.getY(country, d, i));
+                    })
                     .curve(d3.curveMonotoneX);
 
                 this.linesLayer.append("path")

@@ -162,7 +162,9 @@
                         }
                     })
                     .attr("cx", (d, i) => { return this.xScale(this.getX(country, d, i)) })
-                    .attr("cy", (d) => { return this.yScale(this.getY(country, d, this.dotsBasedOnSmoothened)) })
+                    .attr("cy", (d) => {
+                        return this.yScale(this.getY(country, d, this.dotsBasedOnSmoothened))
+                    })
                     .attr("r", 2)
                     .attr("class", "dot__visbile-area")
                     .style('stroke', '#fff');
