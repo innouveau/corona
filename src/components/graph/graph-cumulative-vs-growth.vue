@@ -111,28 +111,12 @@
                 //this.drawRegionDots(country);
             },
             getY(country, d, i) {
-                let value = d.getValue('cases', this.smoothened, '', 'cases');
+                let value = d.getValue('cases', this.smoothened, '', 'cases', true);
                 if (d.cases === 0) {
                     return consts.virtualZero
                 } else {
                     return value;
                 }
-                // let value;
-                // if (this.smoothened) {
-                //     value =
-                // } else {
-                //     value = d.delta_cases;
-                // }
-                //
-                // if (value === 0) {
-                //     return consts.virtualZero
-                // } else {
-                //     if (this.perCapita) {
-                //         return value / (country.population / 1000000);
-                //     } else {
-                //         return value;
-                //     }
-                // }
             },
             getX(country, d, i) {
                 if (d.cases === 0) {

@@ -55,9 +55,9 @@ class Day {
     }
 
 
-    getValue(type, smoothened, source, graphType) {
+    getValue(type, smoothened, source, graphType, forceNonCumulative = false) {
         let getTypeOfValue, cumulative, perCapita;
-        cumulative = store.state.settings.cumulative;
+        cumulative = store.state.settings.cumulative && !forceNonCumulative;
         perCapita = store.state.settings.perCapita;
 
         if (type === 'growth') {
@@ -91,7 +91,7 @@ class Day {
                 }
 
 
-                return this.smoothen(getTypeOfValue, graphType);
+                return this.smoothen(getTypeOfValue, graphType, forceNonCumulative);
             } else {
                 if (cumulative) {
                     if (perCapita) {
@@ -110,7 +110,7 @@ class Day {
         }
     }
 
-    smoothen(getTypeOfValue, graphType) {
+    smoothen(getTypeOfValue, graphType, forceNonCumulative = false) {
         let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
             desiredLength, availableLength;
         totalWeight = 0;
@@ -118,7 +118,7 @@ class Day {
 
         desiredLength = 6;
         thisIndex = this.index;
-        if (store.state.settings.cumulative && graphType !== 'growth') {
+        if ((store.state.settings.cumulative && !forceNonCumulative) && graphType !== 'growth') {
             availableLength = Math.min(thisIndex, desiredLength);
             availableLength = Math.min(availableLength, (this.country.originalDataPoints.length - 1 - thisIndex));
 
