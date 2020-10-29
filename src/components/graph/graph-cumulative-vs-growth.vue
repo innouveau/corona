@@ -17,8 +17,12 @@
             }
         },
         computed: {
+            mappingDateString() {
+                let d = new Date(this.$store.state.settings.mappingDate);
+                return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+            },
             xAxisLabel() {
-                return '→ Cumulative cases';
+                return '→ Cumulative cases since ' + this.mappingDateString;
             },
             yAxisLabel() {
                 return '→ Daily cases';
