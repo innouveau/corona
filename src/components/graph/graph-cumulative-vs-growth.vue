@@ -104,10 +104,15 @@
             drawRegion(country) {
                 this.drawRegionLine(country);
                 this.drawRegionLabel(country);
-                this.drawRegionDots(country);
+                //this.drawRegionDots(country);
             },
             getY(country, d, i) {
-                return d.getValue('cases', this.smoothened, '', 'cases');
+                let value = d.getValue('cases', this.smoothened, '', 'cases');
+                if (d.cases === 0) {
+                    return consts.virtualZero
+                } else {
+                    return value;
+                }
                 // let value;
                 // if (this.smoothened) {
                 //     value =
@@ -206,7 +211,7 @@
 <template>
     <div
         :style="{'width': (100 / $parent.l) + '%'}"
-        class="line-chart">
+        class="line-chart line-chart--graph-cumulative-vs-growth">
         <div
             ref="container"
             class="line-chart__container">
@@ -221,19 +226,17 @@
 <style lang="scss">
     @import '@/styles/variables.scss';
 
+    .line-chart--graph-cumulative-vs-growth {
 
+        .dot {
 
-    .line-chart {
-        overflow: hidden;
-        position: relative;
+            circle {
 
-        .save-image__container {
-            position: absolute;
-            right: 10px;
-            bottom: 26px;
-            padding: 4px 24px 4px 60px;
-            z-index: 0;
-            background: #fff;
+                &.dot__visbile-area {
+                    stroke: transparent!important;
+                }
+            }
         }
     }
+
 </style>
