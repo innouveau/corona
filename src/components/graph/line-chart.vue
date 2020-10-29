@@ -78,21 +78,6 @@
                     this.main.selectAll('*').remove();
                 }
             },
-            setWidth() {
-                let x, y, width, height;
-                this.settings.width = this.$refs.container.offsetWidth - this.settings.margin.left - this.settings.margin.right;
-                width = this.settings.width + this.settings.margin.left + this.settings.margin.right;
-                height = this.settings.height + this.settings.margin.top + this.settings.margin.bottom;
-                x = width - 100;
-                y = height - 60;
-
-                this.svg
-                    .attr("width", width)
-                    .attr("height", height);
-
-                this.logo
-                    .attr('transform', 'translate(' + x + ',' + y + ')')
-            },
             draw() {
                 let n, min, max;
                 n = 0;

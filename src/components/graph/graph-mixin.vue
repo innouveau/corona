@@ -55,6 +55,11 @@
                     this.main.selectAll('*').remove();
                 }
             },
+            init() {
+                this.svg = d3.select(this.$refs.container).select('svg');
+                this.main = this.svg.select('.line-chart__content');
+                this.logo = d3.select(this.$refs.container).select('.line-chart__logo');
+            },
             setWidth() {
                 let x, y, width, height;
                 this.settings.width = this.$refs.container.offsetWidth - this.settings.margin.left - this.settings.margin.right;
@@ -62,16 +67,14 @@
                 height = this.settings.height + this.settings.margin.top + this.settings.margin.bottom;
                 x = width - 100;
                 y = height - 60;
+
                 this.svg
                     .attr("width", width)
                     .attr("height", height);
-            },
-            init() {
-                this.svg = d3.select(this.$refs.container).select('svg');
-                this.main = this.svg.select('.line-chart__content');
-                this.logo = d3.select(this.$refs.container).select('.line-chart__logo');
-            },
 
+                this.logo
+                    .attr('transform', 'translate(' + x + ',' + y + ')')
+            },
             // drawing
             drawTitle() {
                 this.main.append('g')

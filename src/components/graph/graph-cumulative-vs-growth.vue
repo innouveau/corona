@@ -166,10 +166,9 @@
                     .attr('stroke-width', 1);
             },
             drawAxes() {
-                let ticksX, ticksY;
-                ticksX = Math.round(Math.log(this.maxX)/Math.log(10));
-                ticksY = Math.round(Math.log(this.maxY)/Math.log(10));
-
+                let numberOfTicksX, numberOfTicksY;
+                numberOfTicksX = Math.round(Math.log(this.maxX)/Math.log(10));
+                numberOfTicksY = Math.round(Math.log(this.maxY)/Math.log(10));
                 this.container = this.main
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
@@ -178,7 +177,7 @@
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + this.settings.height + ")")
                     .call(d3.axisBottom(this.xScale)
-                        .ticks(ticksX)
+                        .ticks(numberOfTicksX)
                         .tickFormat(d3.format(".0s"))
                     );
 
@@ -186,7 +185,7 @@
                 this.container.append("g")
                     .attr("class", "y axis")
                     .call(d3.axisLeft(this.yScale)
-                        .ticks(ticksY)
+                        .ticks(numberOfTicksY)
                         .tickFormat(d3.format(".0s"))
                     );
 
@@ -217,7 +216,22 @@
             class="line-chart__container">
             <svg fill="#fff">
                 <g class="line-chart__content"></g>
+                <g class="line-chart__logo">
+                    <logo v-if="showLogo"/>
+                </g>
             </svg>
+        </div>
+        <div class="save-image__container">
+            <div
+                    @click="saveImage()"
+                    class="save-image">
+                <div class="save-image__icon">
+                    <img src="assets/img/tools/screenshot.svg">
+                </div>
+                <div class="save-image__label">
+                    Save image
+                </div>
+            </div>
         </div>
     </div>
 </template>
