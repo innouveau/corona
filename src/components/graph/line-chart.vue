@@ -252,6 +252,14 @@
                     });
             },
             drawAxes() {
+                let tickFormat = (value) => {
+                    if (value >= 2) {
+                        return d3.format(".1s")(value);
+                    } else {
+                        return value.toFixed(2);
+                    }
+                };
+
                 this.container = this.main
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
@@ -273,7 +281,7 @@
                     this.container.append("g")
                         .attr("class", "y axis")
                         .call(d3.axisLeft(this.yScale)
-                            .tickFormat(d3.format(".2s")))
+                            .tickFormat(tickFormat))
                 }
 
                 this.linesLayer = this.container.append('g')
@@ -427,6 +435,10 @@
             svg {
 
                 .lines {
+
+                    .line {
+                        pointer-events: none;
+                    }
 
                     .dot {
 

@@ -255,7 +255,7 @@
 
             showVisor(country, d, i) {
                 let x, y;
-                x = this.xScale(i);
+                x = this.xScale(this.getX(country, d, i));
                 y = this.yScale(this.getY(country, d, this.dotsBasedOnSmoothened));
                 this.visorX.attr('x1', x)
                     .attr('x2', x)
@@ -282,23 +282,35 @@
                 y = parentY + this.yScale(this.getY(country, d, this.dotsBasedOnSmoothened));
                 chart = this.$refs.container;
                 windowWidth = window.innerWidth;
-                value = this.getY(country, d, this.smoothen);
-                if (this.type === 'growth') {
-                    value = value.toFixed(3);
-                }
-                if (value === consts.virtualZero) {
-                    value = 0;
-                } else if (this.type !== 'growth' && this.perCapita) {
-                    if (value > 10) {
-                        value = Math.round(value);
+
+                if (this.type === 'cumulative-vs-growth') {
+
+                    if (this.perCapita) {
+                        value = (1000000 * d.delta_cases / country.population).toFixed(1);
                     } else {
-                        if (value > 1) {
-                            value = value.toFixed(1);
+                        value = d.delta_cases;
+                    }
+                } else {
+                    value = this.getY(country, d, this.smoothen);
+                    if (this.type === 'growth') {
+                        value = value.toFixed(3);
+                    }
+                    if (value === consts.virtualZero) {
+                        value = 0;
+                    } else if (this.type !== 'growth' && this.perCapita) {
+                        if (value > 10) {
+                            value = Math.round(value);
                         } else {
-                            value = value.toFixed(2);
+                            if (value > 1) {
+                                value = value.toFixed(1);
+                            } else {
+                                value = value.toFixed(2);
+                            }
                         }
                     }
                 }
+
+
                 html = '<div class="tooltip__country">' + country.title + '</div><div class="tooltip__date">' + d.date + '</div><div class="tooltip__value">' + value + '</div>';
                 this.tooltip.html(html);
                 elementWidth = $(this.tooltip.node()).outerWidth();

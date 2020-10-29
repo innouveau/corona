@@ -16,6 +16,11 @@
                 required: true
             }
         },
+        data() {
+            return {
+                type: 'cumulative-vs-growth'
+            }
+        },
         computed: {
             mappingDateString() {
                 let d = new Date(this.$store.state.settings.mappingDate);
@@ -108,7 +113,7 @@
             drawRegion(country) {
                 this.drawRegionLine(country);
                 this.drawRegionLabel(country);
-                //this.drawRegionDots(country);
+                this.drawRegionDots(country);
             },
             getY(country, d, i) {
                 let value = d.getValue('cases', this.smoothened, '', 'cases', true);
@@ -154,9 +159,18 @@
                     .attr('stroke-width', 1);
             },
             drawAxes() {
-                let numberOfTicksX, numberOfTicksY;
+                let numberOfTicksX, numberOfTicksY, tickFormat;
                 numberOfTicksX = Math.round(Math.log(this.maxX)/Math.log(10));
                 numberOfTicksY = Math.round(Math.log(this.maxY)/Math.log(10));
+                tickFormat = (value) => {
+                    if (value >= 1) {
+                        return d3.format(".0s")(value);
+                    } else {
+                        return '';
+                    }
+                };
+
+
                 this.container = this.main
                     .append("g")
                     .attr("transform", "translate(" + this.settings.margin.left + "," + this.settings.margin.top + ")");
@@ -166,7 +180,7 @@
                     .attr("transform", "translate(0," + this.settings.height + ")")
                     .call(d3.axisBottom(this.xScale)
                         .ticks(numberOfTicksX)
-                        .tickFormat(d3.format(".0s"))
+                        .tickFormat(tickFormat)
                     );
 
 
@@ -174,7 +188,7 @@
                     .attr("class", "y axis")
                     .call(d3.axisLeft(this.yScale)
                         .ticks(numberOfTicksY)
-                        .tickFormat(d3.format(".0s"))
+                        .tickFormat(tickFormat)
                     );
 
                 this.linesLayer = this.container.append('g')
