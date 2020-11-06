@@ -212,26 +212,28 @@
 <template>
     <div
         :style="{'width': (100 / $parent.l) + '%'}"
-        class="line-chart line-chart--graph-cumulative-vs-growth">
-        <div
-            ref="container"
-            class="line-chart__container">
-            <svg fill="#fff">
-                <g class="line-chart__content"></g>
-                <g class="line-chart__logo">
-                    <logo v-if="showLogo"/>
-                </g>
-            </svg>
-        </div>
-        <div class="save-image__container">
+        class="graph">
+        <div class="line-chart line-chart--graph-cumulative-vs-growth">
             <div
-                    @click="saveImage()"
-                    class="save-image">
-                <div class="save-image__icon">
-                    <img src="assets/img/tools/screenshot.svg">
-                </div>
-                <div class="save-image__label">
-                    Save image
+                    ref="container"
+                    class="line-chart__container">
+                <svg fill="#fff">
+                    <g class="line-chart__content"></g>
+                    <g class="line-chart__logo">
+                        <logo v-if="showLogo"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="save-image__container">
+                <div
+                        @click="saveImage()"
+                        class="save-image">
+                    <div class="save-image__icon">
+                        <img src="assets/img/tools/screenshot.svg">
+                    </div>
+                    <div class="save-image__label">
+                        Save image
+                    </div>
                 </div>
             </div>
         </div>
