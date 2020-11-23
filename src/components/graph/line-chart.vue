@@ -80,6 +80,7 @@
             },
             draw() {
                 let n, min, max;
+                this.min = 0;
                 n = 0;
                 min = null;
                 max = 0;
@@ -109,7 +110,7 @@
                         max = thisMax;
                     }
                 }
-
+                this.min = min;
                 this.max = max;
 
                 this.xScale = d3.scaleLinear()
@@ -253,12 +254,46 @@
             },
             drawAxes() {
                 let tickFormat = (value) => {
-                    if (value >= 2) {
-                        return d3.format(".1s")(value);
+                    let range, step, factor, decimals, stringLength;
+                    range = this.max - this.min;
+                    step = range / this.ticks;
+
+                    if (step < 1) {
+                        return value;
                     } else {
-                        return value.toFixed(2);
+                        if (value > 999) {
+                            factor = this.max / step;
+                            decimals = Math.round(Math.log(factor)/Math.log(10));
+                            if (value > 999999) {
+                                stringLength = ('' + Math.round(this.max)).length - 6;
+                            } else {
+                                stringLength = ('' + Math.round(this.max)).length - 3;
+                            }
+
+
+                            console.log(stringLength);
+                            console.log(factor, decimals);
+                            //return d3.format('.1s')(value);
+                            return d3.format('.' + (decimals + stringLength) + 's')(value);
+                        } else {
+                            return value;
+                        }
                     }
+
+                    // console.log(this.min, this.max, this.ticks);
+
+                    // if (value > 999) {
+                    //
+                    //     return d3.format(".2s")(value);
+                    // } else if (value >= 2) {
+                    //     return value;
+                    // } else {
+                    //     return value;
+                    //     //return value.toFixed(2);
+                    // }
                 };
+
+                this.ticks = 7;
 
                 this.container = this.main
                     .append("g")
@@ -270,7 +305,7 @@
                     .call(d3.axisBottom(this.xScale));
 
                 if (this.logScale && this.applyLogScale) {
-                    let ticks = Math.round(Math.log(this.max)/Math.log(10));
+                    this.ticks = Math.round(Math.log(this.max)/Math.log(10));
                     this.container.append("g")
                         .attr("class", "y axis")
                         .call(d3.axisLeft(this.yScale)
