@@ -309,7 +309,7 @@
                     this.container.append("g")
                         .attr("class", "y axis")
                         .call(d3.axisLeft(this.yScale)
-                            .ticks(ticks)
+                            .ticks(this.ticks)
                             .tickFormat(d3.format(".0s"))
                         );
                 } else {
