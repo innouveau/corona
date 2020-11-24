@@ -279,18 +279,6 @@
                             return value;
                         }
                     }
-
-                    // console.log(this.min, this.max, this.ticks);
-
-                    // if (value > 999) {
-                    //
-                    //     return d3.format(".2s")(value);
-                    // } else if (value >= 2) {
-                    //     return value;
-                    // } else {
-                    //     return value;
-                    //     //return value.toFixed(2);
-                    // }
                 };
 
                 this.ticks = 7;
