@@ -117,13 +117,14 @@
             },
             getY(country, d, i) {
                 let value = d.getValue('cases', this.smoothened, '', 'cases', true);
-                if (d.cases === 0) {
+                if (d.cases === 0 || value <= 0) {
                     return consts.virtualZero
                 } else {
-                    return value;
+                         return value;
                 }
             },
             getX(country, d, i) {
+                //console.log(d.cases);
                 if (d.cases === 0) {
                     return consts.virtualZero
                 } else {

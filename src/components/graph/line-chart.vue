@@ -269,11 +269,6 @@
                             } else {
                                 stringLength = ('' + Math.round(this.max)).length - 3;
                             }
-
-
-                            console.log(stringLength);
-                            console.log(factor, decimals);
-                            //return d3.format('.1s')(value);
                             return d3.format('.' + (decimals + stringLength) + 's')(value);
                         } else {
                             return value;
