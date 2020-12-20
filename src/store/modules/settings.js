@@ -16,6 +16,7 @@ const state = {
     cutYaxis: false,
     cumulative: false,
     graphSetting: 'Both',
+    shift: 0,
 
     showEvents: true,
     eventTypes: [],

@@ -110,6 +110,24 @@ class Day {
         }
     }
 
+    getCfr(country, shift) {
+        let index, value, dayForCases, cases, fatalities;
+        index = country.originalDataPoints.indexOf(this);
+        dayForCases = country.originalDataPoints[index - shift];
+        cases = dayForCases['delta_cases'];
+        fatalities = this['delta_fatalities'];
+        if (cases === 0) {
+            return null;
+            // if (fatalities === 0) {
+            //     return 1;
+            // } else {
+            //     return 0;
+            // }
+        } else {
+            return fatalities / cases;
+        }
+    }
+
     smoothen(getTypeOfValue, graphType, forceNonCumulative = false) {
         let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
             desiredLength, availableLength;

@@ -70,6 +70,14 @@
                     return this.$store.state.settings.mappingDate;
                 }
             },
+            shift: {
+                set(value) {
+                    this.$store.commit('settings/updateProperty', {key: 'shift', value})
+                },
+                get() {
+                    return this.$store.state.settings.shift;
+                }
+            },
             //
             mappingTypeOptions() {
                 return ['fatalities', 'cases', 'event', 'date'];
@@ -151,6 +159,16 @@
             </div>
             <div class="settings__row-content">
                 <graph-settings/>
+            </div>
+        </div>
+        <div class="settings__row">
+            <div class="settings__info-cell">
+                Shift
+            </div>
+            <div class="settings__row-content">
+                <input
+                    v-model="shift"
+                    type="number"/>
             </div>
         </div>
 

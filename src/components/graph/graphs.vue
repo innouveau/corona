@@ -4,10 +4,12 @@
     import GraphCases from "./graph-cases";
     import Day from '@/classes/Day';
     import GraphCumulativeVsGrowth from "./graph-cumulative-vs-growth";
+    import GraphCfr from "./graph-cfr";
 
     export default {
         name: 'graphs',
         components: {
+            GraphCfr,
             GraphCumulativeVsGrowth,
             GraphCases,
             graphGrowth,
@@ -33,6 +35,10 @@
             },
             showCumulativeVsGrowth() {
                 let type = this.$store.getters['types/getItemByProperty']('property', 'cumulative-vs-growth');
+                return type.active;
+            },
+            showCfr() {
+                let type = this.$store.getters['types/getItemByProperty']('property', 'cfr');
                 return type.active;
             },
             l() {
@@ -175,6 +181,11 @@
             v-if="showGrowthFatalities"
             :data="data"
             :source="'fatalities'"/>
+
+        <graph-cfr
+            v-if="showCfr"
+            :data="data"
+            :source="'cfr'"/>
 
         <graph-cumulative-vs-growth
             v-if="showCumulativeVsGrowth"
