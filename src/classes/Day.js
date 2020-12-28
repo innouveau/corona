@@ -128,7 +128,7 @@ class Day {
         }
     }
 
-    smoothen(getTypeOfValue, graphType, forceNonCumulative = false) {
+    smoothen_old(getTypeOfValue, graphType, forceNonCumulative = false) {
         let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
             desiredLength, availableLength;
         totalWeight = 0;
@@ -153,6 +153,22 @@ class Day {
             weight = 1 + availableLength - Math.abs(i - thisIndex);
             totalValue += getTypeOfValue(dataPoint) * weight;
             totalWeight += weight;
+        }
+        return totalValue / totalWeight;
+    }
+
+    smoothen(getTypeOfValue, graphType, forceNonCumulative = false) {
+        let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
+            desiredLength, availableLength;
+        totalWeight = 0;
+        totalValue = 0;
+        thisIndex = this.index;
+        startingIndex = Math.max(thisIndex - 6, 0);
+        for (let i = startingIndex; i < (thisIndex + 1); i++) {
+            let dataPoint;
+            dataPoint = this.country.originalDataPoints[i];
+            totalValue += getTypeOfValue(dataPoint);
+            totalWeight += 1;
         }
         return totalValue / totalWeight;
     }
