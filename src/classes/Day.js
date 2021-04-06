@@ -111,32 +111,16 @@ class Day {
     }
 
     smoothen(getTypeOfValue, graphType, forceNonCumulative = false) {
-        let totalValue, thisIndex, startingIndex, endIndex, totalWeight,
-            desiredLength, availableLength;
-        totalWeight = 0;
+        let totalValue, startingIndex, desiredLength, availableLength;
+        desiredLength = 7;
         totalValue = 0;
-
-        desiredLength = 6;
-        thisIndex = this.index;
-        if ((store.state.settings.cumulative && !forceNonCumulative) && graphType !== 'growth') {
-            availableLength = Math.min(thisIndex, desiredLength);
-            availableLength = Math.min(availableLength, (this.country.originalDataPoints.length - 1 - thisIndex));
-
-            startingIndex = thisIndex - availableLength;
-            endIndex = thisIndex + availableLength;
-        } else {
-            startingIndex = Math.max(thisIndex - desiredLength, 0) + 1;
-            endIndex = Math.min(thisIndex + desiredLength, (this.country.originalDataPoints.length - 1)) - 1;
-            availableLength = desiredLength;
+        availableLength = Math.min(this.index, desiredLength);
+        startingIndex = this.index - availableLength + 1;
+        for (let i = startingIndex; i <= this.index; i++) {
+            let dataPoint = this.country.originalDataPoints[i];
+            totalValue += getTypeOfValue(dataPoint);
         }
-        for (let i = startingIndex; i < (endIndex + 1); i++) {
-            let dataPoint, weight;
-            dataPoint = this.country.originalDataPoints[i];
-            weight = 1 + availableLength - Math.abs(i - thisIndex);
-            totalValue += getTypeOfValue(dataPoint) * weight;
-            totalWeight += weight;
-        }
-        return totalValue / totalWeight;
+        return totalValue / (this.index - startingIndex + 1);
     }
 }
 
