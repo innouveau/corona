@@ -7,7 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "d3": "^5.15.0",
+    "d3": "^7.6.1",
     "jquery": "^3.5.1",
     "save-svg-as-png": "^1.4.17",
     "vue": "^2.6.11",
